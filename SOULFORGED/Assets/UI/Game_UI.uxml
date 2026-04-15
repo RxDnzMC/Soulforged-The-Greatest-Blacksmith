@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement data-source="project://database/Assets/UI%20Toolkit/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; width: 368px; height: 85px; flex-direction: column; aspect-ratio: auto; position: absolute;">
+        <ui:Label text="HP:" name="HPLabel" style="width: 103px; height: 88px; font-size: 64px; color: rgb(255, 0, 0);"/>
+        <ui:Label text="100" name="HP" data-source="project://database/Assets/UI%20Toolkit/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: 3px; left: 116px; height: 70px; width: 219px; font-size: 58px;">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="health" binding-mode="ToTarget"/>
+            </Bindings>
+        </ui:Label>
+    </ui:VisualElement>
+</ui:UXML>
