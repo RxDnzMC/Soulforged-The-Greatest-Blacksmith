@@ -1,10 +1,16 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement data-source="project://database/Assets/UI%20Toolkit/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; width: 368px; height: 85px; flex-direction: column; aspect-ratio: auto; position: absolute;">
+    <ui:VisualElement data-source="project://database/Assets/Scripts/Scriptable%20Object/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; width: 368px; height: 167px; flex-direction: column; aspect-ratio: auto; position: absolute;">
         <ui:Label text="HP:" name="HPLabel" style="width: 103px; height: 88px; font-size: 64px; color: rgb(255, 0, 0);"/>
-        <ui:Label text="100" name="HP" data-source="project://database/Assets/UI%20Toolkit/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: 3px; left: 116px; height: 70px; width: 219px; font-size: 58px;">
+        <ui:Label text="100" name="HP" data-source="project://database/Assets/Scripts/Scriptable%20Object/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: 3px; left: 116px; height: 70px; width: 219px; font-size: 58px;">
             <Bindings>
                 <ui:DataBinding property="text" data-source-path="health" binding-mode="ToTarget"/>
             </Bindings>
         </ui:Label>
+    </ui:VisualElement>
+    <ui:VisualElement name="listItems" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 274px; height: 84px; top: 74px; left: 2px;">
+        <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;"/>
+        <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;"/>
+        <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;"/>
+        <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;"/>
     </ui:VisualElement>
 </ui:UXML>
