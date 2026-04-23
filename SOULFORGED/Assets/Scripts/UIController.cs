@@ -12,7 +12,8 @@ public class UIController : MonoBehaviour
         VisualElement playerData = uiDocument.rootVisualElement.Q<VisualElement>("PlayerData");
         playerData.dataSource = initialPlayerData;
         Label healthLabel = playerData.Q<Label>("HP");
-        
+        // Label levelLabel = playerData.Q<Label>("Level");
+        // Label expLabel = playerData.Q<Label>("EXP");
         
     }
 

@@ -9,7 +9,7 @@ public class MonsterSpawner : MonoBehaviour
 
     void Update()
     {
-        if (spawnCount < 1) // Contoh: batasi spawn hanya 5 kali
+        if (spawnCount < 5) // Contoh: batasi spawn hanya 5 kali
         {
             SpawnEnemy();
             spawnCount++;

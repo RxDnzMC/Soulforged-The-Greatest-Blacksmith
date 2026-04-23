@@ -12,13 +12,15 @@ public class Enemies1 : MonoBehaviour
     public float _damage;
     public float _attackInterval;
     public float lastDamageTime = -999f;
-    
-    public void Setup(float health, float speed, float baseDamage, float attackInterval)
+    private bool isDead = false;    
+    public float expReward = 100f; // Contoh exp yang diberikan saat musuh mati
+    public void Setup(float health, float speed, float baseDamage, float attackInterval, float expReward)
     {
         _health = health;
         _speed = speed;
         _damage = baseDamage;
         _attackInterval = attackInterval;
+        this.expReward = expReward;
 
     }
 
@@ -42,7 +44,13 @@ public class Enemies1 : MonoBehaviour
             }
         }
     }
-
+    void EnemyDead() {
+        if (isDead) return; // Cegah multiple call
+        isDead = true;
+        Debug.Log("Musuh mati, kasih exp ke player");
+        playerData.exp += 100; // Contoh exp yang diberikan
+        Destroy(gameObject);
+    }
     void Update()
     {
         if (playerData != null) 
@@ -58,6 +66,7 @@ public class Enemies1 : MonoBehaviour
         }
 
         if (_health <= 0) {
+            EnemyDead();
             Destroy(gameObject);
         }   
     }

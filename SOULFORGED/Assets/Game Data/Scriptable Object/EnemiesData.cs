@@ -9,6 +9,7 @@ public class EnemiesData : ScriptableObject
     public float baseDamage;
     public float speed;
     public float attackInterval;
+    public float expReward; // Exp yang diberikan saat musuh mati, bisa diatur per musuh
     public GameObject enemyPrefab;
     public virtual void Use(Transform spawnPoint)
         {
@@ -20,7 +21,7 @@ public class EnemiesData : ScriptableObject
             // Kasih datanya ke script yang nempel di prefab (ProjectileLogic)
             if (go.TryGetComponent(out Enemies1 logic))
             {
-                logic.Setup(health, speed, baseDamage, attackInterval);
+                logic.Setup(health, speed, baseDamage, attackInterval, expReward);
             }
         }
 }
