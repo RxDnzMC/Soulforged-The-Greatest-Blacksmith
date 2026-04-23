@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerData.health = 1000;
+        playerData.exp = 0;
+        playerData.level = 1;
+        playerData.expToNextLevel = 100;
     }
 
     // void ZeroHealth() {
@@ -23,6 +26,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // if (isPlayerDead == false) ZeroHealth(); return;
+        if (playerData.exp >= playerData.expToNextLevel) {
+            playerData.level += 1; // Naikkan level
+            playerData.exp -= playerData.expToNextLevel; // Reset ke sisa exp setelah naik level
+            playerData.expToNextLevel *= 1.3f; // Next Level Requirement (naik 30% setiap level)
+            Debug.Log($"Level Up! Sekarang level {playerData.level}");
+        }
         
     }
 }
