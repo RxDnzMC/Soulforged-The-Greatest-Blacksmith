@@ -52,7 +52,7 @@ public class Enemies1 : MonoBehaviour
         if (isDead) return; // Cegah multiple call
         isDead = true;
         Debug.Log("Musuh mati, kasih exp ke player");
-        playerData.exp += 100; // Contoh exp yang diberikan
+        playerData.exp += expReward; // Contoh exp yang diberikan
         Destroy(gameObject);
     }
     void Update()

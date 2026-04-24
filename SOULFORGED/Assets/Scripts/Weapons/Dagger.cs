@@ -25,7 +25,7 @@ public class ProjectileLogic : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Debug.Log($"Kena {other.name}! Damage: {_damage}");
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 }
