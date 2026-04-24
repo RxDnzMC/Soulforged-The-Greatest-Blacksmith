@@ -5005,10 +5005,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &882995559506088414
 MonoBehaviour:
@@ -5028,3 +5028,4 @@ MonoBehaviour:
   _damage: 0
   _attackInterval: 0
   lastDamageTime: -999
+  expReward: 100
