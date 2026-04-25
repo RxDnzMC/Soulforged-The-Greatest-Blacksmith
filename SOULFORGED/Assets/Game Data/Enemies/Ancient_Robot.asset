@@ -18,4 +18,4 @@ MonoBehaviour:
   speed: 2
   attackInterval: 0.5
   expReward: 100
-  enemyPrefab: {fileID: 2647994598331616286, guid: a5bafca673e504f40a2ae38d5374179d, type: 3}
+  enemyPrefab: {fileID: 1905226164976589400, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
