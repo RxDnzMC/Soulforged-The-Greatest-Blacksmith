@@ -5023,9 +5023,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies1
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  _health: 0
-  _speed: 0
-  _damage: 0
-  _attackInterval: 0
+  _health: 100
+  _speed: 3
+  _damage: 4
+  _attackInterval: 1
   lastDamageTime: -999
   expReward: 100

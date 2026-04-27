@@ -37,13 +37,14 @@ public class EnemyMelee : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
+        if (isAttacking) return; 
+
         if (other.gameObject.CompareTag("Player"))
         {
             if (stats.playerData.health <= 0) return; 
 
             if (Time.time >= lastDamageTime + stats._attackInterval)
             {
-                // Mulai Menyerang
                 StartAttack();
             }
         }

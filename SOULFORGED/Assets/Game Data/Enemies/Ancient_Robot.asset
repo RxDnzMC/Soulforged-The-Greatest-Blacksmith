@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ancient_Robot
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 100
+  health: 300
   baseDamage: 10
   speed: 2
   attackInterval: 0.5
