@@ -39,10 +39,50 @@ public class EnemiesBase : MonoBehaviour
         }
     }
 
-    void EnemyDead() {
+        void EnemyDead() 
+    {
         if (isDead) return;
         isDead = true;
-        playerData.exp += expReward;
+        
+        // Tambah EXP
+        if (playerData != null) playerData.exp += expReward;
+
+        Animator anim = GetComponent<Animator>();
+        if (anim == null) anim = GetComponentInChildren<Animator>();
+
+        if (anim != null) 
+        {
+            anim.SetTrigger("Die");
+            
+            // --- CARA OTOMATIS MENCARI DURASI ANIMASI MATI ---
+            float animDuration = 0.1f; // Angka default (jaga-jaga kalau gak ketemu)
+            
+            // Ambil semua daftar animasi yang ada di dalam Animator musuh ini
+            RuntimeAnimatorController ac = anim.runtimeAnimatorController;
+            if (ac != null)
+            {
+                foreach (AnimationClip clip in ac.animationClips)
+                {
+                    // Cari klip animasi yang namanya ada kata "Die" atau "Dead"
+                    if (clip.name.Contains("Die") || clip.name.Contains("Dead"))
+                    {
+                        animDuration = clip.length; // Ketemu! Ambil durasi aslinya
+                        break; // Berhenti mencari
+                    }
+                }
+            }
+
+            Debug.Log($"Musuh mati! Menunggu {animDuration} detik sebelum hancur.");
+            Destroy(gameObject, animDuration); 
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void DestroySelf()
+    {
         Destroy(gameObject);
     }
 }
