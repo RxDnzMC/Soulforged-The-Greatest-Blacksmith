@@ -4976,7 +4976,7 @@ Transform:
   m_GameObject: {fileID: 9213266142302790620}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -11.58, y: 10.98, z: -1.87}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5005,10 +5005,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &882995559506088414
 MonoBehaviour:
@@ -5023,8 +5023,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies1
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  _health: 0
-  _speed: 0
-  _damage: 0
-  _attackInterval: 0
+  _health: 100
+  _speed: 3
+  _damage: 4
+  _attackInterval: 1
   lastDamageTime: -999
+  expReward: 100

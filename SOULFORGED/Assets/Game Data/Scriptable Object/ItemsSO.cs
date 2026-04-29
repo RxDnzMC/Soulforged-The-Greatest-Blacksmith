@@ -1,27 +1,34 @@
-    using UnityEngine;
+using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Item", menuName = "ScriptableObjects/Items", order = 1)]
-    public class ItemsSO : ScriptableObject
+[CreateAssetMenu(fileName = "New Item", menuName = "ScriptableObjects/Items", order = 1)]
+public class ItemsSO : ScriptableObject
+{
+    public string itemName;
+    public Sprite itemIcon;
+    public float baseDamage;
+    public float cooldown;
+    public float speed;
+    public float lifetime;
+    public GameObject projectilePrefab;
+    
+    // Tambahkan ini untuk nyimpen waktu terakhir item ini dipake
+    private float lastUsedTime = -999f;
+
+    public virtual void Use(Transform spawnPoint)
     {
-        public string itemName;
-        public Sprite itemIcon;
-        public float baseDamage;
-        public float cooldown;
-        public float speed;
-        public float lifetime;
-        public GameObject projectilePrefab;
+        
+        if (projectilePrefab == null) return;
 
-        public virtual void Use(Transform spawnPoint)
+        // Update waktu terakhir dipake
+        lastUsedTime = Time.time;
+
+        // Spawn prefab-nya
+        GameObject go = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+        
+        // Kasih datanya ke script yang nempel di prefab
+        if (go.TryGetComponent(out FireballProjectile projectile))
         {
-            if (projectilePrefab == null) return;
-
-            // Spawn prefab-nya
-            GameObject go = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
-            
-            // Kasih datanya ke script yang nempel di prefab (ProjectileLogic)
-            if (go.TryGetComponent(out ProjectileLogic logic))
-            {
-                logic.Setup(speed, baseDamage, lifetime);
-            }
+            projectile.Setup(speed, baseDamage, lifetime);
         }
     }
+}

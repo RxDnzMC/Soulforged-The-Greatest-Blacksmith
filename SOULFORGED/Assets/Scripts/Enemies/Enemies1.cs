@@ -27,18 +27,22 @@ public class Enemies1 : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) {
+            if (playerData.health <= 0) return; // Cegah player yang sudah mati kena damage lagi
             if (Time.time >= lastDamageTime + _attackInterval) {
                 playerData.health -= _damage;
                 lastDamageTime = Time.time;
             }
         }
+
     }
 
     void OnTriggerEnter(Collider other)
-    {
+    {   
+        if (isDead) return; // Cegah musuh yang sudah mati kena damage lagi
+        
         if (other.gameObject.CompareTag("ProjectileDamage")) {
-            // Asumsikan Projectile punya script ProjectileLogic yang punya variabel damage
-            if (other.TryGetComponent(out ProjectileLogic projectile)) {
+            // Asumsikan Projectile punya script FireballProjectile yang punya variabel damage
+            if (other.TryGetComponent(out FireballProjectile projectile)) {
                 _health -= projectile.Damage;
                 Debug.Log($"Kena serangan! Health sekarang: {_health}");
             }
@@ -48,17 +52,21 @@ public class Enemies1 : MonoBehaviour
         if (isDead) return; // Cegah multiple call
         isDead = true;
         Debug.Log("Musuh mati, kasih exp ke player");
-        playerData.exp += 100; // Contoh exp yang diberikan
+        playerData.exp += expReward; // Contoh exp yang diberikan
         Destroy(gameObject);
     }
     void Update()
     {
         if (playerData != null) 
-        {
+        {   
+            Vector3 targetPos = playerData.playerPosition;
+
+            // 2. PAKSA nilai Y target sama dengan nilai Y musuh sekarang
+            targetPos.y = transform.position.y;
             // Gerak simpel nembus tembok sesuai speed dari SO
             transform.position = Vector3.MoveTowards(
                     transform.position, 
-                    playerData.playerPosition, // Pastikan PlayerData punya variabel posisi player
+                   targetPos, // Pastikan PlayerData punya variabel posisi player
                     _speed * Time.deltaTime
                 );
 

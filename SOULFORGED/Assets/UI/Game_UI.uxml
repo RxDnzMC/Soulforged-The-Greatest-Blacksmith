@@ -7,11 +7,27 @@
             </Bindings>
         </ui:Label>
     </ui:VisualElement>
-    <ui:VisualElement name="listItems" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 274px; height: 84px; top: 74px; left: 2px;">
-        <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;"/>
-        <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;"/>
-        <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;"/>
-        <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;"/>
+    <ui:VisualElement name="listItems" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 274px; height: 84px; top: 74px; left: 2px;">
+        <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[0].itemIcon" binding-mode="ToTarget"/>
+            </Bindings>
+        </ui:VisualElement>
+        <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[1].itemIcon" binding-mode="ToTarget"/>
+            </Bindings>
+        </ui:VisualElement>
+        <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[2].itemIcon" binding-mode="ToTarget"/>
+            </Bindings>
+        </ui:VisualElement>
+        <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[3].itemIcon" binding-mode="ToTarget"/>
+            </Bindings>
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="Panelvl" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; top: 0; left: 400px; right: auto; bottom: 0; width: 550px; height: 0; flex-basis: auto; align-items: flex-start; justify-content: flex-start; align-self: stretch; flex-direction: row;">
         <ui:Label text="Level :" name="LevelLabel" style="font-size: 64px; width: 204px;"/>
