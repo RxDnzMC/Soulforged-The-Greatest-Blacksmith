@@ -8,6 +8,10 @@ public class EnemyMeleeAttack : MonoBehaviour
     private Animator anim; 
     
     private bool isAttacking = false;
+    
+    // --- STATUS CHARGING & EFEK ---
+    private bool isCharging = false;
+    private EnemyVFX vfxScript;
 
     [Header("Melee Settings")]
     public float attackRange = 2.5f; 
@@ -16,10 +20,15 @@ public class EnemyMeleeAttack : MonoBehaviour
     [Tooltip("Daftar detik kapan saja tangan musuh mengenai player. Kalau 1x pukul isi Size: 1. Kalau combo 4x isi Size: 4.")]
     public float[] damageDelays = { 0.5f }; 
 
+    [Header("AoE Warning Settings")]
+    [Tooltip("Masukkan objek IndicatorAttack (lingkaran merah) dari Hierarchy ke sini")]
+    public GameObject attackIndicator;
+    [Tooltip("Berapa lama indikator merah muncul sebelum musuh memukul? (Isi 0 jika ingin musuh langsung memukul tanpa nunggu)")]
+    public float warningDuration = 5f;
+
     [Header("Animation Settings")]
     public string attackTriggerName = "Attack"; 
     
-    // --- FITUR BARU UNTUK MUSUH PERTAMA ---
     [Tooltip("Centang ini JIKA musuh punya parameter 'AttackIndex' untuk serangan acak (seperti musuh pertama)")]
     public bool useRandomAttacks = false;
     
@@ -29,6 +38,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     void Start()
     {
         enemyStats = GetComponent<EnemiesBase>();
+        vfxScript = GetComponent<EnemyVFX>();
         
         if (anim == null)
         {
@@ -36,15 +46,20 @@ public class EnemyMeleeAttack : MonoBehaviour
             if (anim == null) anim = GetComponentInChildren<Animator>(); 
         }
         
-        //FREEZE ROTASI RIGIDBODY
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.freezeRotation = true;
+
+        // Pastikan indikator mati saat game baru mulai
+        if (attackIndicator != null) attackIndicator.SetActive(false);
     }
 
     void Update()
     {
+        // Berhenti jika tidak ada player atau musuh sudah mati
         if (enemyStats.playerData == null || enemyStats._health <= 0) return;
 
+        // Musuh hanya diam mematung SAAT benar-benar memukul (animasi jalan).
+        // Kalau baru fase charging (indikator merah nyala), dia tetap bisa mengejar player.
         if (isAttacking) return; 
 
         Vector3 targetPos = enemyStats.playerData.playerPosition;
@@ -54,50 +69,94 @@ public class EnemyMeleeAttack : MonoBehaviour
         transform.LookAt(targetPos);
 
         float distanceToPlayer = Vector3.Distance(transform.position, targetPos);
+        
+        // Jika player masuk dalam jangkauan pukulan
         if (distanceToPlayer <= attackRange)
         {
-            if (Time.time >= lastAttackTime + enemyStats._attackInterval)
+            // Cek apakah musuh tidak sedang nunggu (nge-charge) DAN cooldown serangannya sudah siap
+            if (!isCharging && Time.time >= lastAttackTime + enemyStats._attackInterval)
             {
-                StartAttack();
+                // Kalau ada waktu delay indikator (Bos), nyalakan fase Charging
+                if (warningDuration > 0)
+                {
+                    StartCoroutine(ChargeAttackRoutine());
+                }
+                // Kalau waktu delaynya 0 (Musuh Kroco), langsung pukul tanpa basa-basi!
+                else
+                {
+                    StartAttack();
+                }
             }
         }
     }
 
+    // --- FUNGSI MENGHITUNG WAKTU SEBELUM MUKUL ---
+    IEnumerator ChargeAttackRoutine()
+    {
+        isCharging = true; // Tandai bahwa musuh sedang menghitung mundur
+        
+        // 1. Nyalakan lingkaran merah
+        if (attackIndicator != null) attackIndicator.SetActive(true);
+
+        // 2. Tunggu selama beberapa detik sesuai angka warningDuration (musuh tetap jalan)
+        yield return new WaitForSeconds(warningDuration);
+
+        // 3. Matikan lingkaran merah
+        if (attackIndicator != null) attackIndicator.SetActive(false);
+        
+        isCharging = false; // Selesai menghitung mundur
+
+        // Jika saat nunggu musuhnya keburu mati ditembak, batalkan serangan!
+        if (enemyStats._health <= 0) yield break;
+
+        // 4. Lanjut mengeksekusi serangan sesungguhnya
+        StartAttack();
+    }
+
+    // --- FUNGSI ANIMASI & MULAI MUKUL ---
     void StartAttack()
     {
-        isAttacking = true; 
-        lastAttackTime = Time.time;
+        isAttacking = true; // Tandai sedang memukul (membuat musuh diam di tempat di dalam Update)
+        lastAttackTime = Time.time; // Catat waktu terakhir mukul
         
         if (anim != null)
         {
-            // Cek apakah musuh ini pakai sistem Random Index (Musuh Pertama)
+            // Atur variasi animasi jika tercentang
             if (useRandomAttacks)
             {
                 int randomNum = Random.Range(0, totalRandomAttacks);
                 anim.SetInteger("AttackIndex", randomNum);
             }
             
-            // Selalu panggil Trigger utamanya (Apapun nama serangannya)
             anim.SetTrigger(attackTriggerName); 
         }
 
-        // Jalankan proses pemberian damage (bisa 1x, bisa 4x combo)
+        // Mulai menghitung timer damage (bisa 1 kali, bisa 4 kali combo)
         foreach (float delay in damageDelays)
         {
             StartCoroutine(DealDamageRoutine(delay));
         }
 
+        // Setel alarm kapan pukulan dianggap selesai untuk mereset posenya
         Invoke("StopAttack", attackDuration); 
     }
 
+    // --- FUNGSI MEMBERIKAN DAMAGE & PARTIKEL ---
     IEnumerator DealDamageRoutine(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
+
+        // Panggil efek partikel tepat saat pukulan mendarat
+        if (vfxScript != null)
+        {
+            vfxScript.NyalakanPartikelSerangan();
+        }
 
         Vector3 currentPlayerPos = enemyStats.playerData.playerPosition;
         currentPlayerPos.y = transform.position.y;
         float currentDistance = Vector3.Distance(transform.position, currentPlayerPos);
 
+        // Jika player masih di dalam area, beri damage
         if (currentDistance <= attackRange + 0.5f)
         {
             enemyStats.playerData.health -= enemyStats._damage;
@@ -105,7 +164,7 @@ public class EnemyMeleeAttack : MonoBehaviour
         }
         else
         {
-            Debug.Log($"[{gameObject.name}] Serangan Meleset!");
+            Debug.Log($"[{gameObject.name}] Serangan Meleset! Player berhasil kabur!");
         }
     }
 
@@ -113,13 +172,11 @@ public class EnemyMeleeAttack : MonoBehaviour
     {
         isAttacking = false;
         
-        //RESET PARAMETER ANIMASI
         if (anim != null)
         {
             if (useRandomAttacks)
                 anim.SetInteger("AttackIndex", 0);
                 
-            // Optional: reset trigger biar gak keulang
             anim.ResetTrigger(attackTriggerName);
         }
     }
