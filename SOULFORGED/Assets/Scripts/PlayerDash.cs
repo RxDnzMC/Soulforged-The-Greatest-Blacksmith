@@ -15,11 +15,16 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private InputActionReference dashActionReference;
     [SerializeField] private TrailRenderer dashTrail; // Optional: Efek visual saat dash
 
+    // [Header("Layer Settings")]
+    // [SerializeField] private string dashLayerName = "PlayerDash"; // Pindah Layer saat Dash
+    // [SerializeField] private string EnemyLayerName = "Enemy"; // Layer musuh untuk pengecekan overlap
+
     // Referensi internal
     private PlayerController playerController;
     private Rigidbody rb;
     private bool isDashing = false;
     private float nextDashTime = 0f;
+    // private int originalLayer;
 
     private void Awake()
     {
@@ -61,31 +66,45 @@ public class PlayerDash : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         isDashing = true;
-        nextDashTime = Time.time + dashCooldown; // Set waktu kapan bisa dash lagi
-        dashTrail.emitting = true; // Aktifkan efek trail saat dash
+        nextDashTime = Time.time + dashCooldown; 
+        dashTrail.emitting = true; 
+        // originalLayer = gameObject.layer; 
+        // int EnemyLayer = LayerMask.NameToLayer(EnemyLayerName); // Pastikan ini sesuai dengan layer musuh di projectmu
+        // int dashLayer = LayerMask.NameToLayer(dashLayerName); // Pastikan ini sesuai dengan layer dash di projectmu
+        // Physics.IgnoreLayerCollision(dashLayer, EnemyLayer, true); // Abaikan tabrakan dengan musuh saat dash
 
-        // 1. Dapatkan arah dash (mengambil data moveInput dari script PlayerController kamu)
         Vector2 input = playerController.moveInput;
-        Vector3 dashDirection = new Vector3(input.x, 0f, input.y).normalized;
+        Vector3 dashDirection = new Vector3(input.x, 0, input.y).normalized;
 
-        // Jika pemain tidak menekan tombol arah, dash ke arah karakter menghadap (depan)
         if (dashDirection == Vector3.zero)
         {
             dashDirection = transform.forward;
         }
 
-        // 2. MATIKAN PlayerController sementara agar tidak meng-override kecepatan fisik
+        // 1. Matikan kontrol & ubah layer
         playerController.enabled = false;
-
-        // 3. Terapkan kecepatan Dash
+        // gameObject.layer = LayerMask.NameToLayer(dashLayerName); 
+        
+        // 2. Melesat
         rb.linearVelocity = dashDirection * dashSpeed;
 
-        // 4. Tunggu selama durasi dash (misal: 0.2 detik)
+        // 3. Tunggu durasi dash habis
         yield return new WaitForSeconds(dashDuration);
 
-        // 5. NYALAKAN kembali PlayerController
+        // float checkRadius = 0.6f; // Sesuaikan dengan ukuran karaktermu
+        // while (Physics.CheckSphere(transform.position, checkRadius, 1 << EnemyLayer))
+        // {
+        //     // Player tetap bisa gerak lewat kontroler, tapi statusnya masih tembus musuh
+        //     playerController.enabled = true; 
+        //     yield return null; 
+        // }
+
+        // 4. KEMBALIKAN TABRAKAN: Sekarang Player bisa menabrak musuh lagi
+        // Physics.IgnoreLayerCollision(dashLayer, EnemyLayer, false);
+        // gameObject.layer = originalLayer;
+        
         playerController.enabled = true;
-        dashTrail.emitting = false; // Matikan efek trail saat dash selesai
+        if (dashTrail != null) dashTrail.emitting = false;
         isDashing = false;
     }
 }

@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: c1833c6482ef52149977a70203031ba4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dashActionReference: {fileID: 3100978989001725749, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  - dashTrail: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
