@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 // 1. REQUIRE COMPONENT: Memastikan script ini tidak akan error karena lupa pasang Rigidbody
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     // 2. SERIALIZE FIELD: Menjaga variabel tetap 'private' (aman dari script lain) 
     // tapi tetap bisa diatur oleh Game Designer lewat Inspector.

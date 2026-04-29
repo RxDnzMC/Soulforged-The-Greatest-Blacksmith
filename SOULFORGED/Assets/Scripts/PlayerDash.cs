@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-// Memastikan script ini menempel di GameObject yang sama dengan PlayerController
-[RequireComponent(typeof(PlayerController))]
+// Memastikan script ini menempel di GameObject yang sama dengan PlayerMovement
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerDash : MonoBehaviour
 {
     [Header("Dash Settings")]
@@ -20,7 +20,7 @@ public class PlayerDash : MonoBehaviour
     // [SerializeField] private string EnemyLayerName = "Enemy"; // Layer musuh untuk pengecekan overlap
 
     // Referensi internal
-    private PlayerController playerController;
+    private PlayerMovement playerController;
     private Rigidbody rb;
     private bool isDashing = false;
     private float nextDashTime = 0f;
@@ -29,7 +29,7 @@ public class PlayerDash : MonoBehaviour
     private void Awake()
     {
         // Mengambil referensi dari script sebelah dan komponen Rigidbody
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody>();
         dashTrail.emitting = false; // Pastikan efek trail mati saat tidak dash
     }
@@ -65,6 +65,7 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
+        rb.mass = rb.mass * 10f; 
         isDashing = true;
         nextDashTime = Time.time + dashCooldown; 
         dashTrail.emitting = true; 
@@ -106,5 +107,6 @@ public class PlayerDash : MonoBehaviour
         playerController.enabled = true;
         if (dashTrail != null) dashTrail.emitting = false;
         isDashing = false;
+        rb.mass = 200; 
     }
 }

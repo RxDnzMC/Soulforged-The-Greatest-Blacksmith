@@ -41,8 +41,8 @@ public class Enemies1 : MonoBehaviour
         if (isDead) return; // Cegah musuh yang sudah mati kena damage lagi
         
         if (other.gameObject.CompareTag("ProjectileDamage")) {
-            // Asumsikan Projectile punya script ProjectileLogic yang punya variabel damage
-            if (other.TryGetComponent(out ProjectileLogic projectile)) {
+            // Asumsikan Projectile punya script FireballProjectile yang punya variabel damage
+            if (other.TryGetComponent(out FireballProjectile projectile)) {
                 _health -= projectile.Damage;
                 Debug.Log($"Kena serangan! Health sekarang: {_health}");
             }

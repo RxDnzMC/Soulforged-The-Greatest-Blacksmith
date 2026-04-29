@@ -28,7 +28,7 @@ public class EnemiesBase : MonoBehaviour
         if (isDead) return; 
         
         if (other.gameObject.CompareTag("ProjectileDamage")) {
-            if (other.TryGetComponent(out ProjectileLogic projectile)) {
+            if (other.TryGetComponent(out FireballProjectile projectile)) {
                 _health -= projectile.Damage;
                 Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
                 
@@ -39,7 +39,7 @@ public class EnemiesBase : MonoBehaviour
         }
     }
 
-        void EnemyDead() 
+    void EnemyDead() 
     {
         if (isDead) return;
         isDead = true;
