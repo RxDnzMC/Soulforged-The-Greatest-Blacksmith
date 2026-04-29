@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference aimActionReference;
 
     // Variabel internal yang disembunyikan
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Camera mainCamera;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private Vector2 mousePosition;
 
     // Awake dipanggil paling pertama kali saat game dimulai
