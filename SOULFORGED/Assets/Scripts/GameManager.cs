@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
             CurrentItem[0] = playerData.DefaultItem; // Set item ke slot 0
             playerData.ActiveItems = CurrentItem; // Simpan kembali ke PlayerData
             playerAttack.equippedItems = playerData.ActiveItems; // Set juga ke PlayerAttack
+            Debug.Log(playerData.ActiveItems + " ini item yang dipakai player");
+            Debug.Log(playerAttack.equippedItems + " ini item yang dipakai player");
             Debug.Log("Item 0 ditambahkan ke Active Items!");
         }
     }

@@ -35,6 +35,10 @@ public class EnemyMeleeAttack : MonoBehaviour
             anim = GetComponent<Animator>(); 
             if (anim == null) anim = GetComponentInChildren<Animator>(); 
         }
+        
+        //FREEZE ROTASI RIGIDBODY
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null) rb.freezeRotation = true;
     }
 
     void Update()
@@ -107,7 +111,17 @@ public class EnemyMeleeAttack : MonoBehaviour
 
     void StopAttack()
     {
-        isAttacking = false; 
+        isAttacking = false;
+        
+        //RESET PARAMETER ANIMASI
+        if (anim != null)
+        {
+            if (useRandomAttacks)
+                anim.SetInteger("AttackIndex", 0);
+                
+            // Optional: reset trigger biar gak keulang
+            anim.ResetTrigger(attackTriggerName);
+        }
     }
 
     void OnDrawGizmosSelected()

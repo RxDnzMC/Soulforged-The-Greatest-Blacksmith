@@ -11,14 +11,6 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         // Ambil list dari PlayerData
-        if (playerData != null)
-        {
-            Debug.Log("Jumlah item yang dipakai: " + equippedItems.Count);
-        }
-        else
-        {
-            Debug.LogError("PlayerData tidak di-assign di Inspector!");
-        }
     }
     void TakeItemToList()
     {

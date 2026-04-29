@@ -43,7 +43,19 @@ public class EnemiesBase : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        //MATIKAN COLLIDER
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
         
+        // MATIKAN RIGIDBODY (biar gak bisa didorong)
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true; // Biar gak dipengaruhi fisika
+            // Atau: rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+            
         // Tambah EXP
         if (playerData != null) playerData.exp += expReward;
 
