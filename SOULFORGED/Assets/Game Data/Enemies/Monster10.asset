@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Monster10
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 50
-  baseDamage: 10
-  speed: 2
-  attackInterval: 0.5
+  health: 300
+  baseDamage: 5
+  speed: 4
+  attackInterval: 3.45
   expReward: 100
   enemyPrefab: {fileID: 888662832534739343, guid: 0d96f6fd830478443832d441729e2f01, type: 3}

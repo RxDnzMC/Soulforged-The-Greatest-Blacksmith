@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesBase
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  _health: 100
+  _health: 2000
   _speed: 3
   _damage: 10
   _attackInterval: 3.45
@@ -120,6 +120,8 @@ MonoBehaviour:
   attackDuration: 3.45
   damageDelays:
   - 1.7
+  attackIndicator: {fileID: 0}
+  warningDuration: 0
   attackTriggerName: Attack
   useRandomAttacks: 1
   totalRandomAttacks: 3

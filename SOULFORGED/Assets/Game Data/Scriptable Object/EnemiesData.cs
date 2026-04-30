@@ -19,7 +19,7 @@ public class EnemiesData : ScriptableObject
             GameObject go = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             
             // Kasih datanya ke script yang nempel di prefab (ProjectileLogic)
-            if (go.TryGetComponent(out Enemies1 logic))
+            if (go.TryGetComponent(out EnemiesBase logic))
             {
                 logic.Setup(health, speed, baseDamage, attackInterval, expReward);
             }

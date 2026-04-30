@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 100
+  health: 500
   baseDamage: 10
-  speed: 2
+  speed: 5
   attackInterval: 0.5
-  expReward: 100
+  expReward: 200
   enemyPrefab: {fileID: 4384198436433531363, guid: 1de10143381141c4fb2215f00f53a5ed, type: 3}

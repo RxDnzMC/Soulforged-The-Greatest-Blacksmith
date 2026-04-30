@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemiesBase : MonoBehaviour
 {
-    [SerializeField] public PlayerData playerData; // Tetap pakai SO PlayerData kamu
+    [SerializeField] public PlayerData playerData;
 
     public float _health;
     public float _speed;
@@ -66,8 +66,8 @@ public class EnemiesBase : MonoBehaviour
         {
             anim.SetTrigger("Die");
             
-            // --- CARA OTOMATIS MENCARI DURASI ANIMASI MATI ---
-            float animDuration = 0.1f; // Angka default (jaga-jaga kalau gak ketemu)
+            // --- CARA MENCARI DURASI ANIMASI MATI ---
+            float animDuration = 0.1f;
             
             // Ambil semua daftar animasi yang ada di dalam Animator musuh ini
             RuntimeAnimatorController ac = anim.runtimeAnimatorController;

@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemyObject = Instantiate(selectedEnemyData.enemyPrefab, spawnPosition, Quaternion.identity);
 
-        if (enemyObject.TryGetComponent(out Enemies1 enemyScript))
+        if (enemyObject.TryGetComponent(out EnemiesBase enemyScript))
         {
             enemyScript.Setup(
                 selectedEnemyData.health, 

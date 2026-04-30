@@ -160,11 +160,6 @@ public class EnemyMeleeAttack : MonoBehaviour
         if (currentDistance <= attackRange + 0.5f)
         {
             enemyStats.playerData.health -= enemyStats._damage;
-            Debug.Log($"[{gameObject.name}] Pukulan Kena!");
-        }
-        else
-        {
-            Debug.Log($"[{gameObject.name}] Serangan Meleset! Player berhasil kabur!");
         }
     }
 

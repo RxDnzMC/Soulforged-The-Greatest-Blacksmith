@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Ancient_Robot
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 300
-  baseDamage: 10
-  speed: 2
-  attackInterval: 0.5
-  expReward: 100
-  enemyPrefab: {fileID: 1905226164976589400, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
+  health: 1000
+  baseDamage: 40
+  speed: 3
+  attackInterval: 0.83
+  expReward: 2000
+  enemyPrefab: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
