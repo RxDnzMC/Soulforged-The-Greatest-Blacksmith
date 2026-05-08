@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 500
+  health: 50
   baseDamage: 10
   speed: 5
   attackInterval: 0.5

@@ -46,6 +46,10 @@ public class Enemies1 : MonoBehaviour
                 _health -= projectile.Damage;
                 Debug.Log($"Kena serangan! Health sekarang: {_health}");
             }
+            if (other.TryGetComponent(out FireballProjectile2 projectile2)) {
+                _health -= projectile2.Damage;
+                Debug.Log($"Kena serangan! Health sekarang: {_health}");
+            }
         }
     }
     void EnemyDead() {

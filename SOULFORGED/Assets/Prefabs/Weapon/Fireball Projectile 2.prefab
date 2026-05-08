@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 160461422573470886}
   - component: {fileID: 2606575627024719514}
   - component: {fileID: 3063010453034044997}
+  - component: {fileID: 6614813105650602058}
   - component: {fileID: 853947643805876276}
-  - component: {fileID: 2922389270522974204}
   m_Layer: 0
   m_Name: Fireball Projectile 2
   m_TagString: ProjectileDamage
@@ -93,6 +93,18 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6614813105650602058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5861196101015793544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66fb97eacb75768468f5e3e6a0b59c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireballProjectile2
 --- !u!135 &853947643805876276
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -114,18 +126,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2922389270522974204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5861196101015793544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f63e09200833e44dacf0434920d151a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dagger
 --- !u!1001 &360517570941239366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +134,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 160461422573470886}
     m_Modifications:
+    - target: {fileID: 1336979042016405727, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336979042016405727, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545153079090, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.5854327
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545153079090, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545153079090, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.6431373
+      objectReference: {fileID: 0}
     - target: {fileID: 1401175545301133699, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
       propertyPath: m_Name
       value: FX_bonfire
@@ -177,6 +197,46 @@ PrefabInstance:
     - target: {fileID: 1401175545301137022, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545458770613, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.7330103
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545458770613, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175545458770613, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175546851020964, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.75247693
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175546851020964, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.1462264
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175546851020964, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401175546851020966, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811455935830664843, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811455935830664843, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.16197933
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811455935830664843, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.9803095
       objectReference: {fileID: 0}
     - target: {fileID: 4019150504464391427, guid: 3c25092ec05f4a3469814628ed7b60dc, type: 3}
       propertyPath: m_Enabled

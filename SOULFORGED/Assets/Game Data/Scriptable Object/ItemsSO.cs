@@ -30,5 +30,10 @@ public class ItemsSO : ScriptableObject
         {
             projectile.Setup(speed, baseDamage, lifetime);
         }
+
+        if (go.TryGetComponent(out FireballProjectile2 projectile2))
+        {
+            projectile2.Setup(speed, baseDamage, lifetime);
+        }
     }
 }

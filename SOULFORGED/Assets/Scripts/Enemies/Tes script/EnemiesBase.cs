@@ -36,6 +36,15 @@ public class EnemiesBase : MonoBehaviour
                     EnemyDead();
                 }
             }
+
+            if (other.TryGetComponent(out FireballProjectile2 projectile2)) {
+                _health -= projectile2.Damage;
+                Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
+                
+                if (_health <= 0) {
+                    EnemyDead();
+                }
+            }
         }
     }
 

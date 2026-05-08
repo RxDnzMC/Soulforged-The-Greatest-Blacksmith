@@ -109,7 +109,7 @@ Material:
     m_Colors:
     - _Dissolve_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _EdgeCol: {r: 2.9960794, g: 0.7372549, b: 0, a: 1}
+    - _EdgeCol: {r: 3.6603785, g: 0.017265977, b: 1.6387836, a: 1}
     - _Gradient_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Gradient_tiling: {r: 1, g: 1, b: 0, a: 0}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}

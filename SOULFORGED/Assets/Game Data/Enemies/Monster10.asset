@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Monster10
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: random
-  health: 300
+  health: 50
   baseDamage: 5
   speed: 4
   attackInterval: 3.45
