@@ -42,10 +42,38 @@ public class PlayerMovement : MonoBehaviour
         if (aimActionReference != null) aimActionReference.action.Disable();
     }
 
+    [Header("Footstep Settings")]
+    
+    [SerializeField] private float stepInterval = 0.5f; 
+    private float stepTimer;
+
+    private void HandleFootsteps()
+    {
+        // Cek apakah player bergerak di lantai
+        if (moveInput.sqrMagnitude > 0.1f)
+        {
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0)
+            {
+                Debug.Log("Mencoba membunyikan suara langkah!"); // TAMBAHKAN INI
+                // MANGGIL SOUND MANAGER
+                // Gunakan PlaySound3D agar suara terdengar dari posisi kaki player
+                SoundManager.Instance.PlaySound3D("Footstep Grass", transform.position);
+                
+                stepTimer = stepInterval; 
+            }
+        }
+        else
+        {
+            stepTimer = 0; 
+        }
+    }
     private void Update()
     {
         // Update hanya digunakan untuk membaca tombol/input
         ReadInputs();
+        HandleFootsteps();
     }
 
     private void FixedUpdate()
@@ -96,4 +124,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    
 }

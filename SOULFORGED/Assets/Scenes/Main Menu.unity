@@ -723,7 +723,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17fb5417b51bf24d9afe5e6298a24c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
-  soundEffects: []
+  soundEffects:
+  - groupID: Fireball Shoot
+    clips:
+    - {fileID: 8300000, guid: 9e1a39ea7b9b42742beec31278e7f341, type: 3}
+  - groupID: Footstep Grass
+    clips:
+    - {fileID: 8300000, guid: 508787a0d657c4c42a1d131edb419c59, type: 3}
+    - {fileID: 8300000, guid: ecc88dbb9b7688e49883e7f215a77946, type: 3}
+    - {fileID: 8300000, guid: f874703681f968849be965cfad059d33, type: 3}
+    - {fileID: 8300000, guid: ddae1e7f050a69e4d8499844ee2f7ce5, type: 3}
+  - groupID: Dash
+    clips:
+    - {fileID: 8300000, guid: b70a6466ee065674e90231ae0a71fbe2, type: 3}
 --- !u!1 &321022021
 GameObject:
   m_ObjectHideFlags: 0

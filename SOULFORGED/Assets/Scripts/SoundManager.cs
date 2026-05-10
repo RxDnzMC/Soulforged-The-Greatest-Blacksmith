@@ -22,19 +22,29 @@ public class SoundManager : MonoBehaviour
         }
     }
  
-    public void PlaySound3D(AudioClip clip, Vector3 pos)
-    {
-        if (clip != null)
-        {
-            AudioSource.PlayClipAtPoint(clip, pos);
-        }
-    }
- 
     public void PlaySound3D(string soundName, Vector3 pos)
     {
-        PlaySound3D(sfxLibrary.GetClipFromName(soundName), pos);
+        AudioClip clip = sfxLibrary.GetClipFromName(soundName);
+        if (clip == null) return;
+
+        // Buat objek sementara secara manual
+        GameObject tempGO = new GameObject("TempAudio");
+        tempGO.transform.position = pos;
+        
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        
+        // PENTING: Hubungkan ke Mixer Group SFX kamu!
+        // Pastikan kamu sudah punya variabel private AudioMixerGroup sfxGroup di SoundManager
+        aSource.outputAudioMixerGroup = sfx2DSource.outputAudioMixerGroup; 
+        
+        aSource.clip = clip;
+        aSource.spatialBlend = 1f; // Set jadi murni 3D
+        aSource.Play();
+        
+        // Hancurkan setelah durasi lagu habis
+        Destroy(tempGO, clip.length);
     }
- 
+    
     public void PlaySound2D(string soundName)
     {
         sfx2DSource.PlayOneShot(sfxLibrary.GetClipFromName(soundName));

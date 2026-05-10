@@ -60,6 +60,7 @@ public class PlayerDash : MonoBehaviour
         if (!isDashing && Time.time >= nextDashTime)
         {
             StartCoroutine(DashRoutine());
+            SoundManager.Instance.PlaySound2D("Dash"); // Pastikan ada sound "Dash" di SoundManager
         }
     }
 

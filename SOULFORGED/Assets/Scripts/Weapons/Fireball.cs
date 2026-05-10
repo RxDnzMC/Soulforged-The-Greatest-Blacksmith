@@ -18,6 +18,11 @@ public class FireballProjectile : MonoBehaviour
         // Rumus gerak maju yang kita bahas tadi
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
+    
+    void Awake()
+    {
+        SoundManager.Instance.PlaySound3D("Fireball Shoot", transform.position); // Pastikan ada sound "Fireball Shoot" di SoundManager
+    }
 
     private void OnTriggerEnter(Collider other)
     {
