@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private List<ItemsSO> CurrentItem = new List<ItemsSO>();
     bool isPlayerDead = false;
     bool isItem1Added = false;
+    bool isNewMusicAdded = false;
     void Start()
     {
         ItemList = listItemActive.activeItems; // DIPAKAI BUAT GACHA DI GAME MANAGER INI, INI LIST ITEM YANG UDH DIBUAT
@@ -61,6 +62,10 @@ public class GameManager : MonoBehaviour
             isItem1Added = true;
         }
         
+        if (playerData.level == 5 && !isNewMusicAdded) {
+            MusicManager.Instance.PlayTrack("Boss (15 Minute)");
+            isNewMusicAdded = true;
+        }
     }
 
     void OnDestroy()
