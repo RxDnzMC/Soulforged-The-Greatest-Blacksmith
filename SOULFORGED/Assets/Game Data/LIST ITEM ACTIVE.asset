@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ListItemActive
   activeItems:
   - {fileID: 11400000, guid: 3f4819ce1eb235342bb762a452a190b9, type: 2}
-  - {fileID: 11400000, guid: 232a69c71d20e7d4fbb9179b287f57a2, type: 2}
