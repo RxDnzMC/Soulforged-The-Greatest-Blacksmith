@@ -6,7 +6,7 @@ public class FireballProjectile : MonoBehaviour, IProjectile
     private float _damage;
     public float Damage => _damage;
 
-    public void Setup(float speed, float damage, float lifetime)
+    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle)
     {
         _speed = speed;
         _damage = damage;
@@ -21,7 +21,15 @@ public class FireballProjectile : MonoBehaviour, IProjectile
     
     void Awake()
     {
-        SoundManager.Instance.PlaySound3D("Fireball Shoot", transform.position); // Pastikan ada sound "Fireball Shoot" di SoundManager
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound3D("Fireball Shoot", transform.position); 
+        }
+        else
+        {
+            return; // SoundManager tidak ada, jangan panggil sound
+        }
+        // SoundManager.Instance.PlaySound3D("Fireball Shoot", transform.position); // Pastikan ada sound "Fireball Shoot" di SoundManager
     }
 
     private void OnTriggerEnter(Collider other)

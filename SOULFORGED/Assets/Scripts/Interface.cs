@@ -1,8 +1,9 @@
 using UnityEngine;
 
 public interface IProjectile 
-{
-    void Setup(float speed, float damage, float lifetime);
+{   
+    float Damage { get; }
+    void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle);
 }
 
 public interface IAttackItem

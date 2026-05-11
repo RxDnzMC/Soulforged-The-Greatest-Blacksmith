@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "ScriptableObjects/Items", order = 1)]
+[CreateAssetMenu(fileName = "New Active Item", menuName = "ScriptableObjects/Items", order = 1)]
 public class ItemsSO : ScriptableObject, IAttackItem
 {
     public string itemName;
@@ -11,6 +11,13 @@ public class ItemsSO : ScriptableObject, IAttackItem
     public float speed;
     public float lifetime;
     public GameObject projectilePrefab;
+    
+    [Header("Homing Swarm Settings")]
+    public int projectileCount = 5;       // Jumlah peluru yang keluar
+    public float turnSpeed = 15f;         // Seberapa cepat belok mengejar musuh
+    public float homingDelay = 0.3f;      // Jeda lurus sebelum mulai mengejar
+    public float scatterAngle = 45f;      // Seberapa menyebar pelurunya di awal
+
     // Tambahkan ini untuk nyimpen waktu terakhir item ini dipake
     private float _lastUsedTime = -999f;
     public bool isReady 
@@ -36,7 +43,7 @@ public class ItemsSO : ScriptableObject, IAttackItem
         // Kasih datanya ke script yang nempel di prefab
         if (go.TryGetComponent(out IProjectile projectile))
         {
-            projectile.Setup(speed, baseDamage, lifetime);
+            projectile.Setup(speed, baseDamage, lifetime, turnSpeed, homingDelay, scatterAngle);
         }
 
     }

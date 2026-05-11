@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07e230d760395124fab48909e5e373d7, type: 3}
-  m_Name: New Item
-  m_EditorClassIdentifier: Assembly-CSharp::HomingMissle
-  itemName: fdfdsfsf
+  m_Script: {fileID: 11500000, guid: 738ac04867cb7874d9fc4bcc2ea1e65b, type: 3}
+  m_Name: HomingTest
+  m_EditorClassIdentifier: Assembly-CSharp::ItemsSO
+  itemName: HomingTest
   itemIcon: {fileID: 7681201850867341242, guid: 215687feeab0b7445b4a1cd86c82c2e1, type: 3}
   baseDamage: 299
   cooldown: 0.2

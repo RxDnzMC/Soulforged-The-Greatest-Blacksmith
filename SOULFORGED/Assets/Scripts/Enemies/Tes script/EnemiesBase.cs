@@ -24,29 +24,28 @@ public class EnemiesBase : MonoBehaviour
 
     // Hanya urus saat musuh kena peluru
     void OnTriggerEnter(Collider other)
-    {   
-        if (isDead) return; 
-        
-        if (other.gameObject.CompareTag("ProjectileDamage")) {
-            if (other.TryGetComponent(out FireballProjectile projectile)) {
-                _health -= projectile.Damage;
-                Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
-                
-                if (_health <= 0) {
-                    EnemyDead();
-                }
-            }
-
-            if (other.TryGetComponent(out FireballProjectile2 projectile2)) {
-                _health -= projectile2.Damage;
-                Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
-                
-                if (_health <= 0) {
-                    EnemyDead();
-                }
+{   
+    if (isDead) return; 
+    
+    // 1. Pastikan yang menabrak adalah objek pemberi damage
+    if (other.CompareTag("ProjectileDamage")) 
+    {
+        // 2. Cek apakah benda ini punya "Lisensi" IProjectile
+        if (other.TryGetComponent(out IProjectile projectile)) 
+        {
+            // 3. Ambil damage-nya lewat interface (Sangat Simpel!)
+            _health -= projectile.Damage;
+            
+            Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
+            
+            // 4. Cek kematian
+            if (_health <= 0) 
+            {
+                EnemyDead();
             }
         }
     }
+}
 
     void EnemyDead() 
     {

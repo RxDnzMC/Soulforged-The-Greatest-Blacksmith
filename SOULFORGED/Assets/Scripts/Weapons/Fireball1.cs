@@ -7,7 +7,7 @@ public class FireballProjectile2 : MonoBehaviour, IProjectile
     private float _damage;
     public float Damage => _damage;
 
-    public void Setup(float speed, float damage, float lifetime)
+    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle)
     {
         _speed = speed;
         _damage = damage;
