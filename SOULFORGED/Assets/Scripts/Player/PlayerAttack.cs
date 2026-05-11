@@ -6,7 +6,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] PlayerData playerData;
     public Transform spawnPoint;
     public List<ItemsSO> equippedItems = new List<ItemsSO>();
-    private Dictionary<ItemsSO, float> lastUsedTimes = new Dictionary<ItemsSO, float>();
+
 
     void Start()
     {
@@ -20,17 +20,13 @@ public class PlayerAttack : MonoBehaviour
     {
         if (equippedItems == null || equippedItems.Count == 0) return;
 
-        foreach (ItemsSO item in equippedItems)
+        foreach (IAttackItem item in equippedItems)
         {
-            if (item == null) continue; // Skip kalau item kosong
-
-            if (!lastUsedTimes.ContainsKey(item))
-                lastUsedTimes[item] = -999f;
-            
-            if (Time.time >= lastUsedTimes[item] + item.cooldown)
+            // PlayerAttack tidak perlu tahu cooldown-nya berapa.
+            // Dia cuma nanya: "Kamu siap?"
+            if (item.isReady)
             {
                 item.Use(spawnPoint);
-                lastUsedTimes[item] = Time.time;
             }
         }
     }

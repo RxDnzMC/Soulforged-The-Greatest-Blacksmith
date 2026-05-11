@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireballProjectile : MonoBehaviour
+public class FireballProjectile : MonoBehaviour, IProjectile
 {
     private float _speed;
     private float _damage;
@@ -34,3 +34,4 @@ public class FireballProjectile : MonoBehaviour
         }
     }
 }
+
