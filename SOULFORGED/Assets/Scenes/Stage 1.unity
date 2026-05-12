@@ -1393,6 +1393,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   uiDocument: {fileID: 917538891}
+  hpMaterial: {fileID: 2100000, guid: 709bbb0afc487bc4a865d2b9607aba25, type: 2}
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
 --- !u!1001 &993043114
 PrefabInstance:
   m_ObjectHideFlags: 0

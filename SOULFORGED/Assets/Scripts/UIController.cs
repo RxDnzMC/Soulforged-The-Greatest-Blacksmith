@@ -1,53 +1,96 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement; // Untuk Restart
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private Material hpMaterial; // Tarik file Material-nya ke sini di Inspector
     
     private VisualElement root;
-    private VisualElement menuContainer; // Wadah utama UI kamu (misal: Panel Overlay)
+    private VisualElement menuContainer; 
     
+    // Elemen baru untuk Health & XP
+    private ProgressBar xpBar;
+    private VisualElement hpCircle;
+
     private Button resumeButton;
     private Button restartButton;
     private Button exitButton;
 
     private InputSystem_Actions controls;
     private bool isPaused = false;
-
+    private Material hpMaterialInstance; // Instance material untuk manipulasi
     void Awake()
     {
-        // Inisialisasi Input System
         controls = new InputSystem_Actions();
     }
 
     void OnEnable()
     {
-        // 1. Ambil Root Visual Element
         root = uiDocument.rootVisualElement;
 
-        // 2. Query elemen berdasarkan NAMA yang kamu buat di UI Builder
-        // Pastikan nama di tanda kutip ("") SAMA PERSIS dengan di UI Builder
+        // --- REFERENSI LAMA (Jangan dihapus) ---
         menuContainer = root.Q<VisualElement>("Pause"); 
         resumeButton = root.Q<Button>("Resume_Button");
         restartButton = root.Q<Button>("Restart_Button");
         exitButton = root.Q<Button>("Exit_Button");
 
-        // 3. Pasang Event (Klik)
+        // --- REFERENSI BARU (HP & XP) ---
+        xpBar = root.Q<ProgressBar>("xp-bar");
+        hpCircle = root.Q<VisualElement>("HP_BAR");
+
         resumeButton.clicked += ResumeGame;
         restartButton.clicked += RestartGame;
         exitButton.clicked += ExitGame;
 
-        // 4. Aktifkan Input
         controls.Enable();
-        // Ganti "Pause" dengan nama Action yang kamu buat untuk tombol Esc/Start
         controls.Player.Pause.performed += _ => ToggleMenu(); 
 
-        // Sembunyikan menu di awal
         HideMenu();
-        
     }
+
+    void OnDestroy()
+{
+    // Hapus material buatan tadi biar gak menuh-menuhin RAM
+    if (hpMaterialInstance != null)
+    {
+        Destroy(hpMaterialInstance);
+    }
+}
+    // --- FUNGSI UPDATE BARU ---
+
+    public void UpdateHealthUI(float currentHealth, float maxHealth)
+    {
+        if (hpCircle != null && hpMaterial != null)
+        {
+            // Buat instance material sekali saja
+            if (hpMaterialInstance == null)
+            {
+                hpMaterialInstance = new Material(hpMaterial);
+                // ✅ Perbaikan: Assign material langsung, bukan lewat backgroundImage
+                hpCircle.style.unityMaterial = hpMaterialInstance;
+            }
+            
+            float ratio = currentHealth / maxHealth;
+            float shaderValue = 1f - ratio; // 0 = penuh, 1 = kosong
+            
+            // Update nilai ke shader
+            hpMaterialInstance.SetFloat("_RemovedSegment", shaderValue);
+        }
+    }
+    public void UpdateXPUI(float currentXP, float targetXP)
+    {
+        if (xpBar != null)
+        {
+            // ProgressBar biasanya range 0-100
+            float xpPercentage = (currentXP / targetXP) * 100f;
+            xpBar.value = xpPercentage;
+            xpBar.title = $"XP: {(int)currentXP} / {(int)targetXP}";
+        }
+    }
+
+    // --- LOGIKA LAMA (Tetap Aman) ---
 
     void OnDisable()
     {
@@ -62,11 +105,10 @@ public class UIController : MonoBehaviour
 
     private void PauseGame()
     {
+        if (menuContainer == null) Debug.LogError("Gagal nemu elemen Pause!");
         isPaused = true;
         Time.timeScale = 0f;
         ShowMenu();
-
-        // Panggil efek musik
         MusicManager.Instance.SetPauseEffect(true);
     }
 
@@ -75,15 +117,12 @@ public class UIController : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         HideMenu();
-
-        // Matikan efek musik
         MusicManager.Instance.SetPauseEffect(false);
     }
 
     private void RestartGame()
     {
         Time.timeScale = 1f;
-        // Load ulang scene yang sedang aktif
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         MusicManager.Instance.PlayTrack("Stage 1");
     }
@@ -95,12 +134,10 @@ public class UIController : MonoBehaviour
         MusicManager.Instance.PlayTrack("Main Menu");
         MusicManager.Instance.SetPauseEffect(false);
         SceneManager.LoadSceneAsync(0);
-        
     }
 
     private void ShowMenu()
     {
-        // Menggunakan display style (mirip CSS)
         menuContainer.style.display = DisplayStyle.Flex;
     }
 
@@ -111,7 +148,6 @@ public class UIController : MonoBehaviour
 
     public void UpdateUITimer(string timeString)
     {
-        // Update teks timer di UI
         var timerLabel = root.Q<Label>("Timer");
         if (timerLabel != null)
         {

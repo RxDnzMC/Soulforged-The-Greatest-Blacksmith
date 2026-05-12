@@ -122,7 +122,7 @@ Material:
     - _Radius: 0.4
     - _ReceiveShadows: 1
     - _RemovedSegment: 0
-    - _Rotation: 0
+    - _Rotation: 90
     - _SegmentCount: 5
     - _SegmentSpacing: 0.03
     - _Smoothness: 0.5

@@ -165,6 +165,8 @@ public class GameManager : MonoBehaviour
         CheckWaveProgression();
         // Logika level up tetap di sini (seperti kodemu sebelumnya)
         HandleLevelUp();
+        UIGame.UpdateHealthUI(playerData.health, 1000f); // Update UI Health setiap frame (asumsi max health 1000)
+        UIGame.UpdateXPUI(playerData.exp, playerData.expToNextLevel);
     }
 
     void OnDestroy()

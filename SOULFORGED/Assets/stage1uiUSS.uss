@@ -7,12 +7,12 @@
 
 .pausemenu-button {
     width: 83%;
-    height: 69px;
-    margin-top: 16px;
-    margin-right: 16px;
-    margin-bottom: 16px;
-    margin-left: 16px;
-    font-size: 25px;
+    height: 14%;
+    margin-top: 10%;
+    margin-right: 55%;
+    margin-bottom: 10%;
+    margin-left: 57%;
+    font-size: 300%;
     background-color: rgb(29, 60, 34);
     color: rgb(255, 255, 255);
     border-left-color: rgb(255, 255, 255);
@@ -37,4 +37,26 @@
     transition-delay: 0s;
     rotate: 1deg;
     transition-duration: 0.1s;
+}
+
+.unity-progress-bar__progress {
+    background-color: rgb(79, 255, 0);
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.unity-progress-bar__background {
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    background-color: rgb(34, 111, 23);
+    flex-shrink: 0;
+    height: 39px;
+}
+
+.unity-progress-bar__title-container {
+    display: none;
+}
+
+.font-normal {
+    -unity-font-style: bold;
+    font-size: 64px;
 }
