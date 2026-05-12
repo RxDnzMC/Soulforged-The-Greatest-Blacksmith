@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_FogColor: {r: 0, g: 0, b: 0, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogStart: 20
+  m_LinearFogEnd: 40
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -27,8 +27,8 @@ RenderSettings:
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
-  m_HaloStrength: 0.5
-  m_FlareStrength: 1
+  m_HaloStrength: 0.417
+  m_FlareStrength: 0.41
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
@@ -390,8 +390,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.7058824, g: 0.5882353, b: 0.47450984, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1393,7 +1393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   uiDocument: {fileID: 917538891}
-  initialPlayerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
 --- !u!1001 &993043114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2135,7 +2134,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1430895876}
   - component: {fileID: 1430895877}
-  - component: {fileID: 1430895878}
   m_Layer: 0
   m_Name: SpawnerEnemy
   m_TagString: Untagged
@@ -2171,26 +2169,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  enemyTypes:
-  - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-  - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-  - {fileID: 11400000, guid: 1dc01b9c71b562342b9dd34dc3cd72af, type: 2}
+  enemyTypes: []
   spawnRadius: 26
   spawnInterval: 0.1
-  maxActiveEnemies: 200
+  stageCollider: {fileID: 1872756184}
+  stageMargin: 1
+  maxActiveEnemies: 0
   enemyTag: Enemy
---- !u!114 &1430895878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430895874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34d1b7285c287eb4da8490f2831bf089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
 --- !u!1001 &1448248438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7624,6 +7609,11 @@ PrefabInstance:
       addedObject: {fileID: 737413471}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47992123b90daf74db2ddd1d52e6552a, type: 3}
+--- !u!64 &1872756184 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 7681937128896080707, guid: 47992123b90daf74db2ddd1d52e6552a, type: 3}
+  m_PrefabInstance: {fileID: 1872756183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1934714819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2446612383746271683, guid: 47992123b90daf74db2ddd1d52e6552a, type: 3}
@@ -7728,6 +7718,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  enemySpawner: {fileID: 1430895877}
+  UIGame: {fileID: 917538893}
+  waves:
+  - waveName: Placeholder Kosong
+    startTime: 0
+    maxActiveEnemies: 0
+    spawnInterval: 0
+    enemyPool: []
+    isBossWave: 0
+    isBossWave2: 0
+  - waveName: detik 1
+    startTime: 1
+    maxActiveEnemies: 20
+    spawnInterval: 0.1
+    enemyPool:
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    isBossWave: 0
+    isBossWave2: 0
+  - waveName: detik 5
+    startTime: 5
+    maxActiveEnemies: 20
+    spawnInterval: 0.1
+    enemyPool:
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    isBossWave: 0
+    isBossWave2: 0
+  - waveName: detik 20
+    startTime: 20
+    maxActiveEnemies: 10
+    spawnInterval: 0.5
+    enemyPool:
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    isBossWave: 1
+    isBossWave2: 0
+  Boss1: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
+  Boss2: {fileID: 0}
+  timerString: 
   listItemActive: {fileID: 11400000, guid: fe7b76459786bd94082f5f2bf4b8bd30, type: 2}
   playerAttack: {fileID: 1090155750}
 --- !u!4 &2030083496

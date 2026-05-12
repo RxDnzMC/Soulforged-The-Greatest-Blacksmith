@@ -59,7 +59,11 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Mencoba membunyikan suara langkah!"); // TAMBAHKAN INI
                 // MANGGIL SOUND MANAGER
                 // Gunakan PlaySound3D agar suara terdengar dari posisi kaki player
-                SoundManager.Instance.PlaySound3D("Footstep Grass", transform.position);
+                if (SoundManager.Instance != null) {
+                    SoundManager.Instance.PlaySound3D("Footstep Grass", transform.position);
+                } 
+                else {
+                }
                 
                 stepTimer = stepInterval; 
             }

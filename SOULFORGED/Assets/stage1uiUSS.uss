@@ -1,0 +1,40 @@
+:root {
+}
+
+.container {
+    background-color: rgb(15, 34, 12);
+}
+
+.pausemenu-button {
+    width: 83%;
+    height: 69px;
+    margin-top: 16px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    margin-left: 16px;
+    font-size: 25px;
+    background-color: rgb(29, 60, 34);
+    color: rgb(255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.pausemenu-button:hover {
+    width: 83%;
+    height: 69px;
+    margin-top: 16px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    margin-left: 16px;
+    font-size: 25px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(73, 111, 79);
+    scale: 1.1 1.2;
+    translate: 0% 0%;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+    rotate: 1deg;
+    transition-duration: 0.1s;
+}

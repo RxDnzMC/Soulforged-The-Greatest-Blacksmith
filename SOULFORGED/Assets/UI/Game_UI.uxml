@@ -1,40 +1,57 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; width: 368px; height: 167px; flex-direction: column; aspect-ratio: auto; position: absolute;">
-        <ui:Label text="HP:" name="HPLabel" style="width: 103px; height: 88px; font-size: 64px; color: rgb(255, 0, 0);"/>
-        <ui:Label text="100" name="HP" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: 3px; left: 116px; height: 70px; width: 219px; font-size: 58px;">
-            <Bindings>
-                <ui:DataBinding property="text" data-source-path="health" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:Label>
+    <Style src="project://database/Assets/stage1uiUSS.uss?fileID=7433441132597879392&amp;guid=3e7c0c2854b67b0418552ad454d7d885&amp;type=3"/>
+    <ui:VisualElement data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" name="Main_Panel" style="flex-grow: 0; width: 645px; height: 350px; flex-direction: row; aspect-ratio: auto; position: relative; bottom: auto; right: auto; top: auto; flex-shrink: 0;">
+        <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 57%; height: 95%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border.png?fileID=2800000&amp;guid=e453cff53b21a4c40b64db610d273258&amp;type=3#heatlh-border&quot;); position: relative; top: -8%; left: -7%; flex-direction: column-reverse; align-items: center; justify-content: space-around; align-self: flex-start;">
+            <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border%201.png?fileID=2800000&amp;guid=61af210c323b98c40a30d819f0dc85e3&amp;type=3#heatlh-border 1&quot;); position: relative; top: 0%; left: 0%; flex-direction: column-reverse; align-items: center; justify-content: space-around; align-self: flex-start;">
+                <ui:VisualElement name="HP_BAR" style="flex-grow: 0; -unity-material: url(&quot;project://database/Assets/Materials/RadialHealthBar.mat?fileID=2100000&amp;guid=709bbb0afc487bc4a865d2b9607aba25&amp;type=2#RadialHealthBar&quot;) prop(&quot;_Color&quot; rgb(243, 56, 56)) prop(&quot;_RemovedSegment&quot; -0.17) prop(&quot;_Rotation&quot; 90); background-color: rgb(255, 255, 255); flex-shrink: 0; width: 70%; height: 73%; flex-direction: column-reverse; align-items: center; justify-content: center;"/>
+                <ui:Label text="100" name="HP" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: auto; left: auto; height: 70px; width: 219px; font-size: 66px; flex-direction: column-reverse; -unity-text-align: middle-center; flex-shrink: 0; flex-grow: 0; white-space: nowrap; bottom: 136px; color: rgb(255, 255, 255); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); text-overflow: ellipsis; text-shadow: -4.6px 6.6px 0 rgb(180, 11, 11);">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="health" binding-mode="ToTarget"/>
+                    </Bindings>
+                </ui:Label>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Panel_Level" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; top: 0; left: 400px; right: auto; bottom: 0; width: 314px; height: 0; flex-basis: auto; align-items: flex-start; justify-content: flex-start; align-self: stretch; flex-direction: row;">
+            <ui:Label text="Level :" name="LevelLabel" style="font-size: 64px; width: 204px;"/>
+            <ui:Label text="1" name="Level" style="-unity-font-style: normal; font-size: 64px; width: 44px;">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="level" binding-mode="ToTarget"/>
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+        <ui:ProgressBar value="22" title="" name="xp-bar" style="-unity-background-image-tint-color: rgb(255, 255, 255); width: 100%; height: 33px;"/>
+        <ui:VisualElement name="Item_List" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: relative; width: 274px; height: 84px; top: 0%; left: 0%;">
+            <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[0].itemIcon" binding-mode="ToTarget"/>
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[1].itemIcon" binding-mode="ToTarget"/>
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[2].itemIcon" binding-mode="ToTarget"/>
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[3].itemIcon" binding-mode="ToTarget"/>
+                </Bindings>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="listItems" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 274px; height: 84px; top: 74px; left: 2px;">
-        <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
-            <Bindings>
-                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[0].itemIcon" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:VisualElement>
-        <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
-            <Bindings>
-                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[1].itemIcon" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:VisualElement>
-        <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
-            <Bindings>
-                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[2].itemIcon" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:VisualElement>
-        <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
-            <Bindings>
-                <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[3].itemIcon" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:VisualElement>
+    <ui:VisualElement name="Panel_Timer" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; top: 0; left: 856px; right: auto; bottom: 0; width: 215px; height: 82px; flex-basis: 99%; align-items: flex-start; justify-content: flex-start; align-self: stretch; flex-direction: row; flex-shrink: 0;">
+        <ui:Label text="00:00" name="Timer" style="-unity-font-style: normal; font-size: 64px; width: 179px;"/>
     </ui:VisualElement>
-    <ui:VisualElement name="Panelvl" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; top: 0; left: 400px; right: auto; bottom: 0; width: 550px; height: 0; flex-basis: auto; align-items: flex-start; justify-content: flex-start; align-self: stretch; flex-direction: row;">
-        <ui:Label text="Level :" name="LevelLabel" style="font-size: 64px; width: 204px;"/>
-        <ui:Label text="1" name="Level" style="-unity-font-style: normal; font-size: 64px; width: 44px;">
-            <Bindings>
-                <ui:DataBinding property="text" data-source-path="level" binding-mode="ToTarget"/>
-            </Bindings>
-        </ui:Label>
+    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: none;">
+        <ui:VisualElement name="Pause_Menu" class="container" style="flex-grow: 0; background-size: 50% 50%; align-items: center; justify-content: flex-start; align-self: center; width: 25%; height: 75%; flex-shrink: 0; padding-top: 17px; padding-right: 17px; padding-bottom: 17px; padding-left: 17px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-left-color: rgb(42, 89, 35); border-right-color: rgb(42, 89, 35); border-top-color: rgb(42, 89, 35); border-bottom-color: rgb(42, 89, 35);">
+            <ui:Label text="Game Paused" name="Pause_Label" style="color: rgb(255, 255, 255); font-size: 32px;"/>
+            <ui:Button text="Resume" name="Resume_Button" class="pausemenu-button"/>
+            <ui:Button text="Restart" name="Restart_Button" class="pausemenu-button" style="background-position-x: center;"/>
+            <ui:Button text="Exit" name="Exit_Button" class="pausemenu-button"/>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
