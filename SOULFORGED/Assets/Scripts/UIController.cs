@@ -68,7 +68,11 @@ public class UIController : MonoBehaviour
         if (hpTextLabel != null)
         {
             // Force update teks meskipun ada binding
-            hpTextLabel.text = $"{(int)currentHealth} / {(int)maxHealth}";
+            Debug.LogWarning("nemu Label HP!");
+        }
+        else
+        {
+            Debug.LogWarning("Gagal nemu Label HP!");
         }
         if (hpCircle != null && hpMaterial != null)
         {
