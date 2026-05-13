@@ -5,22 +5,16 @@ public class PlayerAttack : MonoBehaviour
 {   
     [SerializeField] PlayerData playerData;
     public Transform spawnPoint;
-    public List<ItemsSO> equippedItems = new List<ItemsSO>();
+    public List<ItemsSO> equippedActiveItems = new List<ItemsSO>();
+    public List<ItemsPassiveSO> equippedPassiveItems = new List<ItemsPassiveSO>();
 
 
-    void Start()
-    {
-        // Ambil list dari PlayerData
-    }
-    void TakeItemToList()
-    {
-        
-    }
+
     void Update()
     {
-        if (equippedItems == null || equippedItems.Count == 0) return;
+        if (equippedActiveItems == null || equippedActiveItems.Count == 0) return;
 
-        foreach (IAttackItem item in equippedItems)
+        foreach (IAttackItem item in equippedActiveItems)
         {
             // PlayerAttack tidak perlu tahu cooldown-nya berapa.
             // Dia cuma nanya: "Kamu siap?"
@@ -31,6 +25,7 @@ public class PlayerAttack : MonoBehaviour
                 item.Use(spawnPoint);
             }
         }
+
     }
 
     

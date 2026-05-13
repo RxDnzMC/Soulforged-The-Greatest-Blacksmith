@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Active Item", menuName = "ScriptableObjects/Items", order = 1)]
+[CreateAssetMenu(fileName = "New Active Item", menuName = "ScriptableObjects/Items/Active", order = 1)]
 public class ItemsSO : ScriptableObject, IAttackItem
 {
     public string itemName;

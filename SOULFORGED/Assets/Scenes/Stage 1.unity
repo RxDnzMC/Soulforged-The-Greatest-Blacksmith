@@ -1394,7 +1394,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   uiDocument: {fileID: 917538891}
   hpMaterial: {fileID: 2100000, guid: 709bbb0afc487bc4a865d2b9607aba25, type: 2}
-  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
 --- !u!1001 &993043114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1629,8 +1628,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  exp: 0
-  level: 0
 --- !u!96 &1090155748
 TrailRenderer:
   serializedVersion: 4
@@ -1781,11 +1778,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   spawnPoint: {fileID: 1114011587}
-  equippedItems:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  equippedActiveItems: []
+  equippedPassiveItems: []
 --- !u!1 &1114011586
 GameObject:
   m_ObjectHideFlags: 0
@@ -7758,6 +7752,7 @@ MonoBehaviour:
   Boss2: {fileID: 0}
   timerString: 
   listItemActive: {fileID: 11400000, guid: fe7b76459786bd94082f5f2bf4b8bd30, type: 2}
+  listItemPassive: {fileID: 11400000, guid: 7adc66cccd00b2c4e8ac236718e1e452, type: 2}
   playerAttack: {fileID: 1090155750}
 --- !u!4 &2030083496
 Transform:

@@ -17,10 +17,12 @@ public class UIController : MonoBehaviour
     private Button resumeButton;
     private Button restartButton;
     private Button exitButton;
+    private Label hpTextLabel; // Label untuk menampilkan teks HP
 
     private InputSystem_Actions controls;
     private bool isPaused = false;
     private Material hpMaterialInstance; // Instance material untuk manipulasi
+    
     void Awake()
     {
         controls = new InputSystem_Actions();
@@ -39,6 +41,7 @@ public class UIController : MonoBehaviour
         // --- REFERENSI BARU (HP & XP) ---
         xpBar = root.Q<ProgressBar>("xp-bar");
         hpCircle = root.Q<VisualElement>("HP_BAR");
+        hpTextLabel = root.Q<Label>("HP");
 
         resumeButton.clicked += ResumeGame;
         restartButton.clicked += RestartGame;
@@ -62,6 +65,11 @@ public class UIController : MonoBehaviour
 
     public void UpdateHealthUI(float currentHealth, float maxHealth)
     {
+        if (hpTextLabel != null)
+        {
+            // Force update teks meskipun ada binding
+            hpTextLabel.text = $"{(int)currentHealth} / {(int)maxHealth}";
+        }
         if (hpCircle != null && hpMaterial != null)
         {
             // Buat instance material sekali saja

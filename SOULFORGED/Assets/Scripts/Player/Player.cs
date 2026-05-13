@@ -5,8 +5,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] PlayerData playerData;
     private Vector3 PlayerPosition;
-    public float exp;
-    public float level;
+    // public float exp;
+    // public float level;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     {
         PlayerPosition = transform.position;
         playerData.playerPosition = PlayerPosition;
-        exp = playerData.exp;
-        level = playerData.level;
+        // exp = playerData.exp;
+        // level = playerData.level;
     }
 }

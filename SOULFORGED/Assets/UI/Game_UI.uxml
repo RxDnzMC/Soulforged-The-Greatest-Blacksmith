@@ -4,7 +4,7 @@
         <ui:VisualElement name="Panel_Timer" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; top: auto; left: auto; right: 0%; bottom: auto; width: 10%; height: 10%; flex-basis: 12%; align-items: flex-start; justify-content: flex-end; align-self: flex-start; flex-direction: row; flex-shrink: 0; position: absolute; flex-wrap: nowrap; align-content: flex-start;">
             <ui:Label text="00:00" name="Timer" style="-unity-font-style: normal; font-size: 64px; width: 179px; text-shadow: -3.3px -3.9px 0 rgba(0, 0, 0, 0.32);"/>
         </ui:VisualElement>
-        <ui:VisualElement data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" name="Main_Panel" style="flex-grow: 0; width: 643px; height: 354px; flex-direction: row; aspect-ratio: auto; position: relative; bottom: auto; right: auto; top: auto; flex-shrink: 0; min-width: 321.5px; min-height: 177px; max-width: 643px; max-height: 354px;">
+        <ui:VisualElement data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" name="Main_Panel" style="flex-grow: 0; width: 644px; height: 354px; flex-direction: row; aspect-ratio: auto; position: relative; bottom: auto; right: auto; top: auto; flex-shrink: 0; min-width: 321.5px; min-height: 177px; max-width: 643px; max-height: 354px;">
             <ui:VisualElement name="xp-panel" style="flex-grow: 1; width: 69%; height: 19%; position: absolute; top: 25px; left: 57px;">
                 <ui:ProgressBar value="0" title="" name="xp-bar" style="-unity-background-image-tint-color: rgb(255, 255, 255); width: 364px; height: 48px; top: 3%; left: 21%; position: absolute;"/>
                 <ui:VisualElement name="Panel_Level" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; top: -5%; left: 32%; right: auto; bottom: 0; width: 314px; height: 0; flex-basis: auto; align-items: flex-start; justify-content: flex-start; align-self: stretch; flex-direction: row;">
@@ -17,9 +17,9 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 47%; height: 83%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border.png?fileID=2800000&amp;guid=e453cff53b21a4c40b64db610d273258&amp;type=3#heatlh-border&quot;); position: relative; top: -8%; left: -7%; flex-direction: column-reverse; align-items: center; justify-content: space-around; align-self: flex-start;">
-                <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border%201.png?fileID=2800000&amp;guid=61af210c323b98c40a30d819f0dc85e3&amp;type=3#heatlh-border 1&quot;); position: relative; top: 0%; left: 0%; flex-direction: column-reverse; align-items: center; justify-content: space-around; align-self: flex-start;">
+                <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border%201.png?fileID=2800000&amp;guid=61af210c323b98c40a30d819f0dc85e3&amp;type=3#heatlh-border 1&quot;); position: relative; top: 0%; left: 0%; flex-direction: column-reverse; align-items: center; justify-content: center; align-self: stretch;">
                     <ui:VisualElement name="HP_BAR" style="flex-grow: 0; -unity-material: url(&quot;project://database/Assets/Materials/RadialHealthBar.mat?fileID=2100000&amp;guid=709bbb0afc487bc4a865d2b9607aba25&amp;type=2#RadialHealthBar&quot;) prop(&quot;_Color&quot; rgb(243, 56, 56)) prop(&quot;_RemovedSegment&quot; 0) prop(&quot;_Rotation&quot; 90); background-color: rgb(255, 255, 255); flex-shrink: 0; width: 70%; height: 73%; flex-direction: column-reverse; align-items: center; justify-content: center;"/>
-                    <ui:Label text="100" name="HP" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: -15%; left: auto; height: 10%; width: 10%; font-size: 66px; flex-direction: column-reverse; -unity-text-align: middle-center; flex-shrink: 0; flex-grow: 0; white-space: nowrap; bottom: 136px; color: rgb(255, 255, 255); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); text-overflow: ellipsis; text-shadow: -4.6px 6.6px 0 rgb(180, 11, 11); -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Bold&quot;);">
+                    <ui:Label text="100" name="HP" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" data-source-path="" style="position: absolute; top: auto; left: 25%; height: 50%; width: 50%; font-size: 66%; flex-direction: column-reverse; -unity-text-align: middle-center; flex-shrink: 0; flex-grow: 0; white-space: nowrap; bottom: 25%; color: rgb(255, 255, 255); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); text-overflow: ellipsis; text-shadow: -4.6px 6.6px 0 rgb(180, 11, 11); -unity-font-definition: resource(&quot;FlatSkin/Font/Roboto-Bold&quot;); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-left: 0; padding-bottom: 0;">
                         <Bindings>
                             <ui:DataBinding property="text" data-source-path="health" binding-mode="ToTarget"/>
                         </Bindings>
@@ -51,22 +51,22 @@
             <ui:VisualElement name="ItemPassive_List" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 275px; height: 84px; top: 38%; left: 33%; flex-shrink: 0;">
                 <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
                     <Bindings>
-                        <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[0].itemIcon" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[0].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
                 <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
                     <Bindings>
-                        <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[1].itemIcon" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[1].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
                 <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
                     <Bindings>
-                        <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[2].itemIcon" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[2].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
                 <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
                     <Bindings>
-                        <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[3].itemIcon" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[3].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
             </ui:VisualElement>

@@ -12,13 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58deb7ae38861143873be2e07012053, type: 3}
   m_Name: MainPlayer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  health: 1000
+  health: 100
+  maxHealth: 100
+  defense: 0
   playerPosition: {x: 0, y: 0, z: 0}
   level: 1
   exp: 0
   expToNextLevel: 100
+  expMultiplier: 1
+  projectileDamageMultiplier: 1
+  projectileSpeedMultiplier: 1
+  projectileLifetimeMultiplier: 1
+  cooldownReductionMultiplier: 1
+  projectileCountMultiplier: 1
+  Globalgold: 0
+  Globalsouls: 0
   DefaultItem: {fileID: 11400000, guid: 3f4819ce1eb235342bb762a452a190b9, type: 2}
   DefaultSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DefaultPassiveSlot:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
