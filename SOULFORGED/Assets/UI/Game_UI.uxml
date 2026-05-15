@@ -1,5 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/stage1uiUSS.uss?fileID=7433441132597879392&amp;guid=3e7c0c2854b67b0418552ad454d7d885&amp;type=3"/>
+    
+    <!-- ========== UI UTAMA ========== -->
     <ui:VisualElement name="AllPanel" style="flex-grow: 1; flex-direction: row; width: 100%; height: 100%;">
         <ui:VisualElement name="Panel_Timer" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; top: auto; left: auto; right: 45%; bottom: auto; width: 10%; height: 10%; flex-basis: 12%; align-items: flex-start; justify-content: flex-end; align-self: flex-start; flex-direction: row; flex-shrink: 0; position: absolute; flex-wrap: nowrap; align-content: flex-start;">
             <ui:Label text="00:00" name="Timer" style="-unity-font-style: normal; font-size: 64px; width: 179px; text-shadow: -1.9px 7.7px 0 rgba(0, 0, 0, 0.32);"/>
@@ -17,7 +19,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 47%; height: 83%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border.png?fileID=2800000&amp;guid=e453cff53b21a4c40b64db610d273258&amp;type=3#heatlh-border&quot;); position: relative; top: -8%; left: -7%; flex-direction: column-reverse; align-items: center; justify-content: space-around; align-self: flex-start;">
-                <ui:VisualElement name="HP_BORDER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border%201.png?fileID=2800000&amp;guid=61af210c323b98c40a30d819f0dc85e3&amp;type=3#heatlh-border 1&quot;); position: relative; top: 0%; left: 0%; flex-direction: column-reverse; align-items: center; justify-content: center; align-self: stretch;">
+                <ui:VisualElement name="HP_BORDER_INNER" style="flex-grow: 0; -unity-material: url(&quot;&quot;); background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Icon/heatlh-border%201.png?fileID=2800000&amp;guid=61af210c323b98c40a30d819f0dc85e3&amp;type=3#heatlh-border 1&quot;); position: relative; top: 0%; left: 0%; flex-direction: column-reverse; align-items: center; justify-content: center; align-self: stretch;">
                     <ui:VisualElement name="HP_BAR" style="flex-grow: 0; -unity-material: url(&quot;project://database/Assets/Materials/RadialHealthBar.mat?fileID=2100000&amp;guid=709bbb0afc487bc4a865d2b9607aba25&amp;type=2#RadialHealthBar&quot;) prop(&quot;_Color&quot; rgb(243, 56, 56)) prop(&quot;_RemovedSegment&quot; 0) prop(&quot;_Rotation&quot; 90); background-color: rgb(255, 255, 255); flex-shrink: 0; width: 70%; height: 73%; flex-direction: column-reverse; align-items: center; justify-content: center;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -27,44 +29,44 @@
                 </Bindings>
             </ui:Label>
             <ui:VisualElement name="Item_List" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 1; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: relative; width: 274%; height: 84px; top: 20%; left: -14%;">
-                <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
+                <ui:VisualElement name="ActiveSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[0].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
+                <ui:VisualElement name="ActiveSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[1].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
+                <ui:VisualElement name="ActiveSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[2].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
+                <ui:VisualElement name="ActiveSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="ActiveItems[3].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="ItemPassive_List" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; color: rgb(255, 255, 255); background-color: rgba(76, 76, 76, 0); position: absolute; width: 275px; height: 84px; top: 38%; left: 33%; flex-shrink: 0;">
-                <ui:VisualElement name="ItemSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
+                <ui:VisualElement name="PassiveSlot1" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 10px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[0].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
+                <ui:VisualElement name="PassiveSlot2" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 75px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[1].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
+                <ui:VisualElement name="PassiveSlot3" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 145px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[2].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
-                <ui:VisualElement name="ItemSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
+                <ui:VisualElement name="PassiveSlot4" style="flex-grow: 1; width: 50px; background-color: rgba(0, 0, 0, 0.44); position: absolute; height: 50px; top: 10px; left: 212px;">
                     <Bindings>
                         <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[3].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
@@ -72,7 +74,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: none; translate: 0 0;">
+    
+    <!-- ========== PAUSE PANEL ========== -->
+    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: none;">
         <ui:VisualElement name="Pause_Menu" class="container" style="flex-grow: 0; background-size: 50% 50%; align-items: center; justify-content: center; align-self: center; width: 25%; height: 75%; flex-shrink: 0; padding-top: 17px; padding-right: 17px; padding-bottom: 17px; padding-left: 17px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-left-color: rgb(42, 89, 35); border-right-color: rgb(42, 89, 35); border-top-color: rgb(42, 89, 35); border-bottom-color: rgb(42, 89, 35); display: flex; visibility: visible;">
             <ui:Label text="Game Paused" name="Pause_Label" style="color: rgb(255, 255, 255); font-size: 42%; margin-top: -3%; margin-right: 4%; margin-bottom: 9%; margin-left: 2%; width: 70%; height: 10%; justify-content: center; align-self: center; align-content: center; align-items: center; -unity-text-align: middle-center; white-space: normal; text-overflow: ellipsis; text-shadow: 0 0 0 rgb(56, 56, 56); -unity-text-auto-size: none;"/>
             <ui:Button text="Resume" name="Resume_Button" class="pausemenu-button" style="margin-left: 0%; margin-right: 0%; padding-top: 10%; padding-right: 0%; padding-bottom: 10%; padding-left: 0%;"/>
@@ -80,4 +84,48 @@
             <ui:Button text="Exit" name="Exit_Button" class="pausemenu-button" style="padding-right: 0; padding-left: 0;"/>
         </ui:VisualElement>
     </ui:VisualElement>
+    
+    <!-- ========== UPGRADE SELECTION PANEL (BARU) ========== -->
+    <ui:VisualElement name="UpgradePanel" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
+        
+        <!-- Title -->
+        <ui:Label text="LEVEL UP! Pilih Upgrade" name="UpgradeTitle" 
+                  style="font-size: 48px; color: rgb(255, 215, 0); margin-bottom: 40px; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
+        
+        <!-- Container 3 Pilihan -->
+        <ui:VisualElement name="ChoicesContainer" style="flex-direction: row; justify-content: center; align-items: center; width: 90%;">
+            
+            <!-- Choice 1 -->
+            <ui:VisualElement name="Choice1" class="upgrade-choice">
+                <ui:Image name="Icon1" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255,255,255,0.1); border-radius: 10px;" />
+                <ui:Label name="Name1" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:Label name="Type1" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;" />
+                <ui:Label name="Level1" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;" />
+                <ui:Label name="Desc1" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center;" />
+                <ui:Button text="PILIH" name="Button1" class="upgrade-button" />
+            </ui:VisualElement>
+            
+            <!-- Choice 2 -->
+            <ui:VisualElement name="Choice2" class="upgrade-choice">
+                <ui:Image name="Icon2" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255,255,255,0.1); border-radius: 10px;" />
+                <ui:Label name="Name2" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:Label name="Type2" text="[PASIF]" style="font-size: 16px; color: rgb(0, 255, 100); margin-bottom: 10px;" />
+                <ui:Label name="Level2" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;" />
+                <ui:Label name="Desc2" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center;" />
+                <ui:Button text="PILIH" name="Button2" class="upgrade-button" />
+            </ui:VisualElement>
+            
+            <!-- Choice 3 -->
+            <ui:VisualElement name="Choice3" class="upgrade-choice">
+                <ui:Image name="Icon3" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255,255,255,0.1); border-radius: 10px;" />
+                <ui:Label name="Name3" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:Label name="Type3" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;" />
+                <ui:Label name="Level3" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;" />
+                <ui:Label name="Desc3" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center;" />
+                <ui:Button text="PILIH" name="Button3" class="upgrade-button" />
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+    </ui:VisualElement>
+    
 </ui:UXML>

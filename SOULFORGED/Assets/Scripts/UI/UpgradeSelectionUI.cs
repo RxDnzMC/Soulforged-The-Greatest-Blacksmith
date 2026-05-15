@@ -8,30 +8,37 @@ public class UpgradeSelectionUI : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] UIDocument uiDocument;
     
-    // Root element
+    // Root elements
     private VisualElement upgradePanel;
-    private VisualElement choicesContainer;
     
-    // Choice elements
-    private VisualElement choice1, choice2, choice3;
-    private Button button1, button2, button3;
-    private Image icon1, icon2, icon3;
-    private Label name1, name2, name3;
-    private Label type1, type2, type3;
-    private Label level1, level2, level3;
-    private Label desc1, desc2, desc3;
+    // Choice 1
+    private VisualElement choice1;
+    private Image icon1;
+    private Label name1, type1, level1, desc1;
+    private Button button1;
+    
+    // Choice 2
+    private VisualElement choice2;
+    private Image icon2;
+    private Label name2, type2, level2, desc2;
+    private Button button2;
+    
+    // Choice 3
+    private VisualElement choice3;
+    private Image icon3;
+    private Label name3, type3, level3, desc3;
+    private Button button3;
     
     private List<object> currentChoices;
     
     void Awake()
     {
-        // Dapetin root
         var root = uiDocument.rootVisualElement;
         
+        // Upgrade Panel
         upgradePanel = root.Q<VisualElement>("UpgradePanel");
-        choicesContainer = root.Q<VisualElement>("ChoicesContainer");
         
-        // Setup Choice 1
+        // Choice 1
         choice1 = root.Q<VisualElement>("Choice1");
         icon1 = root.Q<Image>("Icon1");
         name1 = root.Q<Label>("Name1");
@@ -41,7 +48,7 @@ public class UpgradeSelectionUI : MonoBehaviour
         button1 = root.Q<Button>("Button1");
         button1.clicked += () => OnChoiceSelected(0);
         
-        // Setup Choice 2
+        // Choice 2
         choice2 = root.Q<VisualElement>("Choice2");
         icon2 = root.Q<Image>("Icon2");
         name2 = root.Q<Label>("Name2");
@@ -51,7 +58,7 @@ public class UpgradeSelectionUI : MonoBehaviour
         button2 = root.Q<Button>("Button2");
         button2.clicked += () => OnChoiceSelected(1);
         
-        // Setup Choice 3
+        // Choice 3
         choice3 = root.Q<VisualElement>("Choice3");
         icon3 = root.Q<Image>("Icon3");
         name3 = root.Q<Label>("Name3");
@@ -94,7 +101,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         Label level = null;
         Label desc = null;
         
-        // Pilih element berdasarkan index
         switch (index)
         {
             case 0:
@@ -114,44 +120,92 @@ public class UpgradeSelectionUI : MonoBehaviour
         if (choice == null) return;
         choice.style.display = DisplayStyle.Flex;
         
-        // Isi data
+        // ==========================================
+        // ITEM AKTIF (ItemsSO)
+        // ==========================================
         if (item is ItemsSO activeItem)
         {
             type.text = "[AKTIF]";
-            type.style.color = Color.cyan;
+            type.style.color = new StyleColor(new Color(0f, 0.78f, 1f));
             name.text = activeItem.itemName;
-            level.text = $"Lv.{activeItem.CurrentLevel}";
+            level.text = $"Lv.{activeItem.CurrentLevel}/{activeItem.MaxLevel}";
             
-            // Deskripsi: preview next level
             if (activeItem.IsMaxLevel)
             {
-                desc.text = "MAX LEVEL";
+                desc.text = "★ MAX LEVEL ★";
             }
             else
             {
+                ActiveItemLevelData currentData = activeItem.GetCurrentLevelData();
                 ActiveItemLevelData nextData = activeItem.GetLevelData(activeItem.CurrentLevel + 1);
-                desc.text = $"Damage: {nextData.damage}\nCooldown: {nextData.cooldown}s";
+                
+                // Deskripsi sekarang
+                string descText = "";
+                if (!string.IsNullOrEmpty(currentData.levelDescription))
+                {
+                    descText = $"\"{currentData.levelDescription}\"";
+                }
+                
+                // Preview next level (cuma yang berubah)
+                descText += "\n\n<color=yellow>Next Lv →</color>";
+                
+                if (nextData.damage != currentData.damage)
+                    descText += $"\nDamage: {currentData.damage} → {nextData.damage}";
+                
+                if (nextData.cooldown != currentData.cooldown)
+                    descText += $"\nCooldown: {currentData.cooldown}s → {nextData.cooldown}s";
+                
+                if (nextData.speed != currentData.speed)
+                    descText += $"\nSpeed: {currentData.speed} → {nextData.speed}";
+                
+                if (nextData.lifetime != currentData.lifetime)
+                    descText += $"\nLifetime: {currentData.lifetime}s → {nextData.lifetime}s";
+                
+                if (nextData.sizeMultiplier != currentData.sizeMultiplier)
+                    descText += $"\nSize: x{currentData.sizeMultiplier} → x{nextData.sizeMultiplier}";
+                
+                if (nextData.projectileCount != currentData.projectileCount)
+                    descText += $"\nProjectile: {currentData.projectileCount} → {nextData.projectileCount}";
+                
+                desc.text = descText;
             }
             
-            // Icon (kalau ada sprite)
             if (activeItem.itemIcon != null)
                 icon.sprite = activeItem.itemIcon;
         }
+        // ==========================================
+        // ITEM PASIF (ItemsPassiveSO)
+        // ==========================================
         else if (item is ItemsPassiveSO passiveItem)
         {
             type.text = "[PASIF]";
-            type.style.color = Color.green;
+            type.style.color = new StyleColor(new Color(0f, 1f, 0.39f));
             name.text = passiveItem.itemName;
-            level.text = $"Lv.{passiveItem.CurrentLevel}";
+            level.text = $"Lv.{passiveItem.CurrentLevel}/{passiveItem.MaxLevel}";
             
             if (passiveItem.IsMaxLevel)
             {
-                desc.text = "MAX LEVEL";
+                desc.text = "★ MAX LEVEL ★";
             }
             else
             {
+                ItemLevelData currentData = passiveItem.GetLevelData(passiveItem.CurrentLevel);
                 ItemLevelData nextData = passiveItem.GetLevelData(passiveItem.CurrentLevel + 1);
-                desc.text = $"{passiveItem.buffType}\n+{nextData.modifierValue}";
+                
+                string buffName = passiveItem.buffType.ToString();
+                
+                // Deskripsi sekarang
+                string descText = "";
+                if (!string.IsNullOrEmpty(currentData.levelDescription))
+                {
+                    descText = $"\"{currentData.levelDescription}\"";
+                }
+                
+                // Preview next level
+                descText += $"\n\n<color=yellow>Next Lv →</color>";
+                descText += $"\n{buffName}: +{currentData.modifierValue} → +{nextData.modifierValue}";
+                
+                desc.text = descText;
             }
             
             if (passiveItem.itemIcon != null)
@@ -170,9 +224,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         gameManager.OnUpgradeSelected(currentChoices[index]);
     }
     
-    /// <summary>
-    /// Hide panel (buat manual close)
-    /// </summary>
     public void HidePanel()
     {
         upgradePanel.style.display = DisplayStyle.None;

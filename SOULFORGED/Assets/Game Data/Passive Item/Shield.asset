@@ -22,3 +22,7 @@ MonoBehaviour:
   - level: 2
     modifierValue: 10
     levelDescription: 
+  - level: 3
+    modifierValue: 15
+    levelDescription: 
+  playerData: {fileID: 0}

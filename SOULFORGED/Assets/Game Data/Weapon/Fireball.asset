@@ -22,9 +22,25 @@ MonoBehaviour:
   - level: 0
     damage: 10
     cooldown: 1
-    speed: 10
+    speed: 20
     lifetime: 4
     sizeMultiplier: 1
     projectileCount: 1
-    levelDescription: 
+    levelDescription: Fireball Menembak Bola Api!!
+  - level: 1
+    damage: 20
+    cooldown: 1
+    speed: 20
+    lifetime: 4
+    sizeMultiplier: 1
+    projectileCount: 1
+    levelDescription: Damage +10
+  - level: 2
+    damage: 20
+    cooldown: 0.5
+    speed: 20
+    lifetime: 4
+    sizeMultiplier: 1
+    projectileCount: 1
+    levelDescription: 50% Decreased Cooldown!!
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}

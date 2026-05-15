@@ -46,7 +46,7 @@ public class PlayerData : ScriptableObject
         public int level;
     }
     
-    // Ambil total level item aktif
+    // Ambil total level item aktif (permanent + in-game)
     public int GetItemLevel(ItemsSO item)
     {
         if (item == null) return 1;
@@ -62,6 +62,34 @@ public class PlayerData : ScriptableObject
         
         return permLevel + gameLevel;
     }
+    
+    // ==========================================
+    // BARU: Ambil in-game level doang (tanpa permanent)
+    // ==========================================
+    public int GetInGameLevel(ItemsSO item)
+    {
+        if (item == null) return 0;
+        
+        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.activeItem == item);
+        return gamePair != null ? gamePair.level : 0;
+    }
+    
+    public int GetInGamePassiveLevel(ItemsPassiveSO item)
+    {
+        if (item == null) return 0;
+        
+        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
+        return gamePair != null ? gamePair.level : 0;
+    }
+    
+    public int GetPermanentLevel(ItemsSO item)
+    {
+        if (item == null) return 1;
+        
+        ItemLevelPair permPair = permanentItemLevels.Find(x => x.activeItem == item);
+        return permPair != null ? permPair.level : 1;
+    }
+    // ==========================================
     
     // Set level permanent (dari scene upgrade)
     public void SetPermanentLevel(ItemsSO item, int level)
@@ -100,7 +128,6 @@ public class PlayerData : ScriptableObject
     }
     
     // Set level in-game (pasif)
-    // Set level in-game untuk pasif
     public void SetInGamePassiveLevel(ItemsPassiveSO item, int level)
     {
         if (item == null) return;
@@ -112,15 +139,15 @@ public class PlayerData : ScriptableObject
             inGameItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
     }
 
-    
-    // Ambil level item pasif
+    // Ambil level item pasif (pure in-game)
     public int GetPassiveItemLevel(ItemsPassiveSO item)
-{
-    if (item == null) return 1;
-    
-    ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
-    return gamePair != null ? gamePair.level : 1; // Default 1
+    {
+        if (item == null) return 1;
+        
+        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
+        return gamePair != null ? gamePair.level : 1;
     }
+    
     // Reset in-game level aja (permanent tetep)
     public void ResetInGameLevels()
     {

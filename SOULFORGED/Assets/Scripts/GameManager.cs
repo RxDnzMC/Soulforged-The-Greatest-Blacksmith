@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private UIController UIGame;
+    [SerializeField] private UpgradeSelectionUI upgradeUI;
     private PlayerData TemporaryPlayerData;
     
     [Header("Wave Settings")]
@@ -70,6 +71,10 @@ public class GameManager : MonoBehaviour
         {
             if (item != null) item.playerData = playerData;
         }
+        foreach (var item in passiveItems)
+        {
+            if (item != null) item.playerData = playerData;
+        }
         
         if (playerData.DefaultItem != null)
             playerData.DefaultItem.playerData = playerData;
@@ -111,6 +116,8 @@ public class GameManager : MonoBehaviour
         UpdateTimer();
         CheckWaveProgression();
         HandleLevelUp();
+        
+        // Manual update UI
         UIGame.UpdateHealthUI(playerData.health, playerData.maxHealth);
         UIGame.UpdateXPUI(playerData.exp, playerData.expToNextLevel);
     }
@@ -182,20 +189,25 @@ public class GameManager : MonoBehaviour
         
         List<object> choices = GetRandomUpgradeChoices();
         
-        // TODO: Tampilin UI pilihan
-        Debug.Log($"=== LEVEL {level} - PILIH UPGRADE ===");
-        for (int i = 0; i < choices.Count; i++)
+        if (upgradeUI != null)
         {
-            if (choices[i] is ItemsSO activeItem)
+            upgradeUI.ShowUpgradeChoices(choices);
+        }
+        else
+        {
+            // Fallback
+            Debug.LogWarning("UpgradeSelectionUI belum di-assign!");
+            Debug.Log($"=== LEVEL {level} - PILIH UPGRADE ===");
+            for (int i = 0; i < choices.Count; i++)
             {
-                int currentLevel = playerData.GetItemLevel(activeItem);
-                Debug.Log($"{i+1}. [AKTIF] {activeItem.itemName} (Lv.{currentLevel})");
+                if (choices[i] is ItemsSO activeItem)
+                    Debug.Log($"{i+1}. [AKTIF] {activeItem.itemName} (Lv.{playerData.GetItemLevel(activeItem)})");
+                else if (choices[i] is ItemsPassiveSO passiveItem)
+                    Debug.Log($"{i+1}. [PASIF] {passiveItem.itemName} (Lv.{playerData.GetPassiveItemLevel(passiveItem)})");
             }
-            else if (choices[i] is ItemsPassiveSO passiveItem)
-            {
-                int currentLevel = playerData.GetPassiveItemLevel(passiveItem);
-                Debug.Log($"{i+1}. [PASIF] {passiveItem.itemName} (Lv.{currentLevel})");
-            }
+            
+            isUpgradeChoosing = false;
+            Time.timeScale = 1f;
         }
     }
     
@@ -232,6 +244,8 @@ public class GameManager : MonoBehaviour
             ApplyActiveItemUpgrade(activeItem);
         else if (selectedItem is ItemsPassiveSO passiveItem)
             ApplyPassiveItemUpgrade(passiveItem);
+        
+        // Gak perlu update UI inventory manual
     }
     
     void ApplyActiveItemUpgrade(ItemsSO item)
@@ -239,13 +253,17 @@ public class GameManager : MonoBehaviour
         if (item == null) return;
         item.playerData = playerData;
         
-        // Cek apakah item udah ada di inventory
         int existingIndex = playerData.ActiveItems.IndexOf(item);
         
         if (existingIndex >= 0)
         {
-            // SUDAH PUNYA → UPGRADE IN-GAME LEVEL
-            int currentInGameLevel = playerData.GetItemLevel(item) - GetPermanentLevel(item);
+            if (item.IsMaxLevel)
+            {
+                Debug.Log($"{item.itemName} udah MAX LEVEL!");
+                return;
+            }
+            
+            int currentInGameLevel = playerData.GetInGameLevel(item);
             int newInGameLevel = currentInGameLevel + 1;
             
             playerData.SetInGameLevel(item, newInGameLevel);
@@ -254,7 +272,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // BELUM PUNYA → CARI SLOT KOSONG
             int emptySlot = -1;
             for (int i = 0; i < maxActiveSlots; i++)
             {
@@ -267,7 +284,6 @@ public class GameManager : MonoBehaviour
             
             if (emptySlot >= 0)
             {
-                // Pastikan list cukup besar
                 while (playerData.ActiveItems.Count <= emptySlot)
                     playerData.ActiveItems.Add(null);
                 
@@ -278,8 +294,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Inventory aktif penuh!");
-                // TODO: Kasih opsi replace item
+                Debug.LogWarning("Inventory aktif penuh! (Maks 4)");
             }
         }
         
@@ -291,12 +306,10 @@ public class GameManager : MonoBehaviour
         if (item == null) return;
         item.playerData = playerData;
         
-        // Cek apakah item udah ada di inventory
         int existingIndex = playerData.PassivesItems.IndexOf(item);
         
         if (existingIndex >= 0)
         {
-            // SUDAH PUNYA → UPGRADE IN-GAME LEVEL
             if (item.IsMaxLevel)
             {
                 Debug.Log($"{item.itemName} udah MAX LEVEL!");
@@ -313,7 +326,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // BELUM PUNYA → CARI SLOT KOSONG
             int emptySlot = -1;
             for (int i = 0; i < maxPassiveSlots; i++)
             {
@@ -326,13 +338,10 @@ public class GameManager : MonoBehaviour
             
             if (emptySlot >= 0)
             {
-                // Pastikan list cukup besar
                 while (playerData.PassivesItems.Count <= emptySlot)
                     playerData.PassivesItems.Add(null);
                 
                 playerData.PassivesItems[emptySlot] = item;
-                
-                // Set level ke 1 (in-game)
                 playerData.SetInGamePassiveLevel(item, 1);
                 item.ApplyEffect(playerData, 1);
                 
@@ -345,13 +354,8 @@ public class GameManager : MonoBehaviour
         }
         
         playerAttack.equippedPassiveItems = playerData.PassivesItems;
-}   
-    
-    int GetPermanentLevel(ItemsSO item)
-    {
-        PlayerData.ItemLevelPair pair = playerData.permanentItemLevels.Find(x => x.activeItem == item);
-        return pair != null ? pair.level : 1;
     }
+    
     // ==========================================
 
     void CheckLevelEvents(int level) 
@@ -376,14 +380,15 @@ public class GameManager : MonoBehaviour
         string defaultValues = JsonUtility.ToJson(TemporaryPlayerData);
         JsonUtility.FromJsonOverwrite(defaultValues, playerData);
         
-        // Reset in-game level
         playerData.ResetInGameLevels();
         
-        // Reset tracking di semua item pasif
         foreach (var item in passiveItems)
         {
             if (item != null) item.ResetTracking();
         }
+        
+        Time.timeScale = 1f;
+        isUpgradeChoosing = false;
     }
 
     void OnApplicationQuit()
