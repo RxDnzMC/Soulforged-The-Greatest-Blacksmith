@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public interface IProjectile 
-{   
+public interface IProjectile
+{
     float Damage { get; }
-    void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle);
+    float Cooldown { get; } // Tambah ini agar musuh bisa tahu cooldown senjata
+    void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle, float cooldown, float size);
 }
 
 public interface IAttackItem

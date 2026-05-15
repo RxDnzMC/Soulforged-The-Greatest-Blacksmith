@@ -14232,6 +14232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesBase
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  damageNumberPrefab: {fileID: 2331269620881154514, guid: 4d5981a07ee056f49ab9562e03389814, type: 3}
+  flashDuration: 0.1
   _health: 200
   _speed: 3
   _damage: 10

@@ -65,15 +65,7 @@ public class UIController : MonoBehaviour
 
     public void UpdateHealthUI(float currentHealth, float maxHealth)
     {
-        if (hpTextLabel != null)
-        {
-            // Force update teks meskipun ada binding
-            Debug.LogWarning("nemu Label HP!");
-        }
-        else
-        {
-            Debug.LogWarning("Gagal nemu Label HP!");
-        }
+
         if (hpCircle != null && hpMaterial != null)
         {
             // Buat instance material sekali saja

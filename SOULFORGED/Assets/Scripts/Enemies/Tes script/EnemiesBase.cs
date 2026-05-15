@@ -1,8 +1,13 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemiesBase : MonoBehaviour
 {
     [SerializeField] public PlayerData playerData;
+    
+    [Header("Damage Feedback")]
+    [SerializeField] GameObject damageNumberPrefab;
+    [SerializeField] float flashDuration = 0.1f;
 
     public float _health;
     public float _speed;
@@ -11,8 +16,24 @@ public class EnemiesBase : MonoBehaviour
     public float expReward;
     
     private bool isDead = false;
+    private Renderer[] renderers;
+    private Material[] instanceMaterials; // PAKE MATERIAL INSTANCE BIAR GAK GANGGU PREFAB LAIN
+    private Color[] originalColors; // Simpan warna asli
 
-    // Fungsi ini dipanggil oleh Spawner untuk memberi nilai stats
+    void Start()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+        instanceMaterials = new Material[renderers.Length];
+        originalColors = new Color[renderers.Length];
+        
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            // BIKIN INSTANCE MATERIAL BARU (biar gak ganggu shared material)
+            instanceMaterials[i] = renderers[i].material;
+            originalColors[i] = instanceMaterials[i].color;
+        }
+    }
+
     public void Setup(float health, float speed, float baseDamage, float attackInterval, float expReward)
     {
         _health = health;
@@ -22,49 +43,107 @@ public class EnemiesBase : MonoBehaviour
         this.expReward = expReward;
     }
 
-    // Hanya urus saat musuh kena peluru
-    void OnTriggerEnter(Collider other)
-{   
-    if (isDead) return; 
-    
-    // 1. Pastikan yang menabrak adalah objek pemberi damage
-    if (other.CompareTag("ProjectileDamage")) 
+    void SpawnDamageNumber(float damage)
     {
-        // 2. Cek apakah benda ini punya "Lisensi" IProjectile
-        if (other.TryGetComponent(out IProjectile projectile)) 
+        if (damageNumberPrefab != null)
         {
-            // 3. Ambil damage-nya lewat interface (Sangat Simpel!)
-            _health -= projectile.Damage;
+            // Spawn damage number di posisi enemy + offset ke atas
+            Vector3 spawnPos = transform.position + Vector3.up * 1.5f;
+            GameObject dmgObj = Instantiate(damageNumberPrefab, spawnPos, Quaternion.identity);
             
-            Debug.Log($"Musuh Kena Serangan! Sisa Health: {_health}");
+            // GAK PERLU LookAt di sini, udah di DamageNumber.Start()
             
-            // 4. Cek kematian
-            if (_health <= 0) 
+            if (dmgObj.TryGetComponent(out DamageNumber damageNumber))
             {
-                EnemyDead();
+                damageNumber.Setup(damage);
             }
         }
     }
-}
+
+    IEnumerator FlashRed()
+    {
+        // Ubah semua material jadi merah
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (instanceMaterials[i] != null)
+            {
+                instanceMaterials[i].color = Color.red;
+            }
+        }
+        
+        yield return new WaitForSeconds(flashDuration);
+        
+        // KEMBALIKAN KE WARNA ASLI
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (instanceMaterials[i] != null)
+            {
+                instanceMaterials[i].color = originalColors[i];
+            }
+        }
+    }
+
+    void TakeDamage(IProjectile projectile)
+    {
+        _health -= projectile.Damage;
+        
+        SpawnDamageNumber(projectile.Damage);
+        StartCoroutine(FlashRed());
+        
+        // Debug.Log($"Musuh Kena Serangan! Damage: {projectile.Damage}, Sisa Health: {_health}");
+        
+        if (_health <= 0)
+        {
+            EnemyDead();
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {   
+        if (isDead) return; 
+        
+        if (other.CompareTag("ProjectileDamage")) 
+        {
+            if (other.TryGetComponent(out IProjectile projectile)) 
+            {
+                TakeDamage(projectile);
+            }
+        }
+    }
+
+    private float _nextDamageTime = 0f;
+
+    void OnTriggerStay(Collider other)
+    {
+        if (isDead) return; 
+
+        if (other.CompareTag("AreaDamage")) 
+        {
+            if (Time.time >= _nextDamageTime)
+            {
+                if (other.TryGetComponent(out IProjectile projectile)) 
+                {
+                    TakeDamage(projectile);
+                    _nextDamageTime = Time.time + projectile.Cooldown;
+                }
+            }
+        }
+    }
 
     void EnemyDead() 
     {
         if (isDead) return;
         isDead = true;
 
-        //MATIKAN COLLIDER
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
         
-        // MATIKAN RIGIDBODY (biar gak bisa didorong)
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = true; // Biar gak dipengaruhi fisika
-            // Atau: rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.isKinematic = true;
         }
             
-        // Tambah EXP
         if (playerData != null) playerData.exp += expReward;
 
         Animator anim = GetComponent<Animator>();
@@ -74,25 +153,22 @@ public class EnemiesBase : MonoBehaviour
         {
             anim.SetTrigger("Die");
             
-            // --- CARA MENCARI DURASI ANIMASI MATI ---
             float animDuration = 0.1f;
             
-            // Ambil semua daftar animasi yang ada di dalam Animator musuh ini
             RuntimeAnimatorController ac = anim.runtimeAnimatorController;
             if (ac != null)
             {
                 foreach (AnimationClip clip in ac.animationClips)
                 {
-                    // Cari klip animasi yang namanya ada kata "Die" atau "Dead"
                     if (clip.name.Contains("Die") || clip.name.Contains("Dead"))
                     {
-                        animDuration = clip.length; // Ketemu! Ambil durasi aslinya
-                        break; // Berhenti mencari
+                        animDuration = clip.length;
+                        break;
                     }
                 }
             }
 
-            Debug.Log($"Musuh mati! Menunggu {animDuration} detik sebelum hancur.");
+            // Debug.Log($"Musuh mati! Menunggu {animDuration} detik sebelum hancur.");
             Destroy(gameObject, animDuration); 
         }
         else 

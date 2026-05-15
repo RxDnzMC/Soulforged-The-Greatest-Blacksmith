@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (stepTimer <= 0)
             {
-                Debug.Log("Mencoba membunyikan suara langkah!"); // TAMBAHKAN INI
                 // MANGGIL SOUND MANAGER
                 // Gunakan PlaySound3D agar suara terdengar dari posisi kaki player
                 if (SoundManager.Instance != null) {

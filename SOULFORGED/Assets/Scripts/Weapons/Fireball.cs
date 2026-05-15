@@ -5,8 +5,10 @@ public class FireballProjectile : MonoBehaviour, IProjectile
     private float _speed;
     private float _damage;
     public float Damage => _damage;
+    public float Cooldown => cooldown;
+    private float cooldown;
 
-    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle)
+    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle, float cooldown, float size)
     {
         _speed = speed;
         _damage = damage;
@@ -37,7 +39,7 @@ public class FireballProjectile : MonoBehaviour, IProjectile
         // Logika kalau kena musuh
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log($"Kena {other.name}! Damage: {_damage}");
+            // Debug.Log($"Kena {other.name}! Damage: {_damage}");
             Destroy(gameObject);
         }
     }

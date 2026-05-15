@@ -8,12 +8,14 @@ public class Homing : MonoBehaviour, IProjectile
     public float Damage => _damage;
     private float _turnSpeed;
     private float _homingDelay;
+    public float Cooldown => cooldown;
+    private float cooldown;
     
     private Transform _target;
     private float _timer = 0f;
 
     // Implementasi Interface IProjectileHoming: Tempat menerima paket data
-    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle)
+    public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle, float cooldown, float size)
     {
         _speed = speed;
         _damage = damage;
@@ -72,7 +74,7 @@ public class Homing : MonoBehaviour, IProjectile
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log($"Target Hit: {other.name} | Damage: {_damage}");
+            // Debug.Log($"Target Hit: {other.name} | Damage: {_damage}");
             // Tambahkan logika damage musuh di sini (misal: other.GetComponent<Enemy>().TakeDamage(_damage))
             Destroy(gameObject);
         }

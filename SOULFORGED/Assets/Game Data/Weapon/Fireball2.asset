@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemsSO
   itemName: Fireball2
   itemIcon: {fileID: 8617892559191809022, guid: 215687feeab0b7445b4a1cd86c82c2e1, type: 3}
-  baseDamage: 100
-  cooldown: 1
-  speed: 10
-  lifetime: 20
   projectilePrefab: {fileID: 5861196101015793544, guid: 89e12eafdabf0534c9be3d7494b70680, type: 3}
+  turnSpeed: 1
+  homingDelay: 1
+  scatterAngle: 1
+  levels: []
+  playerData: {fileID: 0}

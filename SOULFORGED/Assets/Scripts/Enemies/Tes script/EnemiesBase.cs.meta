@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 6db14ef907f7fe1408fded9364170d75
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerData: {instanceID: 0}
+  - damageNumberPrefab: {fileID: 2331269620881154514, guid: 4d5981a07ee056f49ab9562e03389814, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

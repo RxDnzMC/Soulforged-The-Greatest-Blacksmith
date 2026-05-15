@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData")]
-public class PlayerData : ScriptableObject {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+public class PlayerData : ScriptableObject 
+{
     public float health;
     public float maxHealth;
     public float defense;
@@ -22,23 +22,130 @@ public class PlayerData : ScriptableObject {
 
     public ItemsSO DefaultItem;
     [Header("Default Slot untuk Item Aktif (Jangan DIISI)")]
-    public List<ItemsSO> DefaultSlot = new List<ItemsSO>(4); // Asumsi ada 4 slot untuk item aktif
-    public List<ItemsPassiveSO> DefaultPassiveSlot = new List<ItemsPassiveSO>(4); // Asumsi ada 4 slot untuk item pasif
+    public List<ItemsSO> DefaultSlot = new List<ItemsSO>(4);
+    public List<ItemsPassiveSO> DefaultPassiveSlot = new List<ItemsPassiveSO>(4);
 
     [Header("List Item Aktif dan Pasif")]
     public List<ItemsSO> ActiveItems = new List<ItemsSO>();
     public List<ItemsPassiveSO> PassivesItems = new List<ItemsPassiveSO>();
 
+    // ==========================================
+    // DUAL LEVEL SYSTEM
+    // ==========================================
+    [Header("Permanent Levels (Gak Reset)")]
+    public List<ItemLevelPair> permanentItemLevels = new List<ItemLevelPair>();
+    
+    [Header("In-Game Levels (Reset Tiap Game)")]
+    public List<ItemLevelPair> inGameItemLevels = new List<ItemLevelPair>();
+    
+    [System.Serializable]
+    public class ItemLevelPair
+    {
+        public ItemsSO activeItem;
+        public ItemsPassiveSO passiveItem;
+        public int level;
+    }
+    
+    // Ambil total level item aktif
+    public int GetItemLevel(ItemsSO item)
+    {
+        if (item == null) return 1;
+        
+        int permLevel = 1;
+        int gameLevel = 0;
+        
+        ItemLevelPair permPair = permanentItemLevels.Find(x => x.activeItem == item);
+        if (permPair != null) permLevel = permPair.level;
+        
+        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.activeItem == item);
+        if (gamePair != null) gameLevel = gamePair.level;
+        
+        return permLevel + gameLevel;
+    }
+    
+    // Set level permanent (dari scene upgrade)
+    public void SetPermanentLevel(ItemsSO item, int level)
+    {
+        if (item == null) return;
+        
+        ItemLevelPair pair = permanentItemLevels.Find(x => x.activeItem == item);
+        if (pair != null)
+            pair.level = level;
+        else
+            permanentItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
+    }
+    
+    // Set level in-game (reset tiap game)
+    public void SetInGameLevel(ItemsSO item, int level)
+    {
+        if (item == null) return;
+        
+        ItemLevelPair pair = inGameItemLevels.Find(x => x.activeItem == item);
+        if (pair != null)
+            pair.level = level;
+        else
+            inGameItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
+    }
+    
+    // Set level permanent (pasif)
+    public void SetPermanentPassiveLevel(ItemsPassiveSO item, int level)
+    {
+        if (item == null) return;
+        
+        ItemLevelPair pair = permanentItemLevels.Find(x => x.passiveItem == item);
+        if (pair != null)
+            pair.level = level;
+        else
+            permanentItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
+    }
+    
+    // Set level in-game (pasif)
+    // Set level in-game untuk pasif
+    public void SetInGamePassiveLevel(ItemsPassiveSO item, int level)
+    {
+        if (item == null) return;
+        
+        ItemLevelPair pair = inGameItemLevels.Find(x => x.passiveItem == item);
+        if (pair != null)
+            pair.level = level;
+        else
+            inGameItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
+    }
+
+    
+    // Ambil level item pasif
+    public int GetPassiveItemLevel(ItemsPassiveSO item)
+{
+    if (item == null) return 1;
+    
+    ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
+    return gamePair != null ? gamePair.level : 1; // Default 1
+    }
+    // Reset in-game level aja (permanent tetep)
+    public void ResetInGameLevels()
+    {
+        inGameItemLevels.Clear();
+    }
+    
+    // Reset semua (development)
+    public void ResetAllLevels()
+    {
+        permanentItemLevels.Clear();
+        inGameItemLevels.Clear();
+    }
+    // ==========================================
+
     public void ResetData()
     {
-        ActiveItems.Clear(); // Hapus semua item
+        ActiveItems.Clear();
         PassivesItems.Clear();
+        ResetInGameLevels();
         ResetInventory();
     }
 
     public void ResetInventory()
     {
-        ActiveItems = new List<ItemsSO>(DefaultSlot); // Hapus semua item
+        ActiveItems = new List<ItemsSO>(DefaultSlot);
         PassivesItems = new List<ItemsPassiveSO>(DefaultPassiveSlot);
     }
 }

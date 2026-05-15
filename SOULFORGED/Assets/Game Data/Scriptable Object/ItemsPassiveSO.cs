@@ -2,29 +2,27 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public enum PassiveBuffType
-    {
-        ProjectileDamage,
-        ProjectileSpeed,
-        ProjectileLifetime,
-        CooldownReduction,
-        ProjectileCount,
-        Defense,
-        MaxHealth
-    }
+{
+    ProjectileDamage,
+    ProjectileSpeed,
+    ProjectileLifetime,
+    CooldownReduction,
+    ProjectileCount,
+    Defense,
+    MaxHealth
+}
 
-[System.Serializable] // Agar muncul di Inspector Unity
+[System.Serializable]
 public struct ItemLevelData
-    {
-        public int level;            // Angka level (1, 2, 3...)
-        public float modifierValue;  // Nilai kekuatannya (misal: +10 Damage)
-        public string levelDescription; // Teks penjelasan (misal: "Menambah 1 peluru")
-    }
+{
+    public int level;
+    public float modifierValue;
+    public string levelDescription;
+}
 
 [CreateAssetMenu(fileName = "New Passive Item", menuName = "ScriptableObjects/Items/Passive")]
 public class ItemsPassiveSO : ScriptableObject
 {
-    // Ini yang akan jadi Dropdown/Combo Box di Inspector
-    
     public string itemName;
     public Sprite itemIcon;
     
@@ -32,11 +30,97 @@ public class ItemsPassiveSO : ScriptableObject
     public PassiveBuffType buffType;
     public List<ItemLevelData> levels;
 
-    // FUNGSI BARU: Item ini sekarang bisa mengurus efeknya sendiri
+    // REFERENCE KE PLAYERDATA
+    [HideInInspector] public PlayerData playerData;
+    
+    private float lastAppliedValue = 0f;
+    private int lastAppliedLevel = 0;
+
+    // ==========================================
+    // BARU: Level System (Pure In-Game)
+    // ==========================================
+    public int CurrentLevel
+    {
+        get
+        {
+            if (playerData != null)
+                return playerData.GetPassiveItemLevel(this);
+            return 1;
+        }
+    }
+    
+    public int MaxLevel
+    {
+        get { return levels.Count; }
+    }
+    
+    public bool IsMaxLevel
+    {
+        get { return CurrentLevel >= MaxLevel; }
+    }
+    
+    public string CurrentLevelName
+    {
+        get
+        {
+            ItemLevelData data = GetLevelData(CurrentLevel);
+            return $"Lv.{data.level} - {data.levelDescription}";
+        }
+    }
+    // ==========================================
+    
+    // Upgrade level (otomatis ngurangin efek lama)
+    public void UpgradeLevel(PlayerData data, int newLevel)
+    {
+        // 1. Hapus efek lama
+        RemoveLastEffect(data);
+        
+        // 2. Apply efek baru
+        ApplyEffect(data, newLevel);
+    }
+    
+    void RemoveLastEffect(PlayerData data)
+    {
+        if (lastAppliedLevel <= 0) return;
+        
+        switch (buffType)
+        {
+            case PassiveBuffType.ProjectileDamage:
+                data.projectileDamageMultiplier -= lastAppliedValue;
+                break;
+            case PassiveBuffType.ProjectileSpeed:
+                data.projectileSpeedMultiplier -= lastAppliedValue;
+                break;
+            case PassiveBuffType.ProjectileLifetime:
+                data.projectileLifetimeMultiplier -= lastAppliedValue;
+                break;
+            case PassiveBuffType.CooldownReduction:
+                data.cooldownReductionMultiplier += lastAppliedValue;
+                break;
+            case PassiveBuffType.ProjectileCount:
+                data.projectileCountMultiplier -= lastAppliedValue;
+                break;
+            case PassiveBuffType.Defense:
+                data.defense -= lastAppliedValue;
+                break;
+            case PassiveBuffType.MaxHealth:
+                data.maxHealth -= lastAppliedValue;
+                data.health -= lastAppliedValue;
+                break;
+        }
+        
+        lastAppliedValue = 0f;
+        lastAppliedLevel = 0;
+    }
+    
     public void ApplyEffect(PlayerData data, int level)
     {
         ItemLevelData levelData = GetLevelData(level);
         float value = levelData.modifierValue;
+        
+        // Simpan value terakhir
+        lastAppliedValue = value;
+        lastAppliedLevel = level;
 
         switch (buffType)
         {
@@ -60,7 +144,7 @@ public class ItemsPassiveSO : ScriptableObject
                 break;
             case PassiveBuffType.MaxHealth:
                 data.maxHealth += value;
-                data.health += value; // Bonus: Langsung nambah HP saat ini
+                data.health += value;
                 break;
         }
     }
@@ -69,5 +153,12 @@ public class ItemsPassiveSO : ScriptableObject
     {
         int index = Mathf.Clamp(currentLevel - 1, 0, levels.Count - 1);
         return levels[index];
+    }
+    
+    // Reset tracking (dipanggil pas game over)
+    public void ResetTracking()
+    {
+        lastAppliedValue = 0f;
+        lastAppliedLevel = 0;
     }
 }
