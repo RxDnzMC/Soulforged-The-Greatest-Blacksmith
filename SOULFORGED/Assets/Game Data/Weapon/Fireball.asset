@@ -22,9 +22,9 @@ MonoBehaviour:
   - level: 0
     damage: 10
     cooldown: 1
-    speed: 5
-    lifetime: 2
+    speed: 10
+    lifetime: 4
     sizeMultiplier: 1
     projectileCount: 1
     levelDescription: 
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
