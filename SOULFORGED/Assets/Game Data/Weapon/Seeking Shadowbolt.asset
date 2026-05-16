@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 738ac04867cb7874d9fc4bcc2ea1e65b, type: 3}
-  m_Name: HomingTest
+  m_Name: Seeking Shadowbolt
   m_EditorClassIdentifier: Assembly-CSharp::ItemsSO
-  itemName: HomingTest
-  itemIcon: {fileID: 7681201850867341242, guid: 215687feeab0b7445b4a1cd86c82c2e1, type: 3}
+  itemName: Seeking Shadowbolt
+  itemIcon: {fileID: 21300000, guid: a3534e4575687264b9c461400025a87d, type: 3}
   projectilePrefab: {fileID: 6985477033667851896, guid: aef7bc425dc56b94d926c80b78397c49, type: 3}
   turnSpeed: 5
   homingDelay: 0.3

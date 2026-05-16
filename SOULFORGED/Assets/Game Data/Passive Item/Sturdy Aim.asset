@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd943d1ff84f53b4cad79401ab49141d, type: 3}
-  m_Name: Max Health
+  m_Name: Sturdy Aim
   m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
-  itemName: Max Health
+  itemName: Projectile Speed
   itemIcon: {fileID: 0}
-  buffType: 6
+  buffType: 1
   levels:
   - level: 1
-    modifierValue: 10
-    levelDescription: +10 Max Health, Heal 10 Health
+    modifierValue: 1.2
+    levelDescription: 20% Projectile Speed
   - level: 2
-    modifierValue: 20
-    levelDescription: +20 Max Health, Heal 20 Health
+    modifierValue: 1.4
+    levelDescription: 40% Projectile Speed
   - level: 3
-    modifierValue: 30
-    levelDescription: +30 Max Health, Heal 30 Health
+    modifierValue: 1.6
+    levelDescription: 60% Projectile Speed
   - level: 4
-    modifierValue: 40
-    levelDescription: +40 Max Health, Heal 40 Health
+    modifierValue: 1.8
+    levelDescription: 80% Projectile Speed
   - level: 5
-    modifierValue: 50
-    levelDescription: +50 Max Health, Heal 50 Health
+    modifierValue: 2
+    levelDescription: 100% Projectile Speed
   playerData: {fileID: 0}

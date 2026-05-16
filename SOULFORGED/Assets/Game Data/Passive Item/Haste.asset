@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd943d1ff84f53b4cad79401ab49141d, type: 3}
-  m_Name: Projectile Speed
+  m_Name: Haste
   m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
-  itemName: Projectile Speed
-  itemIcon: {fileID: 0}
-  buffType: 1
+  itemName: Haste
+  itemIcon: {fileID: 21300000, guid: fbf9cdad57f559a4b8a9ae7dd2c244ce, type: 3}
+  buffType: 3
   levels:
   - level: 1
-    modifierValue: 1.2
-    levelDescription: 20% Projectile Speed
+    modifierValue: 0.1
+    levelDescription: 10% Faster Cooldown
   - level: 2
-    modifierValue: 1.4
-    levelDescription: 40% Projectile Speed
+    modifierValue: 0.2
+    levelDescription: 20% Faster Cooldown
   - level: 3
-    modifierValue: 1.6
-    levelDescription: 60% Projectile Speed
+    modifierValue: 0.3
+    levelDescription: 30% Faster Cooldown
   - level: 4
-    modifierValue: 1.8
-    levelDescription: 80% Projectile Speed
+    modifierValue: 0.4
+    levelDescription: 40% Faster Cooldown
   - level: 5
-    modifierValue: 2
-    levelDescription: 100% Projectile Speed
+    modifierValue: 0.5
+    levelDescription: 50% Faster Cooldown
   playerData: {fileID: 0}

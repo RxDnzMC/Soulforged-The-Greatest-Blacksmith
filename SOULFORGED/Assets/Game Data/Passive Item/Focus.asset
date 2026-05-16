@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd943d1ff84f53b4cad79401ab49141d, type: 3}
-  m_Name: Cooldown Reduction
+  m_Name: Focus
   m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
-  itemName: Cooldown Reduction
-  itemIcon: {fileID: 0}
-  buffType: 3
+  itemName: Focus
+  itemIcon: {fileID: 21300000, guid: 4ac06a2c7c2830e4f82b2201c6dfde55, type: 3}
+  buffType: 0
   levels:
   - level: 1
-    modifierValue: 0.1
-    levelDescription: 10% Faster Cooldown
+    modifierValue: 1.2
+    levelDescription: 20% More Damage
   - level: 2
-    modifierValue: 0.2
-    levelDescription: 20% Faster Cooldown
+    modifierValue: 1.4
+    levelDescription: 40% More Damage
   - level: 3
-    modifierValue: 0.3
-    levelDescription: 30% Faster Cooldown
+    modifierValue: 1.6
+    levelDescription: 60% More Damage
   - level: 4
-    modifierValue: 0.4
-    levelDescription: 40% Faster Cooldown
+    modifierValue: 1.8
+    levelDescription: 80% More Damage
   - level: 5
-    modifierValue: 0.5
-    levelDescription: 50% Faster Cooldown
+    modifierValue: 2
+    levelDescription: 100% More Damage
   playerData: {fileID: 0}

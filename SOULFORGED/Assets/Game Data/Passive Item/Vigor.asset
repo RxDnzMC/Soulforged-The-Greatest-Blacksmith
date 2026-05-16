@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd943d1ff84f53b4cad79401ab49141d, type: 3}
-  m_Name: Projectile Damage
+  m_Name: Vigor
   m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
-  itemName: Projectile Damage
-  itemIcon: {fileID: 0}
-  buffType: 0
+  itemName: Vigor
+  itemIcon: {fileID: 21300000, guid: 50fc52c1399098143962d7f6f690a2a5, type: 3}
+  buffType: 6
   levels:
   - level: 1
-    modifierValue: 1.2
-    levelDescription: 20% More Damage
+    modifierValue: 10
+    levelDescription: +10 Max Health, Heal 10 Health
   - level: 2
-    modifierValue: 1.4
-    levelDescription: 40% More Damage
+    modifierValue: 20
+    levelDescription: +20 Max Health, Heal 20 Health
   - level: 3
-    modifierValue: 1.6
-    levelDescription: 60% More Damage
+    modifierValue: 30
+    levelDescription: +30 Max Health, Heal 30 Health
   - level: 4
-    modifierValue: 1.8
-    levelDescription: 80% More Damage
+    modifierValue: 40
+    levelDescription: +40 Max Health, Heal 40 Health
   - level: 5
-    modifierValue: 2
-    levelDescription: 100% More Damage
+    modifierValue: 50
+    levelDescription: +50 Max Health, Heal 50 Health
   playerData: {fileID: 0}
