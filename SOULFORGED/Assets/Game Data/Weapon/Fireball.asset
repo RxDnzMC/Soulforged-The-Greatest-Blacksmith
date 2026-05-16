@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::Items
   itemName: Fireball
-  itemIcon: {fileID: 21300000, guid: 4bf3e505e8292a343ba7e42ce32ed3cf, type: 3}
+  itemIcon: {fileID: 21300000, guid: 3c7515d7243ca514291dbe21849b0772, type: 3}
   projectilePrefab: {fileID: 5861196101015793544, guid: 77611477fad7ae94a8947c0cb8058c64, type: 3}
   turnSpeed: 1
   homingDelay: 1

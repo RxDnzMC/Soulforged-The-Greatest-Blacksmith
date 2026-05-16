@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sturdy Aim
   m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
   itemName: Projectile Speed
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 44c988aed1e6bc04392af4c4696095cf, type: 3}
   buffType: 1
   levels:
   - level: 1
