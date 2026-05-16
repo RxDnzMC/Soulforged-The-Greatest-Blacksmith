@@ -101,6 +101,7 @@ Assets/
    Enemies1.cs
    EnemyMelee.cs
    Tes script/
+    BossMusic.cs
     EnemiesBase.cs
     EnemyMeleeAttack.cs
     EnemyVFX.cs

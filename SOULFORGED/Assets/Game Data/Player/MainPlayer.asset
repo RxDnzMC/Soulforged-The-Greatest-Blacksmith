@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   health: 100
   maxHealth: 100
-  defense: 10
+  defense: 0
   playerPosition: {x: 0, y: 0, z: 0}
   level: 1
   exp: 0
   expToNextLevel: 100
   expMultiplier: 1
-  projectileDamageMultiplier: 1
-  projectileSpeedMultiplier: 1
-  projectileLifetimeMultiplier: 1
-  cooldownReductionMultiplier: 1
-  projectileCountMultiplier: 1
+  projectileDamageMultiplier: 0
+  projectileSpeedMultiplier: 0
+  projectileLifetimeMultiplier: 0
+  cooldownReductionMultiplier: 0
+  projectileCountMultiplier: 0
   Globalgold: 10
   Globalsouls: 13
   maxHealthLevel: 1

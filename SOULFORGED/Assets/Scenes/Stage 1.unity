@@ -2636,6 +2636,9 @@ MonoBehaviour:
     enemyPool: []
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 0
+    healthMultiplier: 0
+    speedMultiplier: 0
   - waveName: detik1
     startTime: 1
     maxActiveEnemies: 20
@@ -2644,6 +2647,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 1
+    healthMultiplier: 1
+    speedMultiplier: 1
   - waveName: detik20
     startTime: 20
     maxActiveEnemies: 30
@@ -2652,6 +2658,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 1
+    healthMultiplier: 1.5
+    speedMultiplier: 1
   - waveName: detik40
     startTime: 40
     maxActiveEnemies: 50
@@ -2661,14 +2670,20 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 1
+    healthMultiplier: 1.8
+    speedMultiplier: 1
   - waveName: menit1detik30
     startTime: 90
     maxActiveEnemies: 50
-    spawnInterval: 0.5
+    spawnInterval: 0.1
     enemyPool:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 2
+    healthMultiplier: 2.5
+    speedMultiplier: 1
   - waveName: menit2
     startTime: 120
     maxActiveEnemies: 65
@@ -2677,6 +2692,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 2
+    healthMultiplier: 3
+    speedMultiplier: 1
   - waveName: menit2detik30
     startTime: 150
     maxActiveEnemies: 80
@@ -2686,6 +2704,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     isBossWave: 0
     isBossWave2: 0
+    damageMultiplier: 2.5
+    healthMultiplier: 5
+    speedMultiplier: 1
   - waveName: menit3
     startTime: 180
     maxActiveEnemies: 50
@@ -2695,6 +2716,21 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     isBossWave: 1
     isBossWave2: 0
+    damageMultiplier: 1
+    healthMultiplier: 1
+    speedMultiplier: 1
+  - waveName: menit3 -after boss
+    startTime: 185
+    maxActiveEnemies: 100
+    spawnInterval: 0.1
+    enemyPool:
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    isBossWave: 0
+    isBossWave2: 0
+    damageMultiplier: 5
+    healthMultiplier: 10
+    speedMultiplier: 1
   Boss1: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
   Boss2: {fileID: 0}
   timerString: 
@@ -2704,6 +2740,11 @@ MonoBehaviour:
   choicesPerLevel: 3
   maxActiveSlots: 4
   maxPassiveSlots: 4
+  baseExpRequirement: 200
+  expGrowthRate: 1.3
+  maxExpRequirement: 5000
+  softCapLevel: 15
+  softCapGrowthRate: 1.08
   gameOverPanel: {fileID: 917538895}
 --- !u!4 &2030083496
 Transform:

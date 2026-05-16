@@ -12,14 +12,17 @@ public partial class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 1.5f;
     
     [Header("Stage Limits")]
-    // Seret GameObject Lantai/Ground ke sini di Inspector
     [SerializeField] private Collider stageCollider; 
-    // Margin agar musuh tidak spawn tepat di ujung tembok (opsional)
     [SerializeField] private float stageMargin = 1f;
 
     [Header("Limits")]
     [SerializeField] private int maxActiveEnemies = 3;
     [SerializeField] private string enemyTag = "Enemy";
+
+    // ✅ VARIABEL UNTUK MENYIMPAN MULTIPLIER CURRENT WAVE
+    private float currentDamageMultiplier = 1f;
+    private float currentHealthMultiplier = 1f;
+    private float currentSpeedMultiplier = 1f;
 
     private float timer;
 
@@ -54,7 +57,6 @@ public partial class EnemySpawner : MonoBehaviour
         // 2. BATASI posisi tersebut agar tetap di dalam batas StageCollider
         Bounds bounds = stageCollider.bounds;
 
-        // Kita batasi X dan Z agar tidak melewati batas min dan max dari collider lantai
         float clampedX = Mathf.Clamp(spawnX, bounds.min.x + stageMargin, bounds.max.x - stageMargin);
         float clampedZ = Mathf.Clamp(spawnZ, bounds.min.z + stageMargin, bounds.max.z - stageMargin);
 
@@ -65,21 +67,67 @@ public partial class EnemySpawner : MonoBehaviour
 
         if (enemyObject.TryGetComponent(out EnemiesBase enemyScript))
         {
+            // ✅ APPLY MULTIPLIER KE STATS ENEMY
+            float finalHealth = selectedEnemyData.health * currentHealthMultiplier;
+            float finalSpeed = selectedEnemyData.speed * currentSpeedMultiplier;
+            float finalDamage = selectedEnemyData.baseDamage * currentDamageMultiplier;
+            
             enemyScript.Setup(
-                selectedEnemyData.health, 
-                selectedEnemyData.speed, 
-                selectedEnemyData.baseDamage, 
+                finalHealth,           // Health with multiplier
+                finalSpeed,           // Speed with multiplier
+                finalDamage,          // Damage with multiplier
                 selectedEnemyData.attackInterval, 
                 selectedEnemyData.expReward
             );
+            
+            // Optional: Log untuk debugging
+            // Debug.Log($"Spawn Enemy: Health {finalHealth} (x{currentHealthMultiplier}), Damage {finalDamage} (x{currentDamageMultiplier})");
+        }
+        
+        // Optional: Apply multiplier ke boss juga jika diperlukan
+        if (enemyObject.TryGetComponent(out EnemyMeleeAttack meleeAttack))
+        {
+            // Melee attack sudah otomatis pake damage dari enemyStats._damage
+            // Jadi tidak perlu diubah lagi
         }
     }
 
+    /// <summary>
+    /// Update wave settings dengan multiplier untuk monster
+    /// </summary>
     public void UpdateWaveSettings(int newMax, float newInterval, List<EnemiesData> newPool)
     {
         maxActiveEnemies = newMax;
         spawnInterval = newInterval;
-        enemyTypes = newPool; // Ganti list musuh sesuai wave sekarang
-        Debug.Log("Spawner Updated for New Wave!");
-    }   
+        enemyTypes = newPool;
+        Debug.Log($"Spawner Updated: MaxEnemy={newMax}, Interval={newInterval}, EnemyTypes={newPool.Count}");
+    }
+    
+    /// <summary>
+    /// Update wave settings LENGKAP dengan multiplier
+    /// </summary>
+    public void UpdateWaveSettings(int newMax, float newInterval, List<EnemiesData> newPool, 
+        float damageMultiplier, float healthMultiplier, float speedMultiplier)
+    {
+        maxActiveEnemies = newMax;
+        spawnInterval = newInterval;
+        enemyTypes = newPool;
+        
+        // ✅ SIMPAN MULTIPLIER
+        currentDamageMultiplier = damageMultiplier;
+        currentHealthMultiplier = healthMultiplier;
+        currentSpeedMultiplier = speedMultiplier;
+        
+        Debug.Log($"Spawner Updated: Wave Multiplier - Damage: {damageMultiplier}x, Health: {healthMultiplier}x, Speed: {speedMultiplier}x");
+    }
+    
+    /// <summary>
+    /// Reset multiplier ke default (opsional)
+    /// </summary>
+    public void ResetMultipliers()
+    {
+        currentDamageMultiplier = 1f;
+        currentHealthMultiplier = 1f;
+        currentSpeedMultiplier = 1f;
+    }
 }

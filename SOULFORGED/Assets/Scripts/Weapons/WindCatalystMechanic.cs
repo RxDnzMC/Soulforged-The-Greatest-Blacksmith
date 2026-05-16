@@ -31,9 +31,4 @@ public class WindCatalystMechanic : MonoBehaviour, IProjectile
         transform.position = playerData.playerPosition;
     }
     
-    void Awake()
-    {
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.PlaySound3D("Fireball Shoot", transform.position);
-    }
 }

@@ -14136,6 +14136,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 01bbae240c68d5c4a8b175d5ac5893c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3595772772361351394}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 01bbae240c68d5c4a8b175d5ac5893c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7155083833046672027}
   m_SourcePrefab: {fileID: 100100000, guid: 01bbae240c68d5c4a8b175d5ac5893c4, type: 3}
 --- !u!4 &2675656824050262387 stripped
 Transform:
@@ -14241,7 +14244,7 @@ MonoBehaviour:
   healItemPrefab: {fileID: 0}
   healDropChance: 0
   lootSpawnHeight: 1
-  _health: 200
+  _health: 3000
   _speed: 3
   _damage: 10
   _attackInterval: 0.83
@@ -14284,3 +14287,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyVFX
   partikelPrefab: {fileID: 8390952820134364392, guid: bd7bf9e78c7d10846bde830816cde182, type: 3}
   titikMuncul: {fileID: 2229104869036717454}
+--- !u!114 &7155083833046672027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344493473220656073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f04ae5fd452a24a8cb02aee20bb585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossMusicController

@@ -48,27 +48,37 @@ MonoBehaviour:
     sizeMultiplier: 1
     projectileCount: 1
     levelDescription: 10% Decreased Cooldown!!
-    goldCost: 250
-    soulsCost: 500
+    goldCost: 350
+    soulsCost: 100
   - level: 3
-    damage: 20
+    damage: 30
     cooldown: 0.9
     speed: 20
     lifetime: 4
     sizeMultiplier: 1
     projectileCount: 1
-    levelDescription: +1 Projectile
-    goldCost: 250
-    soulsCost: 500
-  - level: 3
-    damage: 20
+    levelDescription: Damage + 10
+    goldCost: 450
+    soulsCost: 200
+  - level: 4
+    damage: 30
     cooldown: 0.9
-    speed: 20
+    speed: 25
     lifetime: 4
     sizeMultiplier: 1
-    projectileCount: 2
-    levelDescription: +1 Projectile
-    goldCost: 250
+    projectileCount: 1
+    levelDescription: Speed 25% & Damage +10
+    goldCost: 600
+    soulsCost: 300
+  - level: 5
+    damage: 50
+    cooldown: 0.9
+    speed: 25
+    lifetime: 4
+    sizeMultiplier: 1
+    projectileCount: 1
+    levelDescription: Damage +10
+    goldCost: 750
     soulsCost: 500
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   coroutineRunner: {fileID: 0}

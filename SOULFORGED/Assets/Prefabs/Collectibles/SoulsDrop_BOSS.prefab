@@ -4992,6 +4992,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyDrop
   type: 1
-  amount: 50
+  amount: 250
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   collectEffectPrefab: {fileID: 0}
