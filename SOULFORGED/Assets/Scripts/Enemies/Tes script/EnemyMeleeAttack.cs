@@ -142,6 +142,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     }
 
     // --- FUNGSI MEMBERIKAN DAMAGE & PARTIKEL ---
+    // --- FUNGSI MEMBERIKAN DAMAGE & PARTIKEL ---
     IEnumerator DealDamageRoutine(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
@@ -159,7 +160,8 @@ public class EnemyMeleeAttack : MonoBehaviour
         // Jika player masih di dalam area, beri damage
         if (currentDistance <= attackRange + 0.5f)
         {
-            enemyStats.playerData.health -= enemyStats._damage;
+            // PAKE METHOD BARU DENGAN DEFENSE
+            enemyStats.playerData.TakeDamage(enemyStats._damage);
         }
     }
 

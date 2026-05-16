@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData")]
+[CreateAssetMenu(fileName = "PlayerData", menuName ="ScriptableObjects/PlayerData")]
 public class PlayerData : ScriptableObject 
 {
     public float health;
@@ -19,6 +19,16 @@ public class PlayerData : ScriptableObject
     public float projectileCountMultiplier;
     public int Globalgold;
     public int Globalsouls;
+    
+    // ==========================================
+    // BARU: Stat Upgrade Levels
+    // ==========================================
+    [Header("Stat Upgrade Levels")]
+    public int maxHealthLevel = 1;
+    public int defenseLevel = 1;
+    public int moveSpeedLevel = 1;
+    public int projectileDamageLevel = 1;
+    public int cooldownReductionLevel = 1;
     
     //Temp Currency, resets every start/end of game
     public int gold; 
@@ -49,6 +59,78 @@ public class PlayerData : ScriptableObject
         public ItemsPassiveSO passiveItem;
         public int level;
     }
+    
+    // ==========================================
+    // DEFENSE SYSTEM - DAMAGE CALCULATION
+    // ==========================================
+    
+    /// <summary>
+    /// Hitung damage setelah dikurangi defense
+    /// Defense bisa berupa flat reduction atau persen
+    /// </summary>
+    public float CalculateDamage(float incomingDamage)
+    {
+        float reducedDamage = incomingDamage;
+        
+        // Defense flat reduction
+        reducedDamage -= defense;
+        
+        // Minimal damage 1 biar tetap kerasa
+        if (reducedDamage < 1f)
+            reducedDamage = 1f;
+        
+        return reducedDamage;
+    }
+    
+    /// <summary>
+    /// Method untuk mengambil damage dengan perhitungan defense
+    /// </summary>
+    public void TakeDamage(float damage)
+    {
+        float finalDamage = CalculateDamage(damage);
+        health -= finalDamage;
+        
+        Debug.Log($"[Damage] Incoming: {damage} → After Defense ({defense}): {finalDamage} → Health: {health}/{maxHealth}");
+        
+        // Trigger death event jika health <= 0
+        if (health <= 0)
+        {
+            OnPlayerDeath();
+        }
+    }
+    
+    /// <summary>
+    /// Event saat player mati (bisa di-override atau panggil event)
+    /// </summary>
+    private void OnPlayerDeath()
+    {
+        Debug.Log("PLAYER HAS DIED!");
+        // Nanti panggil GameManager untuk handle game over
+        // GameManager.Instance?.HandlePlayerDeath();
+    }
+    
+    /// <summary>
+    /// Heal player
+    /// </summary>
+    public void Heal(float amount)
+    {
+        health += amount;
+        if (health > maxHealth)
+            health = maxHealth;
+        
+        Debug.Log($"[Heal] +{amount} HP → Health: {health}/{maxHealth}");
+    }
+    
+    /// <summary>
+    /// Upgrade defense (dipanggil dari item atau level up)
+    /// </summary>
+    public void UpgradeDefense(float additionalDefense)
+    {
+        defense += additionalDefense;
+        Debug.Log($"[Defense Up] Defense now: {defense}");
+    }
+    
+    // ==========================================
     
     // Ambil total level item aktif (permanent + in-game)
     public int GetItemLevel(ItemsSO item)
@@ -168,6 +250,12 @@ public class PlayerData : ScriptableObject
 
     public void ResetData()
     {
+        // Reset stats
+        health = maxHealth;
+        defense = 0; // Reset defense juga
+        gold = 0;
+        souls = 0;
+        
         ActiveItems.Clear();
         PassivesItems.Clear();
         ResetInGameLevels();

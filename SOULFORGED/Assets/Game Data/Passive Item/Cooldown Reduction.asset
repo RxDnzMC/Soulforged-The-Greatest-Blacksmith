@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd943d1ff84f53b4cad79401ab49141d, type: 3}
+  m_Name: Cooldown Reduction
+  m_EditorClassIdentifier: Assembly-CSharp::ItemsPassiveSO
+  itemName: Cooldown Reduction
+  itemIcon: {fileID: 0}
+  buffType: 3
+  levels:
+  - level: 1
+    modifierValue: 0.1
+    levelDescription: 10% Faster Cooldown
+  - level: 2
+    modifierValue: 0.2
+    levelDescription: 20% Faster Cooldown
+  - level: 3
+    modifierValue: 0.3
+    levelDescription: 30% Faster Cooldown
+  - level: 4
+    modifierValue: 0.4
+    levelDescription: 40% Faster Cooldown
+  - level: 5
+    modifierValue: 0.5
+    levelDescription: 50% Faster Cooldown
+  playerData: {fileID: 0}

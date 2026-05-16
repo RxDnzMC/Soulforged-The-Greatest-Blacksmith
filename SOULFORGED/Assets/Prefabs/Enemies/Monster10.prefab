@@ -102,9 +102,12 @@ MonoBehaviour:
   damageNumberPrefab: {fileID: 2331269620881154514, guid: 4d5981a07ee056f49ab9562e03389814, type: 3}
   flashDuration: 0.1
   coinPrefab: {fileID: 1446761001326200091, guid: d801383643b76ff46b8099cd9cdbe782, type: 3}
-  coinDropChance: 45
+  coinDropChance: 100
   soulPrefab: {fileID: 4680440727744440574, guid: b04d896e5839e494dad7a95a3855e514, type: 3}
-  soulDropChance: 15
+  soulDropChance: 100
+  healItemPrefab: {fileID: 1189505164490142479, guid: 33692edec71f99646bbdbf806e3aedde, type: 3}
+  healDropChance: 0
+  lootSpawnHeight: 1
   _health: 2000
   _speed: 3
   _damage: 10

@@ -17,12 +17,18 @@ MonoBehaviour:
   buffType: 5
   levels:
   - level: 1
-    modifierValue: 5
-    levelDescription: 
+    modifierValue: 1
+    levelDescription: +1 Shield
   - level: 2
-    modifierValue: 10
-    levelDescription: 
+    modifierValue: 2
+    levelDescription: +2 Shield
   - level: 3
-    modifierValue: 15
-    levelDescription: 
-  playerData: {fileID: 0}
+    modifierValue: 3
+    levelDescription: +3 Shield
+  - level: 4
+    modifierValue: 5
+    levelDescription: +5 Shield
+  - level: 5
+    modifierValue: 10
+    levelDescription: +10 Shield
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}

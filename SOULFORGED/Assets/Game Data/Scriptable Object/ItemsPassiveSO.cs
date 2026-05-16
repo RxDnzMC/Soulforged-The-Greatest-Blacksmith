@@ -18,6 +18,8 @@ public struct ItemLevelData
     public int level;
     public float modifierValue;
     public string levelDescription;
+    
+    // Optional: Tambahkan cost untuk upgrade
 }
 
 [CreateAssetMenu(fileName = "New Passive Item", menuName = "ScriptableObjects/Items/Passive")]
@@ -30,15 +32,11 @@ public class ItemsPassiveSO : ScriptableObject
     public PassiveBuffType buffType;
     public List<ItemLevelData> levels;
 
-    // REFERENCE KE PLAYERDATA
     [HideInInspector] public PlayerData playerData;
     
     private float lastAppliedValue = 0f;
     private int lastAppliedLevel = 0;
 
-    // ==========================================
-    // BARU: Level System (Pure In-Game)
-    // ==========================================
     public int CurrentLevel
     {
         get
@@ -49,15 +47,8 @@ public class ItemsPassiveSO : ScriptableObject
         }
     }
     
-    public int MaxLevel
-    {
-        get { return levels.Count; }
-    }
-    
-    public bool IsMaxLevel
-    {
-        get { return CurrentLevel >= MaxLevel; }
-    }
+    public int MaxLevel => levels.Count;
+    public bool IsMaxLevel => CurrentLevel >= MaxLevel;
     
     public string CurrentLevelName
     {
@@ -67,15 +58,12 @@ public class ItemsPassiveSO : ScriptableObject
             return $"Lv.{data.level} - {data.levelDescription}";
         }
     }
-    // ==========================================
     
-    // Upgrade level (otomatis ngurangin efek lama)
+    // ✅ TAMBAH: Ambil biaya upgrade
+    
     public void UpgradeLevel(PlayerData data, int newLevel)
     {
-        // 1. Hapus efek lama
         RemoveLastEffect(data);
-        
-        // 2. Apply efek baru
         ApplyEffect(data, newLevel);
     }
     
@@ -95,6 +83,7 @@ public class ItemsPassiveSO : ScriptableObject
                 data.projectileLifetimeMultiplier -= lastAppliedValue;
                 break;
             case PassiveBuffType.CooldownReduction:
+                // ✅ PERBAIKI: Cooldown reduction pakai + karena efeknya mengurangi cooldown
                 data.cooldownReductionMultiplier += lastAppliedValue;
                 break;
             case PassiveBuffType.ProjectileCount:
@@ -105,7 +94,8 @@ public class ItemsPassiveSO : ScriptableObject
                 break;
             case PassiveBuffType.MaxHealth:
                 data.maxHealth -= lastAppliedValue;
-                data.health -= lastAppliedValue;
+                if (data.health > data.maxHealth)
+                    data.health = data.maxHealth;
                 break;
         }
         
@@ -118,7 +108,6 @@ public class ItemsPassiveSO : ScriptableObject
         ItemLevelData levelData = GetLevelData(level);
         float value = levelData.modifierValue;
         
-        // Simpan value terakhir
         lastAppliedValue = value;
         lastAppliedLevel = level;
 
@@ -126,25 +115,39 @@ public class ItemsPassiveSO : ScriptableObject
         {
             case PassiveBuffType.ProjectileDamage:
                 data.projectileDamageMultiplier += value;
+                Debug.Log($"[{itemName}] +{value} Projectile Damage → Total: {data.projectileDamageMultiplier}");
                 break;
             case PassiveBuffType.ProjectileSpeed:
                 data.projectileSpeedMultiplier += value;
+                Debug.Log($"[{itemName}] +{value} Projectile Speed → Total: {data.projectileSpeedMultiplier}");
                 break;
             case PassiveBuffType.ProjectileLifetime:
                 data.projectileLifetimeMultiplier += value;
+                Debug.Log($"[{itemName}] +{value} Projectile Lifetime → Total: {data.projectileLifetimeMultiplier}");
                 break;
             case PassiveBuffType.CooldownReduction:
-                data.cooldownReductionMultiplier -= value; 
+                // Nilai modifierValue adalah persen (0.1 = 10% reduction)
+                data.cooldownReductionMultiplier += value;
+                
+                // Clamp ke max 75% biar gak OP
+                if (data.cooldownReductionMultiplier > 0.75f)
+                {
+                    data.cooldownReductionMultiplier = 0.75f;
+                }
+                Debug.Log($"[{itemName}] CD Reduction +{value * 100}% → Total: {data.cooldownReductionMultiplier * 100}%");
                 break;
             case PassiveBuffType.ProjectileCount:
                 data.projectileCountMultiplier += value;
+                Debug.Log($"[{itemName}] +{value} Projectile Count → Total: {data.projectileCountMultiplier}");
                 break;
             case PassiveBuffType.Defense:
                 data.defense += value;
+                Debug.Log($"[{itemName}] +{value} Defense → Total: {data.defense}");
                 break;
             case PassiveBuffType.MaxHealth:
                 data.maxHealth += value;
                 data.health += value;
+                Debug.Log($"[{itemName}] +{value} Max Health → Total: {data.maxHealth}");
                 break;
         }
     }
@@ -155,7 +158,6 @@ public class ItemsPassiveSO : ScriptableObject
         return levels[index];
     }
     
-    // Reset tracking (dipanggil pas game over)
     public void ResetTracking()
     {
         lastAppliedValue = 0f;

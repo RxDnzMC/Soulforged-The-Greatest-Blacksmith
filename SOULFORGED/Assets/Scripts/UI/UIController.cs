@@ -134,10 +134,21 @@ public class UIController : MonoBehaviour
     private void ExitGame()
     {
         Time.timeScale = 1f;
-        Debug.Log("Keluar Game...");
-        MusicManager.Instance.PlayTrack("Main Menu");
-        MusicManager.Instance.SetPauseEffect(false);
-        SceneManager.LoadSceneAsync(0);
+        
+        // ✅ Panggil GameOver dulu
+        GameManager gameManager = Object.FindFirstObjectByType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.TriggerGameOver(); // Ini nanti yang panggil LoadScene
+        }
+        else
+        {
+            // Fallback kalau GameManager gak ada
+            Debug.Log("Keluar Game...");
+            MusicManager.Instance.PlayTrack("Main Menu");
+            MusicManager.Instance.SetPauseEffect(false);
+            SceneManager.LoadSceneAsync(0);
+        }
     }
 
     private void ShowMenu()

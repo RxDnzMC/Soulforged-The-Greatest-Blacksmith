@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ListItemPassive
   passiveItems:
   - {fileID: 11400000, guid: 4c5260d8e1333a4439d7fdbca018ee57, type: 2}
+  - {fileID: 11400000, guid: 68ff9a438e4070c4a85a552e032688eb, type: 2}
+  - {fileID: 11400000, guid: 3ecb553d0bd09414e8d25b8cef6bc5b3, type: 2}
+  - {fileID: 11400000, guid: 34a94d648a396b744b86ca4f15152bd5, type: 2}

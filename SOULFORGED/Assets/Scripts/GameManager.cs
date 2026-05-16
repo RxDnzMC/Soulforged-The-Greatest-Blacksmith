@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
@@ -19,7 +20,6 @@ public class GameManager : MonoBehaviour
     private bool isBoss1Spawned = false;
     private bool isBoss2Spawned = false;
     private int currentWaveIndex = 0;
-    private int localMaxHP = 1000;
 
     [Header("Timer Display")]
     public string timerString;
@@ -56,8 +56,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        localMaxHP = 1000;
-        playerData.maxHealth = localMaxHP;
         playerData.health = playerData.maxHealth;
         TemporaryPlayerData = Instantiate(playerData); 
     }
@@ -69,7 +67,11 @@ public class GameManager : MonoBehaviour
         
         foreach (var item in ItemList)
         {
-            if (item != null) item.playerData = playerData;
+            if (item != null)
+            {
+                item.playerData = playerData;
+                item.coroutineRunner = playerAttack; // BARU
+            }
         }
         foreach (var item in passiveItems)
         {
@@ -77,8 +79,10 @@ public class GameManager : MonoBehaviour
         }
         
         if (playerData.DefaultItem != null)
+        {
             playerData.DefaultItem.playerData = playerData;
-        
+            playerData.DefaultItem.coroutineRunner = playerAttack;
+        }
         defaultItem();
         
         if (playerData.DefaultItem != null)
@@ -116,12 +120,70 @@ public class GameManager : MonoBehaviour
         UpdateTimer();
         CheckWaveProgression();
         HandleLevelUp();
+        CheckPlayerDeath(); // TAMBAHKAN INI
         
         // Manual update UI
         UIGame.UpdateHealthUI(playerData.health, playerData.maxHealth);
         UIGame.UpdateXPUI(playerData.exp, playerData.expToNextLevel);
     }
 
+    // TAMBAHKAN METHOD INI
+    void CheckPlayerDeath()
+    {
+        if (!isPlayerDead && playerData.health <= 0)
+        {
+            isPlayerDead = true;
+            HandlePlayerDeath();
+        }
+    }
+
+    // TAMBAHKAN METHOD INI
+    void HandlePlayerDeath()
+    {
+        Debug.Log("PLAYER DIED! Game Over...");
+        
+        // Stop semua enemy spawner
+        if (enemySpawner != null)
+        {
+            enemySpawner.enabled = false;
+        }
+        
+        // Hentikan waktu
+        Time.timeScale = 0f;
+        
+        // Matikan player (destroy atau disable)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            // Matikan component player agar tidak bergerak/attack
+            // PlayerController playerController = player.GetComponent<PlayerController>();
+            // if (playerController != null) playerController.enabled = false;
+            
+            PlayerAttack playerAttackComp = player.GetComponent<PlayerAttack>();
+            if (playerAttackComp != null) playerAttackComp.enabled = false;
+            
+            // Optional: matikan visual/renderer
+            SpriteRenderer[] renderers = player.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var renderer in renderers)
+            {
+                renderer.enabled = false;
+            }
+            
+            // Atau destroy player (pilih salah satu)
+            // Destroy(player);
+        }
+        
+        // Tampilkan UI Game Over
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.ShowGameOver();
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel belum di-assign! Fallback ke method lama.");
+            TriggerGameOver();
+        }
+    }
     void UpdateTimer()
     {
         elapsedTime += Time.deltaTime;
@@ -224,7 +286,7 @@ public class GameManager : MonoBehaviour
             if (item != null) allItems.Add(item);
         }
         
-        List<object> shuffled = allItems.OrderBy(x => Random.value).ToList();
+        List<object> shuffled = allItems.OrderBy(x => UnityEngine.Random.value).ToList(); // FIX;
         List<object> choices = new List<object>();
         
         for (int i = 0; i < Mathf.Min(choicesPerLevel, shuffled.Count); i++)
@@ -252,6 +314,7 @@ public class GameManager : MonoBehaviour
     {
         if (item == null) return;
         item.playerData = playerData;
+        item.coroutineRunner = playerAttack; // BARU
         
         int existingIndex = playerData.ActiveItems.IndexOf(item);
         
@@ -377,8 +440,16 @@ public class GameManager : MonoBehaviour
     {
         if (TemporaryPlayerData == null) return;
         
+        // ✅ SIMPAN currency permanent dulu
+        int savedGlobalGold = playerData.Globalgold;
+        int savedGlobalSouls = playerData.Globalsouls;
+        
         string defaultValues = JsonUtility.ToJson(TemporaryPlayerData);
         JsonUtility.FromJsonOverwrite(defaultValues, playerData);
+        
+        // ✅ KEMBALIKAN currency permanent
+        playerData.Globalgold = savedGlobalGold;
+        playerData.Globalsouls = savedGlobalSouls;
         
         playerData.ResetInGameLevels();
         
@@ -395,5 +466,34 @@ public class GameManager : MonoBehaviour
     {
         if (TemporaryPlayerData != null)
             ResetGame();
+    }
+    [Header("Game Over")]
+    [SerializeField] GameOverPanel gameOverPanel;
+
+    // Panggil ini pas bunuh boss atau exit game
+    public void TriggerGameOver()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.ShowGameOver();
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel belum di-assign!");
+            
+            // Save currency
+            playerData.Globalgold += playerData.gold;
+            playerData.Globalsouls += playerData.souls;
+            playerData.gold = 0;
+            playerData.souls = 0;
+            
+            // Reset time scale
+            Time.timeScale = 1f;
+            
+            // Kembali ke menu
+            MusicManager.Instance?.PlayTrack("Main Menu");
+            MusicManager.Instance?.SetPauseEffect(false);
+            SceneManager.LoadSceneAsync(0);
+        }
     }
 }

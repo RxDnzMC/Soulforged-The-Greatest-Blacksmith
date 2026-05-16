@@ -6,11 +6,19 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] PlayerData playerData;
     
     [Header("Spawn Points")]
-    public Transform defaultSpawnPoint;  // Buat fireball (agak jauh dari player)
-    public Transform groundSpawnPoint;   // Buat catalyst (dekat kaki player)
+    public Transform defaultSpawnPoint;
+    public Transform groundSpawnPoint;
     
     public List<ItemsSO> equippedActiveItems = new List<ItemsSO>();
     public List<ItemsPassiveSO> equippedPassiveItems = new List<ItemsPassiveSO>();
+
+    void Start()
+    {
+        foreach (var item in equippedActiveItems)
+        {
+            if (item != null) item.coroutineRunner = this;
+        }
+    }
 
     void Update()
     {
@@ -20,12 +28,19 @@ public class PlayerAttack : MonoBehaviour
         {
             if (item == null) continue;
             
+            if (item.coroutineRunner == null) item.coroutineRunner = this; // BARU
+            
             if (item.isReady)
             {
-                // Pilih spawnPoint sesuai item
                 Transform spawnPoint = item.itemName.Contains("Catalyst") ? groundSpawnPoint : defaultSpawnPoint;
                 item.Use(spawnPoint);
             }
         }
+    }
+    
+    // Dipanggil pas item baru ditambahin
+    public void OnItemEquipped(ItemsSO item)
+    {
+        if (item != null) item.coroutineRunner = this;
     }
 }

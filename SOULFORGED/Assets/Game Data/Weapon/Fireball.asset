@@ -18,6 +18,7 @@ MonoBehaviour:
   turnSpeed: 1
   homingDelay: 1
   scatterAngle: 1
+  multiShotDelay: 0.15
   levels:
   - level: 0
     damage: 10
@@ -27,6 +28,8 @@ MonoBehaviour:
     sizeMultiplier: 1
     projectileCount: 1
     levelDescription: Fireball Menembak Bola Api!!
+    goldCost: 0
+    soulsCost: 0
   - level: 1
     damage: 20
     cooldown: 1
@@ -35,12 +38,37 @@ MonoBehaviour:
     sizeMultiplier: 1
     projectileCount: 1
     levelDescription: Damage +10
+    goldCost: 10
+    soulsCost: 10
   - level: 2
     damage: 20
-    cooldown: 0.5
+    cooldown: 0.9
     speed: 20
     lifetime: 4
     sizeMultiplier: 1
     projectileCount: 1
-    levelDescription: 50% Decreased Cooldown!!
+    levelDescription: 10% Decreased Cooldown!!
+    goldCost: 250
+    soulsCost: 500
+  - level: 3
+    damage: 20
+    cooldown: 0.9
+    speed: 20
+    lifetime: 4
+    sizeMultiplier: 1
+    projectileCount: 1
+    levelDescription: +1 Projectile
+    goldCost: 250
+    soulsCost: 500
+  - level: 3
+    damage: 20
+    cooldown: 0.9
+    speed: 20
+    lifetime: 4
+    sizeMultiplier: 1
+    projectileCount: 2
+    levelDescription: +1 Projectile
+    goldCost: 250
+    soulsCost: 500
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  coroutineRunner: {fileID: 0}
