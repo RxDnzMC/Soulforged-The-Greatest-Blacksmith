@@ -1,8 +1,6 @@
 :root {
 }
 
-/* ========== STYLE LAMA (TETEP) ========== */
-
 .container {
     background-color: rgb(15, 34, 12);
 }
@@ -14,7 +12,7 @@
     margin-right: 0%;
     margin-bottom: 10%;
     margin-left: 0%;
-    font-size: 300%;
+    font-size: 450%;
     background-color: rgb(29, 60, 34);
     color: rgb(255, 255, 255);
     border-left-color: rgb(255, 255, 255);
@@ -23,18 +21,21 @@
     border-bottom-color: rgb(255, 255, 255);
     padding-top: 10%;
     padding-bottom: 10%;
+    background-image: url("project://database/Assets/Materials/Sprite/buttonLong_beige.png?fileID=2800000&guid=d4b898bcfb742b84ca40ab0e1b6441c1&type=3#buttonLong_beige");
+    -unity-background-image-tint-color: rgb(255, 200, 144);
+    -unity-font-style: bold;
 }
 
 .pausemenu-button:hover {
     width: 83%;
-    height: 69px;
+    height: 14%;
     margin-top: 10%;
     margin-right: 0%;
     margin-bottom: 10%;
     margin-left: 0%;
-    font-size: 450%;
+    font-size: 550%;
     color: rgb(0, 0, 0);
-    background-color: rgb(73, 111, 79);
+    background-color: rgba(73, 111, 79, 0);
     scale: 1 1;
     translate: 0% 0%;
     transition-timing-function: ease-in-out;
@@ -44,19 +45,38 @@
     transform-origin: center;
     padding-top: 10%;
     padding-bottom: 10%;
+    -unity-font-style: bold;
+    -unity-background-image-tint-color: rgb(255, 220, 164);
+    background-image: url("project://database/Assets/Materials/Sprite/buttonLong_beige.png?fileID=2800000&guid=d4b898bcfb742b84ca40ab0e1b6441c1&type=3#buttonLong_beige");
 }
 
 .unity-progress-bar__progress {
-    background-color: rgb(79, 255, 0);
-    height: 32px;
+    background-color: rgba(255, 255, 255, 0);
+    height: 39px;
     flex-shrink: 0;
+    background-image: url("project://database/Assets/Materials/Sprite/game_ui/xpfull.png?fileID=2800000&guid=fa8d4713f10dc6643a1e77582d7abda1&type=3#xpfull");
+    top: -3px;
+    bottom: 400px;
+    width: auto;
+    right: auto;
+    background-position-x: left 3px;
+    background-position-y: top -1px;
 }
 
 .unity-progress-bar__background {
-    -unity-background-image-tint-color: rgb(0, 0, 0);
-    background-color: rgb(34, 111, 23);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0);
     flex-shrink: 0;
     height: 39px;
+    background-image: url("project://database/Assets/Materials/Sprite/game_ui/xpempty.png?fileID=2800000&guid=c27b33089ef55da449c956f833cea4ce&type=3#xpempty");
+    scale: 1 1;
+    transform-origin: left;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    right: 3px;
+    width: 370px;
 }
 
 .unity-progress-bar__title-container {
@@ -67,8 +87,6 @@
     -unity-font-style: bold;
     font-size: 64px;
 }
-
-/* ========== STYLE UPGRADE PANEL (BARU) ========== */
 
 .upgrade-choice {
     width: 280px;

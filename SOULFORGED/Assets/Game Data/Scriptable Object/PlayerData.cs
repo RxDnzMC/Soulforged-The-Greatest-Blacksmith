@@ -19,6 +19,10 @@ public class PlayerData : ScriptableObject
     public float projectileCountMultiplier;
     public int Globalgold;
     public int Globalsouls;
+    
+    //Temp Currency, resets every start/end of game
+    public int gold; 
+    public int souls;
 
     public ItemsSO DefaultItem;
     [Header("Default Slot untuk Item Aktif (Jangan DIISI)")]

@@ -9,6 +9,14 @@ public class EnemiesBase : MonoBehaviour
     [SerializeField] GameObject damageNumberPrefab;
     [SerializeField] float flashDuration = 0.1f;
 
+    [Header("Loot Settings")]
+    [SerializeField] GameObject coinPrefab;
+    [Range(0, 100)] [SerializeField] float coinDropChance;
+    
+    [SerializeField] GameObject soulPrefab;
+    [Range(0, 100)] [SerializeField] float soulDropChance;
+    [SerializeField] private float lootSpawnHeight = 1f; // Tinggi spawn loot di atas musuh
+
     public float _health;
     public float _speed;
     public float _damage;
@@ -130,19 +138,43 @@ public class EnemiesBase : MonoBehaviour
         }
     }
 
+    void DropLoot()
+    {
+        // Cek Drop Koin
+        if (coinPrefab != null)
+        {
+            float roll = Random.Range(0f, 100f);
+            if (roll <= coinDropChance)
+            {
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+            }
+        }
+
+        // Cek Drop Soul
+        if (soulPrefab != null)
+        {
+            float roll = Random.Range(0f, 100f);
+            if (roll <= soulDropChance)
+            {
+                Instantiate(soulPrefab, transform.position, Quaternion.identity);
+                soulPrefab.transform.position += Vector3.up * 2f;
+            }
+        }
+    }
+
     void EnemyDead() 
     {
         if (isDead) return;
         isDead = true;
 
+        // PANGGIL FUNGSI DROP DI SINI
+        DropLoot();
+
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
         
         Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
+        if (rb != null) rb.isKinematic = true;
             
         if (playerData != null) playerData.exp += expReward;
 
@@ -152,7 +184,6 @@ public class EnemiesBase : MonoBehaviour
         if (anim != null) 
         {
             anim.SetTrigger("Die");
-            
             float animDuration = 0.1f;
             
             RuntimeAnimatorController ac = anim.runtimeAnimatorController;
@@ -167,15 +198,13 @@ public class EnemiesBase : MonoBehaviour
                     }
                 }
             }
-
-            // Debug.Log($"Musuh mati! Menunggu {animDuration} detik sebelum hancur.");
             Destroy(gameObject, animDuration); 
         }
         else 
         {
             Destroy(gameObject);
         }
-    }
+    }   
 
     public void DestroySelf()
     {

@@ -51,6 +51,10 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   damageNumberPrefab: {fileID: 2331269620881154514, guid: 4d5981a07ee056f49ab9562e03389814, type: 3}
   flashDuration: 0.1
+  coinPrefab: {fileID: 1446761001326200091, guid: d801383643b76ff46b8099cd9cdbe782, type: 3}
+  coinDropChance: 35
+  soulPrefab: {fileID: 4680440727744440574, guid: b04d896e5839e494dad7a95a3855e514, type: 3}
+  soulDropChance: 5
   _health: 2000
   _speed: 5
   _damage: 30
