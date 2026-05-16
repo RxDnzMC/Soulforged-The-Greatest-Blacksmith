@@ -18,15 +18,15 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0, z: 0}
   level: 1
   exp: 0
-  expToNextLevel: 100
+  expToNextLevel: 200
   expMultiplier: 1
   projectileDamageMultiplier: 0
   projectileSpeedMultiplier: 0
   projectileLifetimeMultiplier: 0
   cooldownReductionMultiplier: 0
   projectileCountMultiplier: 0
-  Globalgold: 10
-  Globalsouls: 13
+  Globalgold: 12
+  Globalsouls: 16
   maxHealthLevel: 1
   defenseLevel: 1
   moveSpeedLevel: 1
