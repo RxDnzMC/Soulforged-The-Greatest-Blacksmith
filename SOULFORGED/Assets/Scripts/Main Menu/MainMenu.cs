@@ -14,19 +14,21 @@ public class MainMenu : MonoBehaviour
     
     void Start()
     {
-        // Load volume yang udah di-save
+        if (SettingsManager.Instance == null)
+        {
+            GameObject settingsObj = new GameObject("SettingsManager");
+            settingsObj.AddComponent<SettingsManager>();
+        }
         LoadVolume();
         
-        // Setup slider listener (auto-save pas diubah)
         if (MusicSlider != null)
-        {
             MusicSlider.onValueChanged.AddListener(delegate { OnMusicSliderChanged(); });
-        }
         
         if (SoundSlider != null)
-        {
             SoundSlider.onValueChanged.AddListener(delegate { OnSFXSliderChanged(); });
-        }
+        
+        // ✅ SETUP DAMAGE NUMBER TOGGLE
+        SetupDamageNumberToggle();
         
         MusicManager.Instance.PlayTrack("Main Menu");
     }
@@ -102,6 +104,32 @@ public class MainMenu : MonoBehaviour
         Debug.Log($"Volume Loaded! Music: {musicVolume}, SFX: {sfxVolume}");
     }
     
+    [Header("Damage Number Toggle")]
+    [SerializeField] private Toggle damageNumberToggle;
+    private const string DAMAGE_NUMBER_KEY = "ShowDamageNumbers";
+    
+    
+    
+    // ✅ TAMBAHKAN METHOD INI
+    void SetupDamageNumberToggle()
+    {
+        if (damageNumberToggle == null) return;
+        
+        // Load setting yang tersimpan (default: true/hidup)
+        bool showDamage = PlayerPrefs.GetInt(DAMAGE_NUMBER_KEY, 1) == 1;
+        damageNumberToggle.isOn = showDamage;
+        
+        // Listen untuk perubahan
+        damageNumberToggle.onValueChanged.AddListener(OnDamageNumberToggleChanged);
+    }
+    
+    // ✅ TAMBAHKAN METHOD INI
+    void OnDamageNumberToggleChanged(bool isOn)
+    {
+        PlayerPrefs.SetInt(DAMAGE_NUMBER_KEY, isOn ? 1 : 0);
+        PlayerPrefs.Save();
+        Debug.Log($"Damage Numbers: {(isOn ? "ON" : "OFF")}");
+    }
     // ==========================================
     // AUTO-SAVE SAAT KELUAR APLIKASI
     // ==========================================

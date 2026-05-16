@@ -106,7 +106,7 @@ MonoBehaviour:
   soulPrefab: {fileID: 4680440727744440574, guid: b04d896e5839e494dad7a95a3855e514, type: 3}
   soulDropChance: 15
   healItemPrefab: {fileID: 1189505164490142479, guid: 33692edec71f99646bbdbf806e3aedde, type: 3}
-  healDropChance: 0
+  healDropChance: 2.5
   lootSpawnHeight: 1
   _health: 2000
   _speed: 3

@@ -25,8 +25,8 @@ MonoBehaviour:
   projectileLifetimeMultiplier: 0
   cooldownReductionMultiplier: 0
   projectileCountMultiplier: 0
-  Globalgold: 12
-  Globalsouls: 16
+  Globalgold: 0
+  Globalsouls: 0
   maxHealthLevel: 1
   defenseLevel: 1
   moveSpeedLevel: 1
@@ -55,8 +55,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  permanentItemLevels:
-  - activeItem: {fileID: 11400000, guid: 3f4819ce1eb235342bb762a452a190b9, type: 2}
-    passiveItem: {fileID: 0}
-    level: 2
+  permanentItemLevels: []
   inGameItemLevels: []

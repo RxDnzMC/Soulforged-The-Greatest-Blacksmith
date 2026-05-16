@@ -409,6 +409,16 @@ public class UpgradeSelectionUI : MonoBehaviour
             Debug.Log("Empty choice selected, closing panel without upgrade");
             isWaitingForResponse = false;
             EnableButtons(true);
+            
+            // ✅ UNPAUSE GAME
+            Time.timeScale = 1f;
+            
+            // ✅ Beritahu GameManager bahwa upgrade selesai
+            if (gameManager != null)
+            {
+                gameManager.OnUpgradeSelected(null);
+            }
+            
             return;
         }
         

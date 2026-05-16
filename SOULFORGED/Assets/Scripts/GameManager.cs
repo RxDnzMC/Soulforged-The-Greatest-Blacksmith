@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     private bool isBoss1Spawned = false;
     private bool isBoss2Spawned = false;
     private int currentWaveIndex = 0;
+    // Tambahkan di bawah: private bool isBoss2Spawned = false;
+    private GameObject currentBoss1 = null;
+    private GameObject currentBoss2 = null;
+    private bool isWaitingForBossDeath = false;
 
     [Header("Timer Display")]
     public string timerString;
@@ -153,6 +157,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateTimer();
+        CheckBossStatus();
         CheckWaveProgression();
         HandleLevelUp();
         CheckPlayerDeath();
@@ -202,6 +207,7 @@ public class GameManager : MonoBehaviour
 
     void CheckWaveProgression()
     {
+        if (isWaitingForBossDeath) return; // <-- TAMBAHKAN INI UNTUK CEK STATUS BOSS
         if (currentWaveIndex + 1 < waves.Count)
         {
             if (elapsedTime >= waves[currentWaveIndex + 1].startTime)
@@ -228,10 +234,16 @@ public class GameManager : MonoBehaviour
         if (config.isBossWave && !isBoss1Spawned)
         {
             // ✅ MAINkan MUSIK BOSS SEBELUM SPAWN
-            // MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
+            MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
             
-            GameObject boss = Instantiate(Boss1, new Vector3(0, 0, 10), Quaternion.identity);
-            ApplyMultiplierToBoss(boss, config.damageMultiplier, config.healthMultiplier);
+            isWaitingForBossDeath = true;
+            currentBoss1 = Instantiate(Boss1, new Vector3(0, 0, 10), Quaternion.identity);
+            ApplyMultiplierToBoss(currentBoss1, config.damageMultiplier, config.healthMultiplier);
+            isBoss1Spawned = true;
+
+            if (enemySpawner != null)
+                enemySpawner.enabled = false;
+            ApplyMultiplierToBoss(currentBoss1, config.damageMultiplier, config.healthMultiplier);
             isBoss1Spawned = true;
             
             Debug.Log("Boss 1 Spawned - Boss Music Started!");
@@ -240,10 +252,16 @@ public class GameManager : MonoBehaviour
         if (config.isBossWave2 && !isBoss2Spawned)
         {
             // ✅ MAINkan MUSIK BOSS SEBELUM SPAWN
-            // MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
+            MusicManager.Instance?.PlayTrack("Boss (30 Minute)");
             
-            GameObject boss = Instantiate(Boss2, new Vector3(0, 0, 10), Quaternion.identity);
-            ApplyMultiplierToBoss(boss, config.damageMultiplier, config.healthMultiplier);
+            isWaitingForBossDeath = true;
+            currentBoss2 = Instantiate(Boss2, new Vector3(0, 0, 10), Quaternion.identity);
+            ApplyMultiplierToBoss(currentBoss2, config.damageMultiplier, config.healthMultiplier);
+            isBoss2Spawned = true;
+
+            if (enemySpawner != null)
+                enemySpawner.enabled = false;
+            ApplyMultiplierToBoss(currentBoss2, config.damageMultiplier, config.healthMultiplier);
             isBoss2Spawned = true;
             
             Debug.Log("Boss 2 Spawned - Boss Music Started!");
@@ -258,6 +276,26 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Boss Spawned with Damage Multiplier: {damageMultiplier}x, Health Multiplier: {healthMultiplier}x");
         }
+    }
+    void CheckBossStatus()
+    {
+        if (!isWaitingForBossDeath) return;
+        
+        // Cek apakah boss masih hidup
+        if ((currentBoss1 != null && currentBoss1.gameObject != null) ||
+            (currentBoss2 != null && currentBoss2.gameObject != null))
+        {
+            return; // Boss masih hidup
+        }
+        
+        // Boss sudah mati
+        isWaitingForBossDeath = false;
+        MusicManager.Instance?.PlayTrack("Stage 1");
+        
+        if (enemySpawner != null)
+            enemySpawner.enabled = true;
+        
+        Debug.Log("BOSS MATI! Melanjutkan wave...");
     }
 
     void HandleLevelUp() 

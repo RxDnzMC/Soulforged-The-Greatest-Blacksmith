@@ -14245,8 +14245,8 @@ MonoBehaviour:
   healDropChance: 0
   lootSpawnHeight: 1
   _health: 3000
-  _speed: 3
-  _damage: 10
+  _speed: 7
+  _damage: 50
   _attackInterval: 0.83
   expReward: 3000
 --- !u!114 &1421093582119637330

@@ -90,7 +90,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: flex; top: 0; left: 4px;">
+    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: none; top: 0; left: 4px;">
         <ui:VisualElement name="Pause_Menu" class="container" style="flex-grow: 0; background-size: 50% 50%; align-items: center; justify-content: center; align-self: center; width: 25%; height: 75%; flex-shrink: 0; padding-top: 17px; padding-right: 17px; padding-bottom: 17px; padding-left: 17px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125); display: flex; visibility: visible; background-color: rgba(157, 119, 49, 0.96);">
             <ui:Label text="Game Paused" name="Pause_Label" style="color: rgb(255, 255, 255); font-size: 72%; margin-top: -3%; margin-right: 4%; margin-bottom: 9%; margin-left: 2%; width: 90%; height: 10%; justify-content: center; align-self: center; align-content: center; align-items: center; -unity-text-align: middle-center; white-space: normal; text-overflow: ellipsis; text-shadow: 0 0 0 rgb(56, 56, 56); -unity-text-auto-size: none; -unity-font-style: bold;"/>
             <ui:Button text="Resume" name="Resume_Button" class="pausemenu-button" style="margin-left: 0%; margin-right: 0%; padding-top: 10%; padding-right: 0%; padding-bottom: 10%; padding-left: 0%;"/>
@@ -127,7 +127,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="GameOverPanel" enabled="true" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: flex; top: 0; left: -3px; visibility: visible;">
+    <ui:VisualElement name="GameOverPanel" enabled="true" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none; top: 0; left: -3px; visibility: visible;">
         <ui:VisualElement class="gameover-container" style="background-color: rgba(157, 119, 49, 0.95); border-width: 3px; border-color: rgb(255, 215, 0); border-radius: 20px; padding: 40px; align-items: center; width: 500px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125);">
             <ui:Label text="GAME SELESAI!" name="GameOverTitle" style="font-size: 48px; color: rgb(255, 215, 0); -unity-font-style: bold; margin-bottom: 30px; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);"/>
             <ui:Label text="Waktu: 00:00" name="GameOverTimer" style="font-size: 24px; color: white; margin-bottom: 20px;"/>
