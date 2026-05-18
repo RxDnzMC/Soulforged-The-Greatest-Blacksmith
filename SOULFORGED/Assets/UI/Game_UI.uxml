@@ -1,66 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/stage1uiUSS.uss?fileID=7433441132597879392&amp;guid=3e7c0c2854b67b0418552ad454d7d885&amp;type=3#stage1uiUSS"/>
-    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: flex; top: 0; left: 4px;">
-        <ui:VisualElement name="Pause_Menu" class="container" style="flex-grow: 0; background-size: 50% 50%; align-items: center; justify-content: center; align-self: center; width: 25%; height: 75%; flex-shrink: 0; padding-top: 17px; padding-right: 17px; padding-bottom: 17px; padding-left: 17px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125); display: flex; visibility: visible; background-color: rgba(157, 119, 49, 0.96);">
-            <ui:Label text="Game Paused" name="Pause_Label" style="color: rgb(255, 255, 255); font-size: 72%; margin-top: -3%; margin-right: 4%; margin-bottom: 9%; margin-left: 2%; width: 90%; height: 10%; justify-content: center; align-self: center; align-content: center; align-items: center; -unity-text-align: middle-center; white-space: normal; text-overflow: ellipsis; text-shadow: 0 0 0 rgb(56, 56, 56); -unity-text-auto-size: best-fit 10px 100px; -unity-font-style: bold;"/>
-            <ui:Button text="Resume" name="Resume_Button" class="pausemenu-button" style="margin-left: 0%; margin-right: 0%; padding-top: 10%; padding-right: 0%; padding-bottom: 10%; padding-left: 0%;"/>
-            <ui:Button text="Restart" name="Restart_Button" class="pausemenu-button" style="background-position-x: center; padding-right: 0; padding-left: 0;"/>
-            <ui:Button text="Exit" name="Exit_Button" class="pausemenu-button" style="padding-right: 0; padding-left: 0;"/>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="UpgradePanel" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
-        <ui:Label text="LEVEL UP! Pilih Upgrade" name="UpgradeTitle" style="font-size: 48px; color: rgb(255, 215, 0); margin-bottom: 40px; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);"/>
-        <ui:VisualElement name="ChoicesContainer" style="flex-direction: row; justify-content: center; align-items: center; width: 90%;">
-            <ui:VisualElement name="Choice1" class="upgrade-choice">
-                <ui:Image name="Icon1" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
-                <ui:Label name="Name1" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
-                <ui:Label name="Type1" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;"/>
-                <ui:Label name="Level1" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
-                <ui:Label name="Desc1" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
-                <ui:Button text="PILIH" name="Button1" class="upgrade-button"/>
-            </ui:VisualElement>
-            <ui:VisualElement name="Choice2" class="upgrade-choice">
-                <ui:Image name="Icon2" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
-                <ui:Label name="Name2" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
-                <ui:Label name="Type2" text="[PASIF]" style="font-size: 16px; color: rgb(0, 255, 100); margin-bottom: 10px;"/>
-                <ui:Label name="Level2" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
-                <ui:Label name="Desc2" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
-                <ui:Button text="PILIH" name="Button2" class="upgrade-button"/>
-            </ui:VisualElement>
-            <ui:VisualElement name="Choice3" class="upgrade-choice">
-                <ui:Image name="Icon3" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
-                <ui:Label name="Name3" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
-                <ui:Label name="Type3" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;"/>
-                <ui:Label name="Level3" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
-                <ui:Label name="Desc3" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
-                <ui:Button text="PILIH" name="Button3" class="upgrade-button"/>
-            </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="GameOverPanel" enabled="true" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none; top: 0; left: -3px; visibility: visible;">
-        <ui:VisualElement class="gameover-container" style="background-color: rgba(157, 119, 49, 0.95); border-width: 3px; border-color: rgb(255, 215, 0); border-radius: 20px; padding: 40px; align-items: center; width: 500px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125);">
-            <ui:Label text="GAME SELESAI!" name="GameOverTitle" style="font-size: 48px; color: rgb(255, 215, 0); -unity-font-style: bold; margin-bottom: 30px; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);"/>
-            <ui:Label text="Waktu: 00:00" name="GameOverTimer" style="font-size: 24px; color: white; margin-bottom: 20px;"/>
-            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
-                <ui:Image name="GoldIcon" style="width: 35px; height: 35px; margin-right: 10px; background-image: url(&quot;project://database/Assets/Icon/coinsprite1.png?fileID=2800000&amp;guid=30158d2310910184389c707eaf7ac022&amp;type=3#coinsprite1&quot;); right: 30px;"/>
-                <ui:Label text="Gold: 0" name="GameOverGold" style="font-size: 28px; color: rgb(255, 215, 0); -unity-font-style: bold; right: 30px;"/>
-            </ui:VisualElement>
-            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
-                <ui:Image name="SoulIcon" style="width: 45px; height: 45px; margin-right: 10px; background-image: url(&quot;project://database/Assets/Icon/SolFirecompact.png?fileID=2800000&amp;guid=d7f469b560d34fb49b7b4fb9c3f9b12d&amp;type=3#SolFirecompact&quot;); right: 25px;"/>
-                <ui:Label text="Souls: 0" name="GameOverSouls" style="font-size: 28px; color: rgb(150, 200, 255); -unity-font-style: bold; align-self: auto; justify-content: flex-start; align-items: stretch; right: 30px;"/>
-            </ui:VisualElement>
-            <ui:VisualElement style="height: 2px; width: 80%; background-color: rgb(255, 215, 0); margin-bottom: 30px;"/>
-            <ui:Label text="Player Sekarang Memiliki:" name="GameOverTotalLabel" style="font-size: 20px; color: rgb(200, 200, 200); margin-bottom: 10px;"/>
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 80%; margin-bottom: 30px;">
-                <ui:Label text="Gold: 0" name="GameOverTotalGold" style="font-size: 22px; color: rgb(255, 215, 0);"/>
-                <ui:Label text="Souls: 0" name="GameOverTotalSouls" style="font-size: 22px; color: rgb(150, 200, 255);"/>
-            </ui:VisualElement>
-            <ui:VisualElement style="flex-direction: row; justify-content: center;">
-                <ui:Button text="EXIT GAME" name="ExitGameButton" class="gameover-button" style="margin-right: 10px; background-image: url(&quot;project://database/Assets/Materials/Sprite/buttonLong_beige.png?fileID=2800000&amp;guid=d4b898bcfb742b84ca40ab0e1b6441c1&amp;type=3#buttonLong_beige&quot;);"/>
-            </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="AllPanel" style="flex-grow: 1; flex-direction: row; width: 100%; height: 100%;">
+    <ui:VisualElement name="AllPanel" style="flex-grow: 1; flex-direction: row; width: 100%; height: 100%; display: flex;">
         <ui:VisualElement name="Panel_Timer" data-source="project://database/Assets/Game%20Data/Player/MainPlayer.asset?fileID=11400000&amp;guid=ca34b324d0584cf49adaf5835d723bc8&amp;type=2#MainPlayer" style="flex-grow: 0; top: auto; left: auto; right: 45%; bottom: auto; width: 10%; height: 10%; flex-basis: 12%; align-items: flex-start; justify-content: flex-end; align-self: flex-start; flex-direction: row; flex-shrink: 0; position: absolute; flex-wrap: nowrap; align-content: flex-start;">
             <ui:Label text="00:00" name="Timer" style="-unity-font-style: normal; font-size: 64px; width: 179px; text-shadow: -1.9px 7.7px 0 rgba(0, 0, 0, 0.32);"/>
         </ui:VisualElement>
@@ -147,6 +87,66 @@
                         <ui:DataBinding property="style.backgroundImage" data-source-path="PassivesItems[3].itemIcon" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Pause" enabled="true" style="flex-grow: 1; position: absolute; height: 100%; width: 100%; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.63); align-content: flex-start; align-self: auto; align-items: stretch; justify-content: center; visibility: visible; display: none; top: 0; left: 4px;">
+        <ui:VisualElement name="Pause_Menu" class="container" style="flex-grow: 0; background-size: 50% 50%; align-items: center; justify-content: center; align-self: center; width: 25%; height: 75%; flex-shrink: 0; padding-top: 17px; padding-right: 17px; padding-bottom: 17px; padding-left: 17px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125); display: flex; visibility: visible; background-color: rgba(157, 119, 49, 0.96);">
+            <ui:Label text="Game Paused" name="Pause_Label" style="color: rgb(255, 255, 255); font-size: 72%; margin-top: -3%; margin-right: 4%; margin-bottom: 9%; margin-left: 2%; width: 90%; height: 10%; justify-content: center; align-self: center; align-content: center; align-items: center; -unity-text-align: middle-center; white-space: normal; text-overflow: ellipsis; text-shadow: 0 0 0 rgb(56, 56, 56); -unity-text-auto-size: best-fit 10px 100px; -unity-font-style: bold;"/>
+            <ui:Button text="Resume" name="Resume_Button" class="pausemenu-button" style="margin-left: 0%; margin-right: 0%; padding-top: 10%; padding-right: 0%; padding-bottom: 10%; padding-left: 0%;"/>
+            <ui:Button text="Restart" name="Restart_Button" class="pausemenu-button" style="background-position-x: center; padding-right: 0; padding-left: 0;"/>
+            <ui:Button text="Exit" name="Exit_Button" class="pausemenu-button" style="padding-right: 0; padding-left: 0;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="UpgradePanel" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
+        <ui:Label text="LEVEL UP! Pilih Upgrade" name="UpgradeTitle" style="font-size: 48px; color: rgb(255, 215, 0); margin-bottom: 40px; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);"/>
+        <ui:VisualElement name="ChoicesContainer" style="flex-direction: row; justify-content: center; align-items: center; width: 90%;">
+            <ui:VisualElement name="Choice1" class="upgrade-choice">
+                <ui:Image name="Icon1" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
+                <ui:Label name="Name1" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
+                <ui:Label name="Type1" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;"/>
+                <ui:Label name="Level1" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
+                <ui:Label name="Desc1" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
+                <ui:Button text="PILIH" name="Button1" class="upgrade-button"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Choice2" class="upgrade-choice">
+                <ui:Image name="Icon2" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
+                <ui:Label name="Name2" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
+                <ui:Label name="Type2" text="[PASIF]" style="font-size: 16px; color: rgb(0, 255, 100); margin-bottom: 10px;"/>
+                <ui:Label name="Level2" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
+                <ui:Label name="Desc2" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
+                <ui:Button text="PILIH" name="Button2" class="upgrade-button"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Choice3" class="upgrade-choice">
+                <ui:Image name="Icon3" style="width: 100px; height: 100px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px;"/>
+                <ui:Label name="Name3" text="Item Name" style="font-size: 24px; color: white; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: upper-center;"/>
+                <ui:Label name="Type3" text="[AKTIF]" style="font-size: 16px; color: rgb(0, 200, 255); margin-bottom: 10px;"/>
+                <ui:Label name="Level3" text="Lv.1" style="font-size: 20px; color: rgb(255, 215, 0); margin-bottom: 10px;"/>
+                <ui:Label name="Desc3" text="Description" style="font-size: 14px; color: rgb(200, 200, 200); margin-bottom: 15px; white-space: normal; text-align: middle-center; -unity-text-align: upper-center;"/>
+                <ui:Button text="PILIH" name="Button3" class="upgrade-button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="GameOverPanel" enabled="true" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none; top: 0; left: -3px; visibility: visible;">
+        <ui:VisualElement class="gameover-container" style="background-color: rgba(157, 119, 49, 0.95); border-width: 3px; border-color: rgb(255, 215, 0); border-radius: 20px; padding: 40px; align-items: center; width: 500px; border-left-color: rgb(255, 236, 125); border-right-color: rgb(255, 236, 125); border-top-color: rgb(255, 236, 125); border-bottom-color: rgb(255, 236, 125);">
+            <ui:Label text="GAME SELESAI!" name="GameOverTitle" style="font-size: 48px; color: rgb(255, 215, 0); -unity-font-style: bold; margin-bottom: 30px; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);"/>
+            <ui:Label text="Waktu: 00:00" name="GameOverTimer" style="font-size: 24px; color: white; margin-bottom: 20px;"/>
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
+                <ui:Image name="GoldIcon" style="width: 35px; height: 35px; margin-right: 10px; background-image: url(&quot;project://database/Assets/Icon/coinsprite1.png?fileID=2800000&amp;guid=30158d2310910184389c707eaf7ac022&amp;type=3#coinsprite1&quot;); right: 30px;"/>
+                <ui:Label text="Gold: 0" name="GameOverGold" style="font-size: 28px; color: rgb(255, 215, 0); -unity-font-style: bold; right: 30px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
+                <ui:Image name="SoulIcon" style="width: 45px; height: 45px; margin-right: 10px; background-image: url(&quot;project://database/Assets/Icon/SolFirecompact.png?fileID=2800000&amp;guid=d7f469b560d34fb49b7b4fb9c3f9b12d&amp;type=3#SolFirecompact&quot;); right: 25px;"/>
+                <ui:Label text="Souls: 0" name="GameOverSouls" style="font-size: 28px; color: rgb(150, 200, 255); -unity-font-style: bold; align-self: auto; justify-content: flex-start; align-items: stretch; right: 30px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement style="height: 2px; width: 80%; background-color: rgb(255, 215, 0); margin-bottom: 30px;"/>
+            <ui:Label text="Player Sekarang Memiliki:" name="GameOverTotalLabel" style="font-size: 20px; color: rgb(200, 200, 200); margin-bottom: 10px;"/>
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 80%; margin-bottom: 30px;">
+                <ui:Label text="Gold: 0" name="GameOverTotalGold" style="font-size: 22px; color: rgb(255, 215, 0);"/>
+                <ui:Label text="Souls: 0" name="GameOverTotalSouls" style="font-size: 22px; color: rgb(150, 200, 255);"/>
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; justify-content: center;">
+                <ui:Button text="EXIT GAME" name="ExitGameButton" class="gameover-button" style="margin-right: 10px; background-image: url(&quot;project://database/Assets/Materials/Sprite/buttonLong_beige.png?fileID=2800000&amp;guid=d4b898bcfb742b84ca40ab0e1b6441c1&amp;type=3#buttonLong_beige&quot;);"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
