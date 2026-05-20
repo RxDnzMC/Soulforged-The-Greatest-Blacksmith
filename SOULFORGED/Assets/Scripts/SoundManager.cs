@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; // Tambahkan ini untuk menggunakan Dictionary
  
 public class SoundManager : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource sfx2DSource;
  
+    // ==========================================
+    // SISTEM ANTI-SPAM (COOLDOWN SUARA)
+    // ==========================================
+    private Dictionary<string, float> soundTimers = new Dictionary<string, float>();
+    private float antiSpamThreshold = 0.05f; // Jeda 0.05 detik (Bisa dibesarkan kalau masih bocor)
+
     private void Awake()
     {
         if (Instance != null)
@@ -22,8 +29,28 @@ public class SoundManager : MonoBehaviour
         }
     }
  
+    // Fungsi pengecekan: Boleh mainkan suara atau tidak?
+    private bool CanPlaySound(string soundName)
+    {
+        if (soundTimers.TryGetValue(soundName, out float lastPlayedTime))
+        {
+            // Jika belum melewati batas waktu threshold, block suaranya!
+            if (Time.time - lastPlayedTime < antiSpamThreshold)
+            {
+                return false; 
+            }
+        }
+        
+        // Catat waktu terbaru suara ini dimainkan
+        soundTimers[soundName] = Time.time;
+        return true;
+    }
+
     public void PlaySound3D(string soundName, Vector3 pos)
     {
+        // 1. CEK ANTI SPAM
+        if (!CanPlaySound(soundName)) return;
+
         AudioClip clip = sfxLibrary.GetClipFromName(soundName);
         if (clip == null) return;
 
@@ -34,7 +61,6 @@ public class SoundManager : MonoBehaviour
         AudioSource aSource = tempGO.AddComponent<AudioSource>();
         
         // PENTING: Hubungkan ke Mixer Group SFX kamu!
-        // Pastikan kamu sudah punya variabel private AudioMixerGroup sfxGroup di SoundManager
         aSource.outputAudioMixerGroup = sfx2DSource.outputAudioMixerGroup; 
         
         aSource.clip = clip;
@@ -47,6 +73,13 @@ public class SoundManager : MonoBehaviour
     
     public void PlaySound2D(string soundName)
     {
-        sfx2DSource.PlayOneShot(sfxLibrary.GetClipFromName(soundName));
+        // 1. CEK ANTI SPAM
+        if (!CanPlaySound(soundName)) return;
+
+        AudioClip clip = sfxLibrary.GetClipFromName(soundName);
+        if (clip != null)
+        {
+            sfx2DSource.PlayOneShot(clip);
+        }
     }
 }

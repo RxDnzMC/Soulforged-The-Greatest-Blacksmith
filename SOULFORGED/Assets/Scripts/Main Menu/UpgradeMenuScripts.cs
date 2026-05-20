@@ -204,7 +204,7 @@ public class UpgradeMenuScripts : MonoBehaviour
         int permLevel = passive.PermanentLevel; 
         
         if (currentLevelText != null)
-            currentLevelText.text = $"Bonus Lv: {permLevel}/{passive.MaxPermanentLevel}";
+            currentLevelText.text = $"Lv: {permLevel}/{passive.MaxPermanentLevel}";
         
         if (passive.IsMaxPermanentLevel)
         {

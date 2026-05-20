@@ -18,7 +18,7 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 1000
+    damage: 10
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -68,11 +68,11 @@ MonoBehaviour:
     speed: 20
     lifetime: 5
     sizeMultiplier: 1
-    projectileCount: 6
-    spreadAngle: 75
+    projectileCount: 8
+    spreadAngle: 120
     levelDescription: Damage
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  MaxPermanentLevel: 5
+  MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10
   permanentGoldBaseCost: 100
   permanentSoulsBaseCost: 10

@@ -72,7 +72,7 @@ MonoBehaviour:
     spreadAngle: 360
     levelDescription: Damage, - Cooldown, Projectile
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  MaxPermanentLevel: 5
+  MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10
   permanentGoldBaseCost: 100
   permanentSoulsBaseCost: 10

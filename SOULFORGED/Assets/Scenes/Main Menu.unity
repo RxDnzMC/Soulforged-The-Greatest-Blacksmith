@@ -6896,6 +6896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   weaponUpgrades:
+  - {fileID: 11400000, guid: ccb03562c1dc54e44863837fe524076e, type: 2}
   - {fileID: 11400000, guid: 8c41e0d858ea0db41b15fb46d6aac51e, type: 2}
   - {fileID: 11400000, guid: faab5b29620ab0c499cc57893217e429, type: 2}
   - {fileID: 11400000, guid: 3cd0f79b0fe8c03418a4e4a68a5208c8, type: 2}

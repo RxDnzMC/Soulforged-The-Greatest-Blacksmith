@@ -12,21 +12,34 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UpgradeSelectionUI upgradeUI;
     private PlayerData TemporaryPlayerData;
     
-    [Header("Wave Settings")]
+    [Header("Wave Settings (Monster Pools)")]
+    [Tooltip("Isi list ini untuk mengatur pool monster. Jika menit melebihi list, game akan memakai list terakhir.")]
     [SerializeField] private List<WaveConfig> waves;
     
+    [Header("Kroco Auto Scaling Settings")]
+    [Tooltip("Tambahan darah kroco setiap 1 menit")]
+    [SerializeField] private float healthIncreasePerMinute = 0.5f;
+    [Tooltip("Tambahan damage kroco setiap 1 menit")]
+    [SerializeField] private float damageIncreasePerMinute = 0.2f;
+    [Tooltip("Tambahan speed kroco setiap 1 menit")]
+    [SerializeField] private float speedIncreasePerMinute = 0.05f;
+
+    [Header("Boss Setup & Scaling")]
     public GameObject Boss1; 
     public GameObject Boss2; 
-    private bool isBoss1Spawned = false;
-    private bool isBoss2Spawned = false;
-    private int currentWaveIndex = 0;
-    private GameObject currentBoss1 = null;
-    private GameObject currentBoss2 = null;
+    [Tooltip("Tambahan darah bos setiap bos baru muncul (Misal: 0.5 berarti Bos kedua HP-nya 1.5x)")]
+    [SerializeField] private float bossHealthIncreasePerSpawn = 0.5f;
+    [Tooltip("Tambahan damage bos setiap bos baru muncul")]
+    [SerializeField] private float bossDamageIncreasePerSpawn = 0.2f;
+    
+    private GameObject currentBoss = null;
     private bool isWaitingForBossDeath = false;
+    private int bossSpawnCount = 0; // Menghitung sudah berapa kali bos muncul
 
     [Header("Timer Display")]
     public string timerString;
     private float elapsedTime = 0f;
+    private int currentMinute = -1; // Timer tracking
     
     [Header("Item Lists")]
     [SerializeField] ListItemActive listItemActive;
@@ -51,22 +64,18 @@ public class GameManager : MonoBehaviour
     
     bool isPlayerDead = false;
     bool isUpgradeChoosing = false;
-    bool isNewMusicAdded = false;
 
     [System.Serializable]
     public struct WaveConfig {
         public string waveName;
-        public float startTime;
         public int maxActiveEnemies;
         public float spawnInterval;
         public List<EnemiesData> enemyPool;
-        public bool isBossWave;
-        public bool isBossWave2;
         
-        [Header("Monster Stat Multipliers")]
-        public float damageMultiplier;
-        public float healthMultiplier;
-        public float speedMultiplier;
+        [Header("Base Stats (Biarkan 1)")]
+        public float baseDamageMultiplier;
+        public float baseHealthMultiplier;
+        public float baseSpeedMultiplier;
     }
 
     void Awake()
@@ -78,50 +87,25 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Batasi FPS game hanya di 60 agar GPU bisa "bernapas" dan adem
         Application.targetFrameRate = 60;
 
         ItemList = listItemActive.activeItems;
         passiveItems = listItemPassive.passiveItems;
         
-        foreach (var item in ItemList)
-        {
-            if (item != null)
-            {
-                item.playerData = playerData;
-                // coroutineRunner dihapus dari sini
-            }
-        }
-        foreach (var item in passiveItems)
-        {
-            if (item != null) item.playerData = playerData;
-        }
+        foreach (var item in ItemList) if (item != null) item.playerData = playerData;
+        foreach (var item in passiveItems) if (item != null) item.playerData = playerData;
+        if (playerData.DefaultItem != null) playerData.DefaultItem.playerData = playerData;
         
-        if (playerData.DefaultItem != null)
-        {
-            playerData.DefaultItem.playerData = playerData;
-            // coroutineRunner dihapus dari sini
-        }
         defaultItem();
-        
-        if (playerData.DefaultItem != null)
-            Debug.Log($"[DEBUG] Default Item Level: {playerData.DefaultItem.CurrentLevel}");
     }
 
     float GetExpRequirement(int level)
     {
         float requirement;
-        
         if (level <= softCapLevel)
-        {
             requirement = baseExpRequirement * Mathf.Pow(expGrowthRate, level - 1);
-        }
         else
-        {
-            int levelOverCap = level - softCapLevel;
-            float baseAtCap = baseExpRequirement * Mathf.Pow(expGrowthRate, softCapLevel - 1);
-            requirement = baseAtCap * Mathf.Pow(softCapGrowthRate, levelOverCap);
-        }
+            requirement = (baseExpRequirement * Mathf.Pow(expGrowthRate, softCapLevel - 1)) * Mathf.Pow(softCapGrowthRate, level - softCapLevel);
         
         return Mathf.Min(requirement, maxExpRequirement);
     }
@@ -131,32 +115,24 @@ public class GameManager : MonoBehaviour
         if (playerData.level == 1) 
         {
             CurrentItem = new List<ItemsSO>(playerData.DefaultSlot);
-            
             if (playerData.DefaultItem != null)
             {
                 playerData.DefaultItem.playerData = playerData;
-                
-                int savedLevel = playerData.GetInGameLevel(playerData.DefaultItem);
-                if (savedLevel <= 1)
+                if (playerData.GetInGameLevel(playerData.DefaultItem) <= 1)
                     playerData.SetInGameLevel(playerData.DefaultItem, 1); 
-                
                 CurrentItem[0] = playerData.DefaultItem;
             }
-            
             playerData.ActiveItems = CurrentItem;
             playerAttack.equippedActiveItems = playerData.ActiveItems;
             playerAttack.equippedPassiveItems = playerData.PassivesItems;
-            
-            if (playerData.DefaultItem != null)
-                Debug.Log($"Default Item Equipped! Level: {playerData.DefaultItem.CurrentLevel}");
         }
     }
 
     void Update()
     {
         UpdateTimer();
+        CheckMinuteProgression();
         CheckBossStatus();
-        CheckWaveProgression();
         HandleLevelUp();
         CheckPlayerDeath();
         
@@ -176,18 +152,14 @@ public class GameManager : MonoBehaviour
     void HandlePlayerDeath()
     {
         Debug.Log("PLAYER DIED! Game Over...");
-        
         if (enemySpawner != null) enemySpawner.enabled = false;
         Time.timeScale = 0f;
         
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            PlayerAttack playerAttackComp = player.GetComponent<PlayerAttack>();
-            if (playerAttackComp != null) playerAttackComp.enabled = false;
-            
-            SpriteRenderer[] renderers = player.GetComponentsInChildren<SpriteRenderer>();
-            foreach (var renderer in renderers) renderer.enabled = false;
+            if (player.TryGetComponent(out PlayerAttack playerAttackComp)) playerAttackComp.enabled = false;
+            foreach (var renderer in player.GetComponentsInChildren<SpriteRenderer>()) renderer.enabled = false;
         }
         
         if (gameOverPanel != null) gameOverPanel.ShowGameOver();
@@ -203,70 +175,88 @@ public class GameManager : MonoBehaviour
         UIGame.UpdateUITimer(timerString);
     }
 
-    void CheckWaveProgression()
+    // ==========================================
+    // SISTEM AUTO SCALING
+    // ==========================================
+    void CheckMinuteProgression()
     {
-        if (isWaitingForBossDeath) return; 
-        if (currentWaveIndex + 1 < waves.Count)
+        int passedMinutes = Mathf.FloorToInt(elapsedTime / 60f);
+
+        if (passedMinutes > currentMinute)
         {
-            if (elapsedTime >= waves[currentWaveIndex + 1].startTime)
-            {
-                currentWaveIndex++;
-                ApplyWaveSettings(waves[currentWaveIndex]);
-            }
+            currentMinute = passedMinutes;
+            ApplyMinuteSettings(currentMinute);
         }
     }
 
-    void ApplyWaveSettings(WaveConfig config)
+    void ApplyMinuteSettings(int minute)
     {
-        Debug.Log($"Masuk Wave: {config.waveName} | Damage Multiplier: {config.damageMultiplier}x");
-        
+        if (waves.Count == 0) return;
+
+        WaveConfig config = waves[Mathf.Min(minute, waves.Count - 1)];
+
+        // INI HANYA UNTUK KROCO
+        float finalHealthMult = config.baseHealthMultiplier + (minute * healthIncreasePerMinute);
+        float finalDamageMult = config.baseDamageMultiplier + (minute * damageIncreasePerMinute);
+        float finalSpeedMult = config.baseSpeedMultiplier + (minute * speedIncreasePerMinute);
+
         enemySpawner.UpdateWaveSettings(
             config.maxActiveEnemies, 
             config.spawnInterval, 
             config.enemyPool,
-            config.damageMultiplier,
-            config.healthMultiplier,
-            config.speedMultiplier
+            finalDamageMult,
+            finalHealthMult,
+            finalSpeedMult
         );
 
-        if (config.isBossWave && !isBoss1Spawned)
+        // CEK SPAWN BOSS (Setiap KELIPATAN 3 MENIT)
+        if (minute > 0 && minute % 3 == 0)
         {
-            MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
-            
-            isWaitingForBossDeath = true;
-            currentBoss1 = Instantiate(Boss1, new Vector3(0, 0, 10), Quaternion.identity);
-            ApplyMultiplierToBoss(currentBoss1, config.damageMultiplier, config.healthMultiplier);
-            isBoss1Spawned = true;
-
-            if (enemySpawner != null)
-                enemySpawner.enabled = false;
-            
-            Debug.Log("Boss 1 Spawned - Boss Music Started!");
+            SpawnBoss(minute);
         }
+    }
 
-        if (config.isBossWave2 && !isBoss2Spawned)
-        {
-            MusicManager.Instance?.PlayTrack("Boss (30 Minute)");
-            
-            isWaitingForBossDeath = true;
-            currentBoss2 = Instantiate(Boss2, new Vector3(0, 0, 10), Quaternion.identity);
-            ApplyMultiplierToBoss(currentBoss2, config.damageMultiplier, config.healthMultiplier);
-            isBoss2Spawned = true;
+    // ==========================================
+    // SISTEM BOSS SCALING TERPISAH
+    // ==========================================
+    void SpawnBoss(int minute)
+    {
+        if (isWaitingForBossDeath && currentBoss != null) return;
 
-            if (enemySpawner != null)
-                enemySpawner.enabled = false;
-            
-            Debug.Log("Boss 2 Spawned - Boss Music Started!");
-        }
+        isWaitingForBossDeath = true;
+
+        // Hitung Multiplier KHUSUS BOSS
+        // Bos pertama (bossSpawnCount = 0) akan bernilai 1x (Normal)
+        // Bos kedua (bossSpawnCount = 1) akan bernilai 1.5x, dst.
+        float bossHealthMult = 1f + (bossSpawnCount * bossHealthIncreasePerSpawn);
+        float bossDamageMult = 1f + (bossSpawnCount * bossDamageIncreasePerSpawn);
+
+        // Menentukan bos mana yang muncul (Ganti-gantian 1 dan 2)
+        GameObject bossPrefab = (bossSpawnCount % 2 != 0) ? Boss2 : Boss1;
+        string bossMusic = (bossSpawnCount % 2 != 0) ? "Boss (30 Minute)" : "Boss (15 Minute)";
+
+        MusicManager.Instance?.PlayTrack(bossMusic);
+        
+        currentBoss = Instantiate(bossPrefab, new Vector3(0, 0, 10), Quaternion.identity);
+        ApplyMultiplierToBoss(currentBoss, bossDamageMult, bossHealthMult);
+
+        if (enemySpawner != null) enemySpawner.enabled = false;
+        
+        Debug.Log($"Boss Muncul di Menit {minute}! Ini Bos Ke-{bossSpawnCount + 1}. HP: {bossHealthMult}x");
+        
+        // Tambahkan hitungan bos untuk bos berikutnya
+        bossSpawnCount++; 
     }
 
     void ApplyMultiplierToBoss(GameObject boss, float damageMultiplier, float healthMultiplier)
     {
         if (boss == null) return;
-        EnemiesBase bossStats = boss.GetComponent<EnemiesBase>();
-        if (bossStats != null)
+        if (boss.TryGetComponent(out EnemiesBase bossStats))
         {
-            Debug.Log($"Boss Spawned with Damage Multiplier: {damageMultiplier}x, Health Multiplier: {healthMultiplier}x");
+            // Di sini kamu bisa menerapkan multiplier ke script boss (jika boss pakai EnemiesBase)
+            // Contoh (uncomment jika EnemiesBase kamu mendukung public variabel ini):
+            // bossStats.maxHealth *= healthMultiplier;
+            // bossStats.damage *= damageMultiplier;
         }
     }
     
@@ -274,11 +264,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isWaitingForBossDeath) return;
         
-        if ((currentBoss1 != null && currentBoss1.gameObject != null) ||
-            (currentBoss2 != null && currentBoss2.gameObject != null))
-        {
-            return; 
-        }
+        if (currentBoss != null && currentBoss.activeInHierarchy) return; 
         
         isWaitingForBossDeath = false;
         MusicManager.Instance?.PlayTrack("Stage 1");
@@ -286,9 +272,12 @@ public class GameManager : MonoBehaviour
         if (enemySpawner != null)
             enemySpawner.enabled = true;
         
-        Debug.Log("BOSS MATI! Melanjutkan wave...");
+        Debug.Log("BOSS MATI! Kroco muncul lagi...");
     }
 
+    // ==========================================
+    // LEVELING & UPGRADE SYSTEM
+    // ==========================================
     void HandleLevelUp() 
     {
         if (playerData.exp >= playerData.expToNextLevel) 
@@ -297,59 +286,44 @@ public class GameManager : MonoBehaviour
             playerData.exp -= playerData.expToNextLevel;
             playerData.expToNextLevel = GetExpRequirement(playerData.level);
 
-            CheckLevelEvents(playerData.level);
             ShowUpgradeChoices(playerData.level);
-
-            Debug.Log($"Level Up! Sekarang level {playerData.level}, Next EXP needed: {playerData.expToNextLevel}");
         }
     }
 
-    // ==========================================
-    // SISTEM ROGUELIKE UPGRADE
-    // ==========================================
-    
     void ShowUpgradeChoices(int level)
     {
         if (isUpgradeChoosing) return;
         isUpgradeChoosing = true;
-        
         Time.timeScale = 0f;
         
         List<object> choices = GetRandomUpgradeChoices();
-        
-        if (upgradeUI != null)
-        {
-            upgradeUI.ShowUpgradeChoices(choices);
-        }
-        else
-        {
-            Debug.LogWarning("UpgradeSelectionUI belum di-assign!");
-            isUpgradeChoosing = false;
-            Time.timeScale = 1f;
-        }
+        if (upgradeUI != null) upgradeUI.ShowUpgradeChoices(choices);
+        else { isUpgradeChoosing = false; Time.timeScale = 1f; }
     }
     
     List<object> GetRandomUpgradeChoices()
     {
-        List<object> allItems = new List<object>();
+        List<object> validItems = new List<object>();
+        int currentActiveCount = playerData.ActiveItems.Count(x => x != null);
+        int currentPassiveCount = playerData.PassivesItems.Count(x => x != null);
         
         foreach (var item in ItemList)
         {
-            if (item != null) allItems.Add(item);
+            if (item == null) continue;
+            if (playerData.ActiveItems.Contains(item)) { if (!item.IsMaxLevel) validItems.Add(item); }
+            else if (currentActiveCount < maxActiveSlots) validItems.Add(item);
         }
+        
         foreach (var item in passiveItems)
         {
-            if (item != null) allItems.Add(item);
+            if (item == null) continue;
+            if (playerData.PassivesItems.Contains(item)) { if (!item.IsMaxLevel) validItems.Add(item); }
+            else if (currentPassiveCount < maxPassiveSlots) validItems.Add(item);
         }
         
-        List<object> shuffled = allItems.OrderBy(x => UnityEngine.Random.value).ToList();
+        List<object> shuffled = validItems.OrderBy(x => UnityEngine.Random.value).ToList();
         List<object> choices = new List<object>();
-        
-        for (int i = 0; i < Mathf.Min(choicesPerLevel, shuffled.Count); i++)
-        {
-            choices.Add(shuffled[i]);
-        }
-        
+        for (int i = 0; i < Mathf.Min(choicesPerLevel, shuffled.Count); i++) choices.Add(shuffled[i]);
         return choices;
     }
     
@@ -358,66 +332,34 @@ public class GameManager : MonoBehaviour
         isUpgradeChoosing = false;
         Time.timeScale = 1f;
         
-        if (selectedItem is ItemsSO activeItem)
-            ApplyActiveItemUpgrade(activeItem);
-        else if (selectedItem is ItemsPassiveSO passiveItem)
-            ApplyPassiveItemUpgrade(passiveItem);
+        if (selectedItem is ItemsSO activeItem) ApplyActiveItemUpgrade(activeItem);
+        else if (selectedItem is ItemsPassiveSO passiveItem) ApplyPassiveItemUpgrade(passiveItem);
         
-        if (upgradeUI != null)
-            upgradeUI.OnUpgradeComplete();
+        if (upgradeUI != null) upgradeUI.OnUpgradeComplete();
     }
     
     void ApplyActiveItemUpgrade(ItemsSO item)
     {
         if (item == null) return;
         item.playerData = playerData;
-        // coroutineRunner dihapus dari sini
         
         int existingIndex = playerData.ActiveItems.IndexOf(item);
-        
         if (existingIndex >= 0)
         {
-            if (item.IsMaxLevel)
-            {
-                Debug.Log($"{item.itemName} udah MAX LEVEL!");
-                return;
-            }
-            
-            int currentInGameLevel = playerData.GetInGameLevel(item);
-            int newInGameLevel = currentInGameLevel + 1;
-            
-            playerData.SetInGameLevel(item, newInGameLevel);
-            
-            Debug.Log($"UPGRADE: {item.itemName} ke Level {playerData.GetItemLevel(item)}!");
+            if (item.IsMaxLevel) return;
+            playerData.SetInGameLevel(item, playerData.GetInGameLevel(item) + 1);
         }
         else
         {
             int emptySlot = -1;
-            for (int i = 0; i < maxActiveSlots; i++)
-            {
-                if (i >= playerData.ActiveItems.Count || playerData.ActiveItems[i] == null)
-                {
-                    emptySlot = i;
-                    break;
-                }
-            }
-            
+            for (int i = 0; i < maxActiveSlots; i++) if (i >= playerData.ActiveItems.Count || playerData.ActiveItems[i] == null) { emptySlot = i; break; }
             if (emptySlot >= 0)
             {
-                while (playerData.ActiveItems.Count <= emptySlot)
-                    playerData.ActiveItems.Add(null);
-                
+                while (playerData.ActiveItems.Count <= emptySlot) playerData.ActiveItems.Add(null);
                 playerData.ActiveItems[emptySlot] = item;
                 playerData.SetInGameLevel(item, 1); 
-                
-                Debug.Log($"ITEM BARU: {item.itemName} di slot {emptySlot}! Level: 1");
-            }
-            else
-            {
-                Debug.LogWarning("Inventory aktif penuh! (Maks 4)");
             }
         }
-        
         playerAttack.equippedActiveItems = playerData.ActiveItems;
     }
     
@@ -427,60 +369,26 @@ public class GameManager : MonoBehaviour
         item.playerData = playerData;
         
         int existingIndex = playerData.PassivesItems.IndexOf(item);
-        
         if (existingIndex >= 0)
         {
-            if (item.IsMaxLevel)
-            {
-                Debug.Log($"{item.itemName} udah MAX LEVEL!");
-                return;
-            }
-            
-            int currentLevel = item.CurrentLevel;
-            int newLevel = currentLevel + 1;
-            
+            if (item.IsMaxLevel) return;
+            int newLevel = item.CurrentLevel + 1;
             playerData.SetInGamePassiveLevel(item, newLevel);
             item.UpgradeLevel(playerData, newLevel);
-            
-            Debug.Log($"UPGRADE PASSIVE: {item.itemName} Lv.{currentLevel} → Lv.{newLevel}!");
         }
         else
         {
             int emptySlot = -1;
-            for (int i = 0; i < maxPassiveSlots; i++)
-            {
-                if (i >= playerData.PassivesItems.Count || playerData.PassivesItems[i] == null)
-                {
-                    emptySlot = i;
-                    break;
-                }
-            }
-            
+            for (int i = 0; i < maxPassiveSlots; i++) if (i >= playerData.PassivesItems.Count || playerData.PassivesItems[i] == null) { emptySlot = i; break; }
             if (emptySlot >= 0)
             {
-                while (playerData.PassivesItems.Count <= emptySlot)
-                    playerData.PassivesItems.Add(null);
-                
+                while (playerData.PassivesItems.Count <= emptySlot) playerData.PassivesItems.Add(null);
                 playerData.PassivesItems[emptySlot] = item;
                 playerData.SetInGamePassiveLevel(item, 1);
                 item.ApplyEffect(playerData, 1);
-                
-                Debug.Log($"ITEM PASSIVE BARU: {item.itemName} di slot {emptySlot}! Level: 1");
-            }
-            else
-            {
-                Debug.LogWarning("Inventory pasif penuh! (Maks 4)");
             }
         }
-        
         playerAttack.equippedPassiveItems = playerData.PassivesItems;
-    }
-    
-    // ==========================================
-
-    void CheckLevelEvents(int level) 
-    {
-        // Reserved for future events
     }
 
     void OnDestroy()
@@ -492,48 +400,32 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         if (TemporaryPlayerData == null) return;
-        
         int savedGlobalGold = playerData.Globalgold;
         int savedGlobalSouls = playerData.Globalsouls;
-        
         string defaultValues = JsonUtility.ToJson(TemporaryPlayerData);
         JsonUtility.FromJsonOverwrite(defaultValues, playerData);
-        
         playerData.Globalgold = savedGlobalGold;
         playerData.Globalsouls = savedGlobalSouls;
-        
         playerData.ResetInGameLevels();
-        
         Time.timeScale = 1f;
         isUpgradeChoosing = false;
     }
 
-    void OnApplicationQuit()
-    {
-        if (TemporaryPlayerData != null)
-            ResetGame();
-    }
+    void OnApplicationQuit() { if (TemporaryPlayerData != null) ResetGame(); }
     
     [Header("Game Over")]
     [SerializeField] GameOverPanel gameOverPanel;
 
     public void TriggerGameOver()
     {
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.ShowGameOver();
-        }
+        if (gameOverPanel != null) gameOverPanel.ShowGameOver();
         else
         {
-            Debug.LogWarning("GameOverPanel belum di-assign!");
-            
             playerData.Globalgold += playerData.gold;
             playerData.Globalsouls += playerData.souls;
             playerData.gold = 0;
             playerData.souls = 0;
-            
             Time.timeScale = 1f;
-            
             MusicManager.Instance?.PlayTrack("Main Menu");
             MusicManager.Instance?.SetPauseEffect(false);
             SceneManager.LoadSceneAsync(0);

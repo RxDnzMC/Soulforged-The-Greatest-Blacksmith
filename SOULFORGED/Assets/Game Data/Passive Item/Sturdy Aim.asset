@@ -32,7 +32,7 @@ MonoBehaviour:
     modifierValue: 1.5
     levelDescription: 100% Projectile Speed
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  MaxPermanentLevel: 5
+  MaxPermanentLevel: 10
   permanentBonusPerLevel: 5
   permanentGoldBaseCost: 100
   permanentSoulsBaseCost: 10

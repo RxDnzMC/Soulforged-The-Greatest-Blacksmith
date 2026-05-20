@@ -31,4 +31,8 @@ MonoBehaviour:
   - level: 5
     modifierValue: 50
     levelDescription: +50 Max Health, Heal 50 Health
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  MaxPermanentLevel: 20
+  permanentBonusPerLevel: 5
+  permanentGoldBaseCost: 100
+  permanentSoulsBaseCost: 10

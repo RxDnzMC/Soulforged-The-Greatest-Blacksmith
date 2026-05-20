@@ -38,14 +38,21 @@ public class Homing : MonoBehaviour, IProjectile
     {
         _timer += Time.deltaTime;
 
-        // STANDAR GAME: Jika musuh yang diincar mati duluan sebelum tertabrak, 
-        // peluru otomatis mencari musuh terdekat baru agar tidak terbang lurus tak berguna
-        if (_target == null)
+        bool isRetargetingMidFlight = false;
+
+        // Cek jika target null ATAU target sudah dinonaktifkan (mati)
+        if (_target == null || !_target.gameObject.activeInHierarchy)
         {
             FindNearestEnemy();
+            
+            // Jika dia ganti target saat delay sudah habis (di tengah jalan terbang)
+            if (_timer > _homingDelay && _target != null)
+            {
+                isRetargetingMidFlight = true;
+            }
         }
 
-        // Logika Homing: Berbelok mulus ke arah musuh jika masa delay sudah selesai
+        // Logika Homing: Berbelok ke arah musuh jika masa delay sudah selesai
         if (_timer > _homingDelay && _target != null)
         {
             Vector3 direction = (_target.position - transform.position);
@@ -54,8 +61,17 @@ public class Homing : MonoBehaviour, IProjectile
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                // Slerp membuat pergerakan belok menjadi halus/smooth sesuai turnSpeed
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
+                
+                if (isRetargetingMidFlight)
+                {
+                    // SNAP ROTATION: Langsung hadap target baru biar nggak mutar-mutar!
+                    transform.rotation = targetRotation; 
+                }
+                else
+                {
+                    // Slerp membuat pergerakan belok menjadi halus/smooth saat mengejar target biasa
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
+                }
             }
         }
 
@@ -65,32 +81,31 @@ public class Homing : MonoBehaviour, IProjectile
 
     private void FindNearestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); //
-        float shortestDistance = Mathf.Infinity; //
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); 
+        float shortestDistance = Mathf.Infinity; 
         Transform nearestEnemy = null;
         
         foreach (GameObject enemy in enemies)
         {
-            if (enemy == null) continue; // Antisipasi jika musuh hancur di frame ini
+            // Abaikan jika musuh null ATAU sudah mati/dinonaktifkan
+            if (enemy == null || !enemy.activeInHierarchy) continue; 
             
-            float dist = Vector3.Distance(transform.position, enemy.transform.position); //
-            if (dist < shortestDistance) //
+            float dist = Vector3.Distance(transform.position, enemy.transform.position); 
+            if (dist < shortestDistance) 
             {
-                shortestDistance = dist; //
-                nearestEnemy = enemy.transform; //
+                shortestDistance = dist; 
+                nearestEnemy = enemy.transform; 
             }
         }
-        _target = nearestEnemy; //
+        _target = nearestEnemy; 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy")) //
+        if (other.CompareTag("Enemy")) 
         {
-            // Di sini kamu bisa memanggil script musuh untuk mengurangi HP-nya, contoh:
             // if (other.TryGetComponent(out EnemyHealth enemy)) enemy.TakeDamage(_damage);
-            
-            Destroy(gameObject); //
+            Destroy(gameObject); 
         }
     }
 }

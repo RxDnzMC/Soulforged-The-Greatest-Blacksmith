@@ -2655,110 +2655,81 @@ MonoBehaviour:
   UIGame: {fileID: 917538893}
   upgradeUI: {fileID: 917538894}
   waves:
-  - waveName: Placeholder Kosong
-    startTime: 0
-    maxActiveEnemies: 0
-    spawnInterval: 0
-    enemyPool: []
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 0
-    healthMultiplier: 0
-    speedMultiplier: 0
   - waveName: detik1
-    startTime: 1
     maxActiveEnemies: 20
     spawnInterval: 1
     enemyPool:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 1
-    healthMultiplier: 1
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: detik20
-    startTime: 20
     maxActiveEnemies: 30
     spawnInterval: 0.7
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 1
-    healthMultiplier: 1.5
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: detik40
-    startTime: 40
     maxActiveEnemies: 50
     spawnInterval: 0.6
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 1
-    healthMultiplier: 1.8
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: menit1detik30
-    startTime: 90
     maxActiveEnemies: 50
     spawnInterval: 0.1
     enemyPool:
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 2
-    healthMultiplier: 2.5
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: menit2
-    startTime: 120
     maxActiveEnemies: 65
     spawnInterval: 0.4
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 2
-    healthMultiplier: 3
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: menit2detik30
-    startTime: 150
     maxActiveEnemies: 80
     spawnInterval: 0.2
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 2.5
-    healthMultiplier: 5
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: menit3
-    startTime: 180
     maxActiveEnemies: 50
     spawnInterval: 1
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 1
-    isBossWave2: 0
-    damageMultiplier: 1
-    healthMultiplier: 1
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
   - waveName: menit3 -after boss
-    startTime: 185
     maxActiveEnemies: 100
     spawnInterval: 0.1
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    isBossWave: 0
-    isBossWave2: 0
-    damageMultiplier: 5
-    healthMultiplier: 10
-    speedMultiplier: 1
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  healthIncreasePerMinute: 1.5
+  damageIncreasePerMinute: 0.2
+  speedIncreasePerMinute: 0
   Boss1: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
   Boss2: {fileID: 0}
+  bossHealthIncreasePerSpawn: 1
+  bossDamageIncreasePerSpawn: 0.2
   timerString: 
   listItemActive: {fileID: 11400000, guid: fe7b76459786bd94082f5f2bf4b8bd30, type: 2}
   listItemPassive: {fileID: 11400000, guid: 7adc66cccd00b2c4e8ac236718e1e452, type: 2}
