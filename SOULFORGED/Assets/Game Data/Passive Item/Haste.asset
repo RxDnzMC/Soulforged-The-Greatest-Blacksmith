@@ -17,18 +17,22 @@ MonoBehaviour:
   buffType: 3
   levels:
   - level: 1
+    modifierValue: 0.01
+    levelDescription: 1% Faster Cooldown
+  - level: 2
+    modifierValue: 0.05
+    levelDescription: 5% Faster Cooldown
+  - level: 3
     modifierValue: 0.1
     levelDescription: 10% Faster Cooldown
-  - level: 2
+  - level: 4
+    modifierValue: 0.15
+    levelDescription: 15% Faster Cooldown
+  - level: 5
     modifierValue: 0.2
     levelDescription: 20% Faster Cooldown
-  - level: 3
-    modifierValue: 0.3
-    levelDescription: 30% Faster Cooldown
-  - level: 4
-    modifierValue: 0.4
-    levelDescription: 40% Faster Cooldown
-  - level: 5
-    modifierValue: 0.5
-    levelDescription: 50% Faster Cooldown
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  MaxPermanentLevel: 5
+  permanentBonusPerLevel: 2
+  permanentGoldBaseCost: 100
+  permanentSoulsBaseCost: 10

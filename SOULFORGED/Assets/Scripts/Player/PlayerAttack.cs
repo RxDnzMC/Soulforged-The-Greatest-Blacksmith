@@ -14,10 +14,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        foreach (var item in equippedActiveItems)
-        {
-            if (item != null) item.coroutineRunner = this;
-        }
+        // CoroutineRunner sudah tidak dibutuhkan
     }
 
     void Update()
@@ -27,8 +24,6 @@ public class PlayerAttack : MonoBehaviour
         foreach (ItemsSO item in equippedActiveItems)
         {
             if (item == null) continue;
-            
-            if (item.coroutineRunner == null) item.coroutineRunner = this; // BARU
             
             if (item.isReady)
             {
@@ -41,6 +36,6 @@ public class PlayerAttack : MonoBehaviour
     // Dipanggil pas item baru ditambahin
     public void OnItemEquipped(ItemsSO item)
     {
-        if (item != null) item.coroutineRunner = this;
+        // CoroutineRunner sudah tidak dibutuhkan
     }
 }

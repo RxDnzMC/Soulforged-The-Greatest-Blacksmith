@@ -9,76 +9,70 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738ac04867cb7874d9fc4bcc2ea1e65b, type: 3}
+  m_Script: {fileID: 11500000, guid: f966a80a1ded9974fab16d44e4c81e50, type: 3}
   m_Name: Shockwave
-  m_EditorClassIdentifier: Assembly-CSharp::ItemsSO
+  m_EditorClassIdentifier: Assembly-CSharp::WindCatalystSO
   itemName: Shockwave
   itemIcon: {fileID: 21300000, guid: 0e88cab5e6a6a394a92ae060527af9e7, type: 3}
-  projectilePrefab: {fileID: 7246463951305800154, guid: 735b3d5723b51d84da305487bbe8397c, type: 3}
-  turnSpeed: 1
-  homingDelay: 1
-  scatterAngle: 1
-  multiShotDelay: 0.15
+  projectilePrefab: {fileID: 536565883106908795, guid: a350f42794ee4cf42a35d644a7430023, type: 3}
+  shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 3
-    cooldown: 1
-    speed: 1
-    lifetime: 1
+    damage: 4
+    cooldown: 0
+    speed: 0
+    lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 1
+    projectileCount: 0
+    spreadAngle: 0
     levelDescription: 
-    goldCost: 0
-    soulsCost: 0
   - level: 1
-    damage: 8
-    cooldown: 1
-    speed: 1
-    lifetime: 1
-    sizeMultiplier: 1
-    projectileCount: 1
-    levelDescription: Damage +5
-    goldCost: 250
-    soulsCost: 100
-  - level: 2
-    damage: 8
-    cooldown: 1
-    speed: 1
-    lifetime: 1
+    damage: 4
+    cooldown: 0
+    speed: 0
+    lifetime: 0
     sizeMultiplier: 1.2
-    projectileCount: 1
-    levelDescription: Area Size 20%!!
-    goldCost: 300
-    soulsCost: 150
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Size
+  - level: 2
+    damage: 4
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 1.4
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Size
   - level: 3
-    damage: 8
-    cooldown: 1
-    speed: 1
-    lifetime: 1
-    sizeMultiplier: 1
-    projectileCount: 1
-    levelDescription: Area Size 40%!!
-    goldCost: 450
-    soulsCost: 250
-  - level: 4
-    damage: 8
-    cooldown: 1
-    speed: 1
-    lifetime: 1
-    sizeMultiplier: 1
-    projectileCount: 1
-    levelDescription: Area Size 80%!!
-    goldCost: 600
-    soulsCost: 300
+    damage: 4
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 1.6
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Size
+  - level: 7
+    damage: 7
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 1.8
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Size, damage
   - level: 5
-    damage: 13
-    cooldown: 1
-    speed: 1
-    lifetime: 1
-    sizeMultiplier: 1
-    projectileCount: 1
-    levelDescription: '+5 Damage & Area Size 100% '
-    goldCost: 750
-    soulsCost: 450
+    damage: 7
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 2
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Size
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  coroutineRunner: {fileID: 0}
+  MaxPermanentLevel: 5
+  permanentDamageBonusPercent: 10
+  permanentGoldBaseCost: 100
+  permanentSoulsBaseCost: 10

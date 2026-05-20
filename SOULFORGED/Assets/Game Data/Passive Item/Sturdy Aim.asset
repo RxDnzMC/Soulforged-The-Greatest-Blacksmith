@@ -17,18 +17,22 @@ MonoBehaviour:
   buffType: 1
   levels:
   - level: 1
-    modifierValue: 1.2
+    modifierValue: 1.1
     levelDescription: 20% Projectile Speed
   - level: 2
-    modifierValue: 1.4
+    modifierValue: 1.2
     levelDescription: 40% Projectile Speed
   - level: 3
-    modifierValue: 1.6
+    modifierValue: 1.3
     levelDescription: 60% Projectile Speed
   - level: 4
-    modifierValue: 1.8
+    modifierValue: 1.4
     levelDescription: 80% Projectile Speed
   - level: 5
-    modifierValue: 2
+    modifierValue: 1.5
     levelDescription: 100% Projectile Speed
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  MaxPermanentLevel: 5
+  permanentBonusPerLevel: 5
+  permanentGoldBaseCost: 100
+  permanentSoulsBaseCost: 10

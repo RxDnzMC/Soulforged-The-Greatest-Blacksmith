@@ -6896,45 +6896,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   weaponUpgrades:
-  - {fileID: 11400000, guid: 3f4819ce1eb235342bb762a452a190b9, type: 2}
-  - {fileID: 11400000, guid: 0201f046cc062c2429121df32b0efe67, type: 2}
-  - {fileID: 11400000, guid: 25f5e37f76cbf754286c80d43f95b9ab, type: 2}
-  statUpgrades:
-  - statName: Defense
-    icon: {fileID: 21300000, guid: 547c20c0db42f8a4883c9127fb6ca533, type: 3}
-    description: Upgrade Your Defense
-    maxLevel: 5
-    increasePerLevel: 5
-    goldCostPerLevel: 000000000a0000003200000064000000fa000000
-    soulsCostPerLevel: 0000000064000000c8000000f401000064000000
-  - statName: Max Health
-    icon: {fileID: 21300000, guid: 7a02be3f2955d724cbdf0d3ee2689347, type: 3}
-    description: Increases Max Health
-    maxLevel: 5
-    increasePerLevel: 5
-    goldCostPerLevel: 000000000a0000003200000064000000fa000000
-    soulsCostPerLevel: 0000000064000000c8000000f401000064000000
-  - statName: Projectile Damage
-    icon: {fileID: 21300000, guid: 4ac06a2c7c2830e4f82b2201c6dfde55, type: 3}
-    description: You Hit Enemies Harder Than Before
-    maxLevel: 5
-    increasePerLevel: 5
-    goldCostPerLevel: 000000000a0000003200000064000000fa000000
-    soulsCostPerLevel: 0000000064000000c8000000f401000064000000
-  - statName: Move Speed
-    icon: {fileID: 21300000, guid: c49e0bc10fd53234189811c1a2e35261, type: 3}
-    description: Increases Movement Speed
-    maxLevel: 5
-    increasePerLevel: 5
-    goldCostPerLevel: 000000000a0000003200000064000000fa000000
-    soulsCostPerLevel: 0000000064000000c8000000f401000064000000
-  - statName: Cooldown Reduction
-    icon: {fileID: 21300000, guid: 44c988aed1e6bc04392af4c4696095cf, type: 3}
-    description: Attacks go brrr
-    maxLevel: 5
-    increasePerLevel: 1
-    goldCostPerLevel: 000000000a0000003200000064000000fa000000
-    soulsCostPerLevel: 0000000064000000c8000000f401000064000000
+  - {fileID: 11400000, guid: 8c41e0d858ea0db41b15fb46d6aac51e, type: 2}
+  - {fileID: 11400000, guid: faab5b29620ab0c499cc57893217e429, type: 2}
+  - {fileID: 11400000, guid: 3cd0f79b0fe8c03418a4e4a68a5208c8, type: 2}
+  passiveUpgrades:
+  - {fileID: 11400000, guid: 3ecb553d0bd09414e8d25b8cef6bc5b3, type: 2}
+  - {fileID: 11400000, guid: 34a94d648a396b744b86ca4f15152bd5, type: 2}
+  - {fileID: 11400000, guid: 4c5260d8e1333a4439d7fdbca018ee57, type: 2}
+  - {fileID: 11400000, guid: 68ff9a438e4070c4a85a552e032688eb, type: 2}
+  - {fileID: 11400000, guid: 9456a1d2f2cae7d4080e60779f6dc2fe, type: 2}
   slotButtons:
   - {fileID: 1062272314}
   - {fileID: 518364930}

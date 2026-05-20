@@ -59,6 +59,11 @@ public class PlayerDash : MonoBehaviour
         // Cek apakah sedang tidak dash DAN cooldown sudah selesai
         if (!isDashing && Time.time >= nextDashTime)
         {
+            // ==============================================================
+            // TAMBAHAN: Cegah dash kalau player sedang diam (tidak ada input gerak)
+            // ==============================================================
+            if (playerController.moveInput == Vector2.zero) return;
+
             StartCoroutine(DashRoutine());
             if (SoundManager.Instance != null) {
                 SoundManager.Instance.PlaySound2D("Dash");

@@ -18,8 +18,6 @@ public struct ItemLevelData
     public int level;
     public float modifierValue;
     public string levelDescription;
-    
-    // Optional: Tambahkan cost untuk upgrade
 }
 
 [CreateAssetMenu(fileName = "New Passive Item", menuName = "ScriptableObjects/Items/Passive")]
@@ -28,7 +26,7 @@ public class ItemsPassiveSO : ScriptableObject
     public string itemName;
     public Sprite itemIcon;
     
-    [Header("Settings")]
+    [Header("Settings (In-Game)")]
     public PassiveBuffType buffType;
     public List<ItemLevelData> levels;
 
@@ -37,30 +35,27 @@ public class ItemsPassiveSO : ScriptableObject
     private float lastAppliedValue = 0f;
     private int lastAppliedLevel = 0;
 
-    public int CurrentLevel
-    {
-        get
-        {
-            if (playerData != null)
-                return playerData.GetPassiveItemLevel(this);
-            return 1;
-        }
-    }
-    
+    // ==========================================
+    // IN-GAME LEVELS
+    // ==========================================
+    public int CurrentLevel => playerData != null ? playerData.GetInGamePassiveLevel(this) : 1;
     public int MaxLevel => levels.Count;
     public bool IsMaxLevel => CurrentLevel >= MaxLevel;
     
-    public string CurrentLevelName
-    {
-        get
-        {
-            ItemLevelData data = GetLevelData(CurrentLevel);
-            return $"Lv.{data.level} - {data.levelDescription}";
-        }
-    }
+    // ==========================================
+    // OUT-GAME (PERMANENT) LEVELS
+    // ==========================================
+    public int PermanentLevel => playerData != null ? playerData.GetPermanentPassiveLevel(this) : 0;
     
-    // ✅ TAMBAH: Ambil biaya upgrade
+    [Header("Out-Game (Permanent) Settings")]
+    public int MaxPermanentLevel = 5;
+    [Tooltip("Bonus stat per level permanen (Isi angka bulat, misal 10 untuk +10% Damage atau +10 HP)")]
+    public float permanentBonusPerLevel = 5f;
+    public int permanentGoldBaseCost = 100;
+    public int permanentSoulsBaseCost = 10;
     
+    public bool IsMaxPermanentLevel => PermanentLevel >= MaxPermanentLevel;
+
     public void UpgradeLevel(PlayerData data, int newLevel)
     {
         RemoveLastEffect(data);
@@ -73,29 +68,15 @@ public class ItemsPassiveSO : ScriptableObject
         
         switch (buffType)
         {
-            case PassiveBuffType.ProjectileDamage:
-                data.projectileDamageMultiplier -= lastAppliedValue;
-                break;
-            case PassiveBuffType.ProjectileSpeed:
-                data.projectileSpeedMultiplier -= lastAppliedValue;
-                break;
-            case PassiveBuffType.ProjectileLifetime:
-                data.projectileLifetimeMultiplier -= lastAppliedValue;
-                break;
-            case PassiveBuffType.CooldownReduction:
-                // ✅ PERBAIKI: Cooldown reduction pakai + karena efeknya mengurangi cooldown
-                data.cooldownReductionMultiplier += lastAppliedValue;
-                break;
-            case PassiveBuffType.ProjectileCount:
-                data.projectileCountMultiplier -= lastAppliedValue;
-                break;
-            case PassiveBuffType.Defense:
-                data.defense -= lastAppliedValue;
-                break;
-            case PassiveBuffType.MaxHealth:
-                data.maxHealth -= lastAppliedValue;
-                if (data.health > data.maxHealth)
-                    data.health = data.maxHealth;
+            case PassiveBuffType.ProjectileDamage: data.projectileDamageMultiplier -= lastAppliedValue; break;
+            case PassiveBuffType.ProjectileSpeed: data.projectileSpeedMultiplier -= lastAppliedValue; break;
+            case PassiveBuffType.ProjectileLifetime: data.projectileLifetimeMultiplier -= lastAppliedValue; break;
+            case PassiveBuffType.CooldownReduction: data.cooldownReductionMultiplier -= lastAppliedValue; break;
+            case PassiveBuffType.ProjectileCount: data.projectileCountMultiplier -= lastAppliedValue; break;
+            case PassiveBuffType.Defense: data.defense -= lastAppliedValue; break;
+            case PassiveBuffType.MaxHealth: 
+                data.maxHealth -= lastAppliedValue; 
+                if (data.health > data.maxHealth) data.health = data.maxHealth; 
                 break;
         }
         
@@ -113,48 +94,23 @@ public class ItemsPassiveSO : ScriptableObject
 
         switch (buffType)
         {
-            case PassiveBuffType.ProjectileDamage:
-                data.projectileDamageMultiplier += value;
-                Debug.Log($"[{itemName}] +{value} Projectile Damage → Total: {data.projectileDamageMultiplier}");
+            case PassiveBuffType.ProjectileDamage: data.projectileDamageMultiplier += value; break;
+            case PassiveBuffType.ProjectileSpeed: data.projectileSpeedMultiplier += value; break;
+            case PassiveBuffType.ProjectileLifetime: data.projectileLifetimeMultiplier += value; break;
+            case PassiveBuffType.CooldownReduction: 
+                data.cooldownReductionMultiplier += value; 
+                if (data.cooldownReductionMultiplier > 0.75f) data.cooldownReductionMultiplier = 0.75f;
                 break;
-            case PassiveBuffType.ProjectileSpeed:
-                data.projectileSpeedMultiplier += value;
-                Debug.Log($"[{itemName}] +{value} Projectile Speed → Total: {data.projectileSpeedMultiplier}");
-                break;
-            case PassiveBuffType.ProjectileLifetime:
-                data.projectileLifetimeMultiplier += value;
-                Debug.Log($"[{itemName}] +{value} Projectile Lifetime → Total: {data.projectileLifetimeMultiplier}");
-                break;
-            case PassiveBuffType.CooldownReduction:
-                // Nilai modifierValue adalah persen (0.1 = 10% reduction)
-                data.cooldownReductionMultiplier += value;
-                
-                // Clamp ke max 75% biar gak OP
-                if (data.cooldownReductionMultiplier > 0.75f)
-                {
-                    data.cooldownReductionMultiplier = 0.75f;
-                }
-                Debug.Log($"[{itemName}] CD Reduction +{value * 100}% → Total: {data.cooldownReductionMultiplier * 100}%");
-                break;
-            case PassiveBuffType.ProjectileCount:
-                data.projectileCountMultiplier += value;
-                Debug.Log($"[{itemName}] +{value} Projectile Count → Total: {data.projectileCountMultiplier}");
-                break;
-            case PassiveBuffType.Defense:
-                data.defense += value;
-                Debug.Log($"[{itemName}] +{value} Defense → Total: {data.defense}");
-                break;
-            case PassiveBuffType.MaxHealth:
-                data.maxHealth += value;
-                data.health += value;
-                Debug.Log($"[{itemName}] +{value} Max Health → Total: {data.maxHealth}");
-                break;
+            case PassiveBuffType.ProjectileCount: data.projectileCountMultiplier += value; break;
+            case PassiveBuffType.Defense: data.defense += value; break;
+            case PassiveBuffType.MaxHealth: data.maxHealth += value; data.health += value; break;
         }
     }
 
     public ItemLevelData GetLevelData(int currentLevel)
     {
         int index = Mathf.Clamp(currentLevel - 1, 0, levels.Count - 1);
+        if (levels.Count == 0) return new ItemLevelData();
         return levels[index];
     }
     

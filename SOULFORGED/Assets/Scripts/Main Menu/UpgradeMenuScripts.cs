@@ -11,27 +11,10 @@ public class UpgradeMenuScripts : MonoBehaviour
     public PlayerData playerData;
     public List<ItemsSO> weaponUpgrades;
     
-    // ==========================================
-    // STAT UPGRADE (PASIF)
-    // ==========================================
-    [System.Serializable]
-    public class StatUpgrade
-    {
-        public string statName;
-        public Sprite icon;
-        public string description;
-        public int maxLevel = 10;
-        public float increasePerLevel;
-        
-        [Header("Cost Per Level (Isi berurutan dari Level 1 ke atas)")]
-        public int[] goldCostPerLevel;   // Index 0 = biaya ke Level 1, dst
-        public int[] soulsCostPerLevel;
-    }
-    
-    public List<StatUpgrade> statUpgrades = new List<StatUpgrade>();
-    // ==========================================
+    // MENGGUNAKAN SCRIPTABLE OBJECT PASIF SECARA LANGSUNG
+    public List<ItemsPassiveSO> passiveUpgrades;
 
-    [Header("UI: Upgrade Slots (8 Kotak)")]
+    [Header("UI: Upgrade Slots")]
     public Button[] slotButtons;
     public Image[] slotIcons;
 
@@ -59,20 +42,18 @@ public class UpgradeMenuScripts : MonoBehaviour
 
     void Start()
     {
-        // Setup playerData reference
         foreach (var item in weaponUpgrades)
-        {
             if (item != null) item.playerData = playerData;
-        }
+
+        foreach (var item in passiveUpgrades)
+            if (item != null) item.playerData = playerData;
         
-        // Hubungkan navigasi
         if (weaponsTabBtn != null) weaponsTabBtn.onClick.AddListener(() => SwitchTab(TabType.Actives));
         if (passivesTabBtn != null) passivesTabBtn.onClick.AddListener(() => SwitchTab(TabType.Passives));
         if (nextPageBtn != null) nextPageBtn.onClick.AddListener(NextPage);
         if (prevPageBtn != null) prevPageBtn.onClick.AddListener(PrevPage);
         if (buyButton != null) buyButton.onClick.AddListener(BuyUpgrade);
 
-        // Hubungkan slot buttons
         for (int i = 0; i < slotButtons.Length; i++)
         {
             if (slotButtons[i] != null)
@@ -111,7 +92,6 @@ public class UpgradeMenuScripts : MonoBehaviour
     {
         int maxItems = GetTotalItems();
         int maxPage = (maxItems - 1) / ITEMS_PER_PAGE;
-
         if (currentPage < maxPage)
         {
             currentPage++;
@@ -132,7 +112,7 @@ public class UpgradeMenuScripts : MonoBehaviour
 
     int GetTotalItems()
     {
-        return (currentTab == TabType.Actives) ? weaponUpgrades.Count : statUpgrades.Count;
+        return (currentTab == TabType.Actives) ? weaponUpgrades.Count : passiveUpgrades.Count;
     }
 
     void RefreshUI()
@@ -149,13 +129,9 @@ public class UpgradeMenuScripts : MonoBehaviour
                 slotButtons[i].gameObject.SetActive(true);
                 
                 if (currentTab == TabType.Actives)
-                {
                     slotIcons[i].sprite = weaponUpgrades[itemIndex].itemIcon;
-                }
                 else
-                {
-                    slotIcons[i].sprite = statUpgrades[itemIndex].icon;
-                }
+                    slotIcons[i].sprite = passiveUpgrades[itemIndex].itemIcon;
             }
             else
             {
@@ -172,8 +148,6 @@ public class UpgradeMenuScripts : MonoBehaviour
     {
         int actualItemIndex = (currentPage * ITEMS_PER_PAGE) + slotUIIndex;
         currentlySelectedIndex = actualItemIndex;
-        
-        Debug.Log($"Slot {slotUIIndex} diklik! Index: {actualItemIndex}, Tab: {currentTab}");
 
         if (currentTab == TabType.Actives)
         {
@@ -182,51 +156,77 @@ public class UpgradeMenuScripts : MonoBehaviour
         }
         else
         {
-            if (actualItemIndex >= statUpgrades.Count) return;
-            ShowStatInfo(statUpgrades[actualItemIndex]);
+            if (actualItemIndex >= passiveUpgrades.Count) return;
+            ShowPassiveItemInfo(passiveUpgrades[actualItemIndex]);
         }
     }
 
-    // ==========================================
-    // TAMPILIN INFO ITEM AKTIF
-    // ==========================================
     void ShowActiveItemInfo(ItemsSO weapon)
     {
         itemNameText.text = weapon.itemName;
+        int permLevel = weapon.PermanentLevel; 
         
-        int currentLevel = weapon.CurrentLevel;
         if (currentLevelText != null)
-            currentLevelText.text = $"Level: {currentLevel}/{weapon.MaxLevel}";
+            currentLevelText.text = $"Lv: {permLevel}/{weapon.MaxPermanentLevel}";
         
-        if (weapon.IsMaxLevel)
+        if (weapon.IsMaxPermanentLevel)
         {
-            itemDescText.text = "★ MAX LEVEL ★";
+            itemDescText.text = "★ MAX PERMANENT UPGRADE ★\n\nSenjata ini sudah mencapai potensi maksimal di luar game.";
             itemCostText.text = "MAXED";
             if (buyButton != null) buyButton.interactable = false;
         }
         else
         {
-            ActiveItemLevelData currentData = weapon.GetCurrentLevelData();
-            ActiveItemLevelData nextData = weapon.GetLevelData(currentLevel + 1);
+            float currentBonus = permLevel * weapon.permanentDamageBonusPercent; 
+            float nextBonus = (permLevel + 1) * weapon.permanentDamageBonusPercent;
             
-            itemDescText.text = $"\"{currentData.levelDescription}\"\n\n";
+            itemDescText.text = "Permanent Weapon Boost\n(Memberikan tambahan Base Damage di dalam game)\n\n";
+            itemDescText.text += "<color=yellow>Next Lv →</color>";
+            itemDescText.text += $"\nBonus Damage: +{currentBonus}% → +{nextBonus}%";
+            
+            int goldCost = weapon.permanentGoldBaseCost * (permLevel + 1);
+            int soulsCost = weapon.permanentSoulsBaseCost * (permLevel + 1);
+            
+            string costText = $"Cost: {goldCost} Gold";
+            if (soulsCost > 0) costText += $"\n{soulsCost} Souls";
+            itemCostText.text = costText;
+            
+            if (buyButton != null) buyButton.interactable = true;
+        }
+    }
+
+    // ==========================================
+    // SHOW PASSIVE INFO (FORMAT SAMA KAYA WEAPON)
+    // ==========================================
+    void ShowPassiveItemInfo(ItemsPassiveSO passive)
+    {
+        itemNameText.text = passive.itemName;
+        int permLevel = passive.PermanentLevel; 
+        
+        if (currentLevelText != null)
+            currentLevelText.text = $"Bonus Lv: {permLevel}/{passive.MaxPermanentLevel}";
+        
+        if (passive.IsMaxPermanentLevel)
+        {
+            itemDescText.text = "★ MAX PERMANENT UPGRADE ★\n\nStat pasif ini sudah mencapai batas maksimal.";
+            itemCostText.text = "MAXED";
+            if (buyButton != null) buyButton.interactable = false;
+        }
+        else
+        {
+            float currentBonus = permLevel * passive.permanentBonusPerLevel; 
+            float nextBonus = (permLevel + 1) * passive.permanentBonusPerLevel;
+            
+            itemDescText.text = $"Permanent Stat Boost\n(Memberikan tambahan {passive.buffType} di awal game)\n\n";
             itemDescText.text += "<color=yellow>Next Lv →</color>";
             
-            if (nextData.damage != currentData.damage)
-                itemDescText.text += $"\nDamage: {currentData.damage} → {nextData.damage}";
+            if (passive.buffType == PassiveBuffType.CooldownReduction || passive.buffType == PassiveBuffType.ProjectileDamage)
+                itemDescText.text += $"\nBonus: +{currentBonus}% → +{nextBonus}%";
+            else
+                itemDescText.text += $"\nBonus: +{currentBonus} → +{nextBonus}";
             
-            if (nextData.cooldown != currentData.cooldown)
-                itemDescText.text += $"\nCooldown: {currentData.cooldown}s → {nextData.cooldown}s";
-            
-            if (nextData.projectileCount != currentData.projectileCount)
-                itemDescText.text += $"\nProjectile: {currentData.projectileCount} → {nextData.projectileCount}";
-            
-            if (nextData.sizeMultiplier != currentData.sizeMultiplier)
-                itemDescText.text += $"\nSize: x{currentData.sizeMultiplier} → x{nextData.sizeMultiplier}";
-            
-            // HARGA DARI LEVEL DATA
-            int goldCost = nextData.goldCost;
-            int soulsCost = nextData.soulsCost;
+            int goldCost = passive.permanentGoldBaseCost * (permLevel + 1);
+            int soulsCost = passive.permanentSoulsBaseCost * (permLevel + 1);
             
             string costText = $"Cost: {goldCost} Gold";
             if (soulsCost > 0) costText += $"\n{soulsCost} Souls";
@@ -236,56 +236,6 @@ public class UpgradeMenuScripts : MonoBehaviour
         }
     }
 
-    // ==========================================
-    // TAMPILIN INFO STAT (PASIF)
-    // ==========================================
-    void ShowStatInfo(StatUpgrade stat)
-    {
-        itemNameText.text = stat.statName;
-        
-        int currentLevel = GetStatLevel(stat.statName);
-        int maxLevel = stat.maxLevel;
-        
-        if (currentLevelText != null)
-            currentLevelText.text = $"Level: {currentLevel}/{maxLevel}";
-        
-        if (currentLevel >= maxLevel)
-        {
-            itemDescText.text = "★ MAX LEVEL ★";
-            itemCostText.text = "MAXED";
-            if (buyButton != null) buyButton.interactable = false;
-        }
-        else
-        {
-            float currentValue = GetCurrentStatValue(stat.statName);
-            float nextValue = currentValue + stat.increasePerLevel;
-            
-            itemDescText.text = $"\"{stat.description}\"\n\n";
-            itemDescText.text += $"<color=yellow>Next Lv →</color>\n";
-            itemDescText.text += $"{stat.statName}: {currentValue} → {nextValue}";
-            
-            // AMBIL HARGA DARI ARRAY (index = currentLevel - 1 untuk biaya ke next level)
-            int nextLevelIndex = currentLevel; // Karena array index 0 = biaya ke level 1
-            int goldCost = 0;
-            int soulsCost = 0;
-            
-            if (stat.goldCostPerLevel != null && nextLevelIndex < stat.goldCostPerLevel.Length)
-                goldCost = stat.goldCostPerLevel[nextLevelIndex];
-            
-            if (stat.soulsCostPerLevel != null && nextLevelIndex < stat.soulsCostPerLevel.Length)
-                soulsCost = stat.soulsCostPerLevel[nextLevelIndex];
-            
-            string costText = $"Cost: {goldCost} Gold";
-            if (soulsCost > 0) costText += $"\n{soulsCost} Souls";
-            itemCostText.text = costText;
-            
-            if (buyButton != null) buyButton.interactable = true;
-        }
-    }
-
-    // ==========================================
-    // BUY UPGRADE
-    // ==========================================
     void BuyUpgrade()
     {
         if (currentlySelectedIndex < 0) return;
@@ -293,7 +243,7 @@ public class UpgradeMenuScripts : MonoBehaviour
         if (currentTab == TabType.Actives)
             BuyActiveUpgrade();
         else
-            BuyStatUpgrade();
+            BuyPassiveUpgrade();
         
         UpdateCurrencyUI();
     }
@@ -303,152 +253,46 @@ public class UpgradeMenuScripts : MonoBehaviour
         if (currentlySelectedIndex >= weaponUpgrades.Count) return;
         
         ItemsSO weapon = weaponUpgrades[currentlySelectedIndex];
-        
-        if (weapon.IsMaxLevel)
-        {
-            Debug.Log("Udah max level!");
-            return;
-        }
-        
-        // Ambil harga dari next level
-        ActiveItemLevelData nextData = weapon.GetLevelData(weapon.CurrentLevel + 1);
-        int goldCost = nextData.goldCost;
-        int soulsCost = nextData.soulsCost;
+        if (weapon.IsMaxPermanentLevel) return;
+
+        int permLevel = weapon.PermanentLevel;
+        int goldCost = weapon.permanentGoldBaseCost * (permLevel + 1); 
+        int soulsCost = weapon.permanentSoulsBaseCost * (permLevel + 1);
         
         if (playerData.Globalgold >= goldCost && playerData.Globalsouls >= soulsCost)
         {
             playerData.Globalgold -= goldCost;
             playerData.Globalsouls -= soulsCost;
             
-            int newLevel = weapon.CurrentLevel + 1;
-            playerData.SetPermanentLevel(weapon, newLevel);
+            playerData.SetPermanentLevel(weapon, permLevel + 1);
+            Debug.Log($"UPGRADE PERMANENT: {weapon.itemName} ke Level {permLevel + 1}!");
             
-            Debug.Log($"UPGRADE: {weapon.itemName} ke Level {newLevel}!");
-            
-            // Refresh panel
-            ShowActiveItemInfo(weapon);
-        }
-        else
-        {
-            Debug.Log("Gold/Souls gak cukup!");
+            ShowActiveItemInfo(weapon); 
         }
     }
 
-    void BuyStatUpgrade()
+    void BuyPassiveUpgrade()
     {
-        if (currentlySelectedIndex >= statUpgrades.Count) return;
+        if (currentlySelectedIndex >= passiveUpgrades.Count) return;
         
-        StatUpgrade stat = statUpgrades[currentlySelectedIndex];
-        int currentLevel = GetStatLevel(stat.statName);
+        ItemsPassiveSO passive = passiveUpgrades[currentlySelectedIndex];
+        if (passive.IsMaxPermanentLevel) return;
         
-        if (currentLevel >= stat.maxLevel)
-        {
-            Debug.Log("Udah max level!");
-            return;
-        }
-        
-        // Ambil harga dari array
-        int nextLevelIndex = currentLevel;
-        int goldCost = 0;
-        int soulsCost = 0;
-        
-        if (stat.goldCostPerLevel != null && nextLevelIndex < stat.goldCostPerLevel.Length)
-            goldCost = stat.goldCostPerLevel[nextLevelIndex];
-        
-        if (stat.soulsCostPerLevel != null && nextLevelIndex < stat.soulsCostPerLevel.Length)
-            soulsCost = stat.soulsCostPerLevel[nextLevelIndex];
+        int permLevel = passive.PermanentLevel;
+        int goldCost = passive.permanentGoldBaseCost * (permLevel + 1);
+        int soulsCost = passive.permanentSoulsBaseCost * (permLevel + 1);
         
         if (playerData.Globalgold >= goldCost && playerData.Globalsouls >= soulsCost)
         {
             playerData.Globalgold -= goldCost;
             playerData.Globalsouls -= soulsCost;
             
-            // Naikin level stat
-            SetStatLevel(stat.statName, currentLevel + 1);
+            playerData.SetPermanentPassiveLevel(passive, permLevel + 1);
+            playerData.RecalculatePermanentStats(); // <--- OTOMATIS MENGHITUNG STATS
             
-            // Apply ke PlayerData
-            ApplyStatUpgrade(stat);
+            Debug.Log($"UPGRADE PERMANENT: {passive.itemName} ke Level {permLevel + 1}!");
             
-            Debug.Log($"UPGRADE STAT: {stat.statName} ke Level {currentLevel + 1}!");
-            
-            // Refresh panel
-            ShowStatInfo(stat);
-        }
-        else
-        {
-            Debug.Log("Gold/Souls gak cukup!");
-        }
-    }
-
-    // ==========================================
-    // FUNGSI STAT LEVEL
-    // ==========================================
-    
-    int GetStatLevel(string statName)
-    {
-        switch (statName)
-        {
-            case "Max Health": return playerData.maxHealthLevel;
-            case "Defense": return playerData.defenseLevel;
-            case "Move Speed": return playerData.moveSpeedLevel;
-            case "Projectile Damage": return playerData.projectileDamageLevel;
-            case "Cooldown Reduction": return playerData.cooldownReductionLevel;
-            default: return 1;
-        }
-    }
-
-    void SetStatLevel(string statName, int level)
-    {
-        switch (statName)
-        {
-            case "Max Health": playerData.maxHealthLevel = level; break;
-            case "Defense": playerData.defenseLevel = level; break;
-            case "Move Speed": playerData.moveSpeedLevel = level; break;
-            case "Projectile Damage": playerData.projectileDamageLevel = level; break;
-            case "Cooldown Reduction": playerData.cooldownReductionLevel = level; break;
-        }
-    }
-    
-    float GetCurrentStatValue(string statName)
-    {
-        int level = GetStatLevel(statName);
-        
-        switch (statName)
-        {
-            case "Max Health": return playerData.maxHealth;
-            case "Defense": return playerData.defense;
-            case "Move Speed": return PlayerPrefs.GetFloat("MoveSpeed", 5f);
-            case "Projectile Damage": return playerData.projectileDamageMultiplier;
-            case "Cooldown Reduction": return playerData.cooldownReductionMultiplier;
-            default: return 0;
-        }
-    }
-    
-    void ApplyStatUpgrade(StatUpgrade stat)
-    {
-        switch (stat.statName)
-        {
-            case "Max Health":
-                playerData.maxHealth += stat.increasePerLevel;
-                playerData.health += stat.increasePerLevel;
-                break;
-                
-            case "Defense":
-                playerData.defense += stat.increasePerLevel;
-                break;
-                
-            case "Move Speed":
-                float currentSpeed = PlayerPrefs.GetFloat("MoveSpeed", 5f);
-                PlayerPrefs.SetFloat("MoveSpeed", currentSpeed + stat.increasePerLevel);
-                break;
-                
-            case "Projectile Damage":
-                playerData.projectileDamageMultiplier += stat.increasePerLevel;
-                break;
-                
-            case "Cooldown Reduction":
-                playerData.cooldownReductionMultiplier += stat.increasePerLevel;
-                break;
+            ShowPassiveItemInfo(passive);
         }
     }
 

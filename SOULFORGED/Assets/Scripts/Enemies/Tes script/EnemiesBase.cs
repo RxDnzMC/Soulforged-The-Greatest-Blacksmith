@@ -64,8 +64,6 @@ public class EnemiesBase : MonoBehaviour
             Vector3 spawnPos = transform.position + Vector3.up * 1.5f;
             GameObject dmgObj = Instantiate(damageNumberPrefab, spawnPos, Quaternion.identity);
             
-            // GAK PERLU LookAt di sini, udah di DamageNumber.Start()
-            
             if (dmgObj.TryGetComponent(out DamageNumber damageNumber))
             {
                 damageNumber.Setup(damage);
@@ -96,14 +94,15 @@ public class EnemiesBase : MonoBehaviour
         }
     }
 
-    void TakeDamage(IProjectile projectile)
+    // ====================================================================
+    // PERUBAHAN UTAMA: Diubah menjadi PUBLIC agar bisa diakses oleh WindCatalyst
+    // ====================================================================
+    public void TakeDamage(IProjectile projectile)
     {
         _health -= projectile.Damage;
         
         SpawnDamageNumber(projectile.Damage);
         StartCoroutine(FlashRed());
-        
-        // Debug.Log($"Musuh Kena Serangan! Damage: {projectile.Damage}, Sisa Health: {_health}");
         
         if (_health <= 0)
         {
@@ -143,15 +142,9 @@ public class EnemiesBase : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Dapetin posisi random di sekitar musuh
-    /// side: 0 = random, 1 = kanan, -1 = kiri
-    /// yPosition: Y absolute (0 untuk coin, 0.87 untuk soul, dll)
-    /// </summary>
     Vector3 GetRandomDropPosition(int side = 0, float yPosition = 0f)
     {
         float spreadRadius = Random.Range(0.3f, 0.8f);
-        
         float xOffset, zOffset;
         
         if (side == 0)
@@ -161,18 +154,15 @@ public class EnemiesBase : MonoBehaviour
         }
         else if (side == 1)
         {
-            // Kanan
             xOffset = Random.Range(0.3f, spreadRadius);
             zOffset = Random.Range(-spreadRadius, spreadRadius);
         }
         else
         {
-            // Kiri
             xOffset = Random.Range(-spreadRadius, -0.3f);
             zOffset = Random.Range(-spreadRadius, spreadRadius);
         }
         
-        // ✅ Y ABSOLUTE
         Vector3 spawnPos = new Vector3(
             transform.position.x + xOffset,
             yPosition,
@@ -183,10 +173,8 @@ public class EnemiesBase : MonoBehaviour
 
     void DropLoot()
     {
-        // Track item yang sudah di-drop untuk menentukan posisi yang berbeda
         int droppedCount = 0;
         
-        // Cek Drop Koin
         if (coinPrefab != null && coinDropChance > 0)
         {
             float roll = Random.Range(0f, 100f);
@@ -198,7 +186,6 @@ public class EnemiesBase : MonoBehaviour
             }
         }
 
-        // Cek Drop Soul
         if (soulPrefab != null && soulDropChance > 0)
         {
             float roll = Random.Range(0f, 100f);
@@ -211,19 +198,16 @@ public class EnemiesBase : MonoBehaviour
             }
         }
         
-        // Cek Drop Heal Item
         if (healItemPrefab != null && healDropChance > 0)
         {
             float roll = Random.Range(0f, 100f);
             if (roll <= healDropChance)
             {
-                // Tentukan side berdasarkan jumlah item yang sudah di-drop
                 int side = 0;
                 if (droppedCount == 1) side = 1;
                 else if (droppedCount == 2) side = -1;
                 else if (droppedCount >= 3) side = Random.Range(-1, 2);
                 
-                // Y position untuk heal item (bisa disesuaikan)
                 float healYPosition = 0.6f;
                 Vector3 spawnPos = GetRandomDropPosition(side, healYPosition);
                 Instantiate(healItemPrefab, spawnPos, Quaternion.identity);
@@ -236,7 +220,6 @@ public class EnemiesBase : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        // PANGGIL FUNGSI DROP DI SINI
         DropLoot();
 
         Collider col = GetComponent<Collider>();

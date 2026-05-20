@@ -21,21 +21,20 @@ public class PlayerData : ScriptableObject
     public int Globalsouls;
     
     // ==========================================
-    // BARU: Stat Upgrade Levels
+    // BASE STATS (Angka Murni Tanpa Upgrade Out-Game)
     // ==========================================
-    [Header("Stat Upgrade Levels")]
-    public int maxHealthLevel = 1;
-    public int defenseLevel = 1;
-    public int moveSpeedLevel = 1;
-    public int projectileDamageLevel = 1;
-    public int cooldownReductionLevel = 1;
+    [Header("Base Stats (Angka Awal)")]
+    public float baseMaxHealth = 100f;
+    public float baseDefense = 0f;
+    public float baseMoveSpeed = 5f;
+    public float baseDamageMultiplier = 1f;
+    public float baseCooldownReduction = 0f;
     
-    //Temp Currency, resets every start/end of game
     public int gold; 
     public int souls;
 
     public ItemsSO DefaultItem;
-    [Header("Default Slot untuk Item Aktif (Jangan DIISI)")]
+    [Header("Default Slot untuk Item Aktif")]
     public List<ItemsSO> DefaultSlot = new List<ItemsSO>(4);
     public List<ItemsPassiveSO> DefaultPassiveSlot = new List<ItemsPassiveSO>(4);
 
@@ -44,7 +43,7 @@ public class PlayerData : ScriptableObject
     public List<ItemsPassiveSO> PassivesItems = new List<ItemsPassiveSO>();
 
     // ==========================================
-    // DUAL LEVEL SYSTEM
+    // DUAL LEVEL SYSTEM (WEAPON & PASIF JADI SATU)
     // ==========================================
     [Header("Permanent Levels (Gak Reset)")]
     public List<ItemLevelPair> permanentItemLevels = new List<ItemLevelPair>();
@@ -59,203 +58,166 @@ public class PlayerData : ScriptableObject
         public ItemsPassiveSO passiveItem;
         public int level;
     }
-    
+
     // ==========================================
-    // DEFENSE SYSTEM - DAMAGE CALCULATION
+    // MAGIC FUNCTION: MENGHITUNG OTOMATIS
     // ==========================================
+    private void OnValidate()
+    {
+        RecalculatePermanentStats();
+    }
+
+    [ContextMenu("🚨 RESET ALL PERMANENT UPGRADES (OUT-GAME) 🚨")]
+    public void ResetPermanentUpgrades()
+    {
+        permanentItemLevels.Clear();
+        RecalculatePermanentStats();
+        Debug.Log("<b>BERHASIL:</b> List Permanent dikosongkan dan Stat kembali ke semula!");
+    }
+
+    public void RecalculatePermanentStats()
+    {
+        // 1. Reset ke Base
+        maxHealth = baseMaxHealth;
+        defense = baseDefense;
+        float moveSpd = baseMoveSpeed;
+        projectileDamageMultiplier = baseDamageMultiplier;
+        cooldownReductionMultiplier = baseCooldownReduction;
+
+        // 2. Tambahkan Bonus dari List
+        if (permanentItemLevels != null)
+        {
+            foreach (var pair in permanentItemLevels)
+            {
+                if (pair.passiveItem != null)
+                {
+                    // Level 1 = 1x bonus, Level 2 = 2x bonus
+                    float bonusAmount = pair.level * pair.passiveItem.permanentBonusPerLevel;
+                    
+                    switch (pair.passiveItem.buffType)
+                    {
+                        case PassiveBuffType.MaxHealth: maxHealth += bonusAmount; break;
+                        case PassiveBuffType.Defense: defense += bonusAmount; break;
+                        case PassiveBuffType.ProjectileSpeed: moveSpd += bonusAmount; break;
+                        case PassiveBuffType.ProjectileDamage: projectileDamageMultiplier += (bonusAmount / 100f); break;
+                        case PassiveBuffType.CooldownReduction: cooldownReductionMultiplier += (bonusAmount / 100f); break;
+                    }
+                }
+            }
+        }
+
+        PlayerPrefs.SetFloat("MoveSpeed", moveSpd);
+    }
     
-    /// <summary>
-    /// Hitung damage setelah dikurangi defense
-    /// Defense bisa berupa flat reduction atau persen
-    /// </summary>
     public float CalculateDamage(float incomingDamage)
     {
-        float reducedDamage = incomingDamage;
-        
-        // Defense flat reduction
-        reducedDamage -= defense;
-        
-        // Minimal damage 1 biar tetap kerasa
-        if (reducedDamage < 1f)
-            reducedDamage = 1f;
-        
-        return reducedDamage;
+        float reducedDamage = incomingDamage - defense;
+        return reducedDamage < 1f ? 1f : reducedDamage;
     }
     
-    /// <summary>
-    /// Method untuk mengambil damage dengan perhitungan defense
-    /// </summary>
     public void TakeDamage(float damage)
     {
-        float finalDamage = CalculateDamage(damage);
-        health -= finalDamage;
-        
-        Debug.Log($"[Damage] Incoming: {damage} → After Defense ({defense}): {finalDamage} → Health: {health}/{maxHealth}");
-        
-        // Trigger death event jika health <= 0
-        if (health <= 0)
-        {
-            OnPlayerDeath();
-        }
+        health -= CalculateDamage(damage);
+        if (health <= 0) Debug.Log("PLAYER HAS DIED!");
     }
     
-    /// <summary>
-    /// Event saat player mati (bisa di-override atau panggil event)
-    /// </summary>
-    private void OnPlayerDeath()
-    {
-        Debug.Log("PLAYER HAS DIED!");
-        // Nanti panggil GameManager untuk handle game over
-        // GameManager.Instance?.HandlePlayerDeath();
-    }
-    
-    /// <summary>
-    /// Heal player
-    /// </summary>
     public void Heal(float amount)
     {
         health += amount;
-        if (health > maxHealth)
-            health = maxHealth;
-        
-        Debug.Log($"[Heal] +{amount} HP → Health: {health}/{maxHealth}");
-    }
-    
-    /// <summary>
-    /// Upgrade defense (dipanggil dari item atau level up)
-    /// </summary>
-    public void UpgradeDefense(float additionalDefense)
-    {
-        defense += additionalDefense;
-        Debug.Log($"[Defense Up] Defense now: {defense}");
+        if (health > maxHealth) health = maxHealth;
     }
     
     // ==========================================
-    
-    // Ambil total level item aktif (permanent + in-game)
-    public int GetItemLevel(ItemsSO item)
-    {
-        if (item == null) return 1;
-        
-        int permLevel = 1;
-        int gameLevel = 0;
-        
-        ItemLevelPair permPair = permanentItemLevels.Find(x => x.activeItem == item);
-        if (permPair != null) permLevel = permPair.level;
-        
-        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.activeItem == item);
-        if (gamePair != null) gameLevel = gamePair.level;
-        
-        return permLevel + gameLevel;
-    }
-    
+    // FUNGSI LEVELING & GETTER
     // ==========================================
-    // BARU: Ambil in-game level doang (tanpa permanent)
-    // ==========================================
+    public int GetItemLevel(ItemsSO item) => GetInGameLevel(item);
+    
     public int GetInGameLevel(ItemsSO item)
     {
-        if (item == null) return 0;
-        
+        if (item == null) return 1; 
         ItemLevelPair gamePair = inGameItemLevels.Find(x => x.activeItem == item);
-        return gamePair != null ? gamePair.level : 0;
-    }
-    
-    public int GetInGamePassiveLevel(ItemsPassiveSO item)
-    {
-        if (item == null) return 0;
-        
-        ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
-        return gamePair != null ? gamePair.level : 0;
+        return gamePair != null ? gamePair.level : 1;
     }
     
     public int GetPermanentLevel(ItemsSO item)
     {
-        if (item == null) return 1;
-        
+        if (item == null) return 0; 
         ItemLevelPair permPair = permanentItemLevels.Find(x => x.activeItem == item);
-        return permPair != null ? permPair.level : 1;
-    }
-    // ==========================================
-    
-    // Set level permanent (dari scene upgrade)
-    public void SetPermanentLevel(ItemsSO item, int level)
-    {
-        if (item == null) return;
-        
-        ItemLevelPair pair = permanentItemLevels.Find(x => x.activeItem == item);
-        if (pair != null)
-            pair.level = level;
-        else
-            permanentItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
-    }
-    
-    // Set level in-game (reset tiap game)
-    public void SetInGameLevel(ItemsSO item, int level)
-    {
-        if (item == null) return;
-        
-        ItemLevelPair pair = inGameItemLevels.Find(x => x.activeItem == item);
-        if (pair != null)
-            pair.level = level;
-        else
-            inGameItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
-    }
-    
-    // Set level permanent (pasif)
-    public void SetPermanentPassiveLevel(ItemsPassiveSO item, int level)
-    {
-        if (item == null) return;
-        
-        ItemLevelPair pair = permanentItemLevels.Find(x => x.passiveItem == item);
-        if (pair != null)
-            pair.level = level;
-        else
-            permanentItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
-    }
-    
-    // Set level in-game (pasif)
-    public void SetInGamePassiveLevel(ItemsPassiveSO item, int level)
-    {
-        if (item == null) return;
-        
-        ItemLevelPair pair = inGameItemLevels.Find(x => x.passiveItem == item);
-        if (pair != null)
-            pair.level = level;
-        else
-            inGameItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
+        return permPair != null ? permPair.level : 0;
     }
 
-    // Ambil level item pasif (pure in-game)
-    public int GetPassiveItemLevel(ItemsPassiveSO item)
+    public int GetInGamePassiveLevel(ItemsPassiveSO item)
     {
         if (item == null) return 1;
-        
         ItemLevelPair gamePair = inGameItemLevels.Find(x => x.passiveItem == item);
         return gamePair != null ? gamePair.level : 1;
     }
+
+    public int GetPermanentPassiveLevel(ItemsPassiveSO item)
+    {
+        if (item == null) return 0;
+        ItemLevelPair permPair = permanentItemLevels.Find(x => x.passiveItem == item);
+        return permPair != null ? permPair.level : 0;
+    }
     
-    // Reset in-game level aja (permanent tetep)
+    public int GetPassiveItemLevel(ItemsPassiveSO item) => GetInGamePassiveLevel(item);
+
+    // ==========================================
+    // FUNGSI SET LEVEL
+    // ==========================================
+    public void SetPermanentLevel(ItemsSO item, int level)
+    {
+        if (item == null) return;
+        ItemLevelPair pair = permanentItemLevels.Find(x => x.activeItem == item);
+        if (pair != null) pair.level = level;
+        else permanentItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
+    }
+    
+    public void SetInGameLevel(ItemsSO item, int level)
+    {
+        if (item == null) return;
+        ItemLevelPair pair = inGameItemLevels.Find(x => x.activeItem == item);
+        if (pair != null) pair.level = level;
+        else inGameItemLevels.Add(new ItemLevelPair { activeItem = item, level = level });
+    }
+    
+    public void SetPermanentPassiveLevel(ItemsPassiveSO item, int level)
+    {
+        if (item == null) return;
+        ItemLevelPair pair = permanentItemLevels.Find(x => x.passiveItem == item);
+        if (pair != null) pair.level = level;
+        else permanentItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
+    }
+    
+    public void SetInGamePassiveLevel(ItemsPassiveSO item, int level)
+    {
+        if (item == null) return;
+        ItemLevelPair pair = inGameItemLevels.Find(x => x.passiveItem == item);
+        if (pair != null) pair.level = level;
+        else inGameItemLevels.Add(new ItemLevelPair { passiveItem = item, level = level });
+    }
+    
+    // ==========================================
+    // RESET FUNGSI (IN-GAME)
+    // ==========================================
     public void ResetInGameLevels()
     {
         inGameItemLevels.Clear();
     }
     
-    // Reset semua (development)
     public void ResetAllLevels()
     {
         permanentItemLevels.Clear();
         inGameItemLevels.Clear();
+        RecalculatePermanentStats();
     }
-    // ==========================================
 
     public void ResetData()
     {
-        // Reset stats
-        health = maxHealth;
-        defense = 0; // Reset defense juga
+        RecalculatePermanentStats(); 
+        health = maxHealth; 
         gold = 0;
         souls = 0;
-        
         ActiveItems.Clear();
         PassivesItems.Clear();
         ResetInGameLevels();

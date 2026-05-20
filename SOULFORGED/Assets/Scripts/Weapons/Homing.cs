@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Homing : MonoBehaviour, IProjectile
 {
-    // Variabel internal untuk menyimpan data kiriman SO
     private float _speed;
     private float _damage;
     public float Damage => _damage;
@@ -14,21 +13,24 @@ public class Homing : MonoBehaviour, IProjectile
     private Transform _target;
     private float _timer = 0f;
 
-    // Implementasi Interface IProjectileHoming: Tempat menerima paket data
     public void Setup(float speed, float damage, float lifetime, float turnSpeed, float homingDelay, float scatterAngle, float cooldown, float size)
     {
         _speed = speed;
         _damage = damage;
         _turnSpeed = turnSpeed;
         _homingDelay = homingDelay;
+        this.cooldown = cooldown;
 
-        // Logika Menyebar: Rotasi acak di sumbu Y (kiri-kanan) saja
+        // Menerapkan ukuran visual peluru berdasarkan stat size multiplier dari data senjata
+        transform.localScale = Vector3.one * size;
+
+        // Logika Menyebar: Rotasi acak awal di sumbu Y (kiri-kanan)
         transform.Rotate(0f, Random.Range(-scatterAngle, scatterAngle), 0f);
 
-        // Cari target pertama kali saat muncul
+        // Mencari target terdekat pertama kali saat muncul
         FindNearestEnemy();
 
-        // Hancurkan diri sendiri sesuai lifetime
+        // Mengatur durasi aktif peluru sebelum hancur otomatis
         Destroy(gameObject, lifetime); 
     }
 
@@ -36,47 +38,59 @@ public class Homing : MonoBehaviour, IProjectile
     {
         _timer += Time.deltaTime;
 
-        // Logika Homing: Belok kalau sudah lewat delay dan target masih hidup
+        // STANDAR GAME: Jika musuh yang diincar mati duluan sebelum tertabrak, 
+        // peluru otomatis mencari musuh terdekat baru agar tidak terbang lurus tak berguna
+        if (_target == null)
+        {
+            FindNearestEnemy();
+        }
+
+        // Logika Homing: Berbelok mulus ke arah musuh jika masa delay sudah selesai
         if (_timer > _homingDelay && _target != null)
         {
             Vector3 direction = (_target.position - transform.position);
-            direction.y = 0; // Mengabaikan ketinggian (tetap datar)
+            direction.y = 0; // Mengabaikan sumbu Y agar peluru stabil bergerak mendatar di tanah
 
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                // Slerp membuat pergerakan belok jadi halus (smooth)
+                // Slerp membuat pergerakan belok menjadi halus/smooth sesuai turnSpeed
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
             }
         }
 
-        // Selalu bergerak maju ke depan arah moncong peluru
+        // Peluru selalu bergerak maju ke depan sesuai arah moncong peluru saat ini
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     private void FindNearestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float shortestDistance = Mathf.Infinity;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); //
+        float shortestDistance = Mathf.Infinity; //
+        Transform nearestEnemy = null;
         
         foreach (GameObject enemy in enemies)
         {
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < shortestDistance)
+            if (enemy == null) continue; // Antisipasi jika musuh hancur di frame ini
+            
+            float dist = Vector3.Distance(transform.position, enemy.transform.position); //
+            if (dist < shortestDistance) //
             {
-                shortestDistance = dist;
-                _target = enemy.transform;
+                shortestDistance = dist; //
+                nearestEnemy = enemy.transform; //
             }
         }
+        _target = nearestEnemy; //
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy")) //
         {
-            // Debug.Log($"Target Hit: {other.name} | Damage: {_damage}");
-            // Tambahkan logika damage musuh di sini (misal: other.GetComponent<Enemy>().TakeDamage(_damage))
-            Destroy(gameObject);
+            // Di sini kamu bisa memanggil script musuh untuk mengurangi HP-nya, contoh:
+            // if (other.TryGetComponent(out EnemyHealth enemy)) enemy.TakeDamage(_damage);
+            
+            Destroy(gameObject); //
         }
     }
 }

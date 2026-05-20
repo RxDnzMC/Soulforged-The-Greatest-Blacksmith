@@ -17,18 +17,22 @@ MonoBehaviour:
   buffType: 0
   levels:
   - level: 1
-    modifierValue: 1.2
-    levelDescription: 20% More Damage
+    modifierValue: 0.1
+    levelDescription: 10% More Damage
   - level: 2
-    modifierValue: 1.4
-    levelDescription: 40% More Damage
+    modifierValue: 0.2
+    levelDescription: 20% More Damage
   - level: 3
-    modifierValue: 1.6
-    levelDescription: 60% More Damage
+    modifierValue: 0.3
+    levelDescription: 30% More Damage
   - level: 4
-    modifierValue: 1.8
-    levelDescription: 80% More Damage
+    modifierValue: 0.4
+    levelDescription: 40% More Damage
   - level: 5
-    modifierValue: 2
-    levelDescription: 100% More Damage
-  playerData: {fileID: 0}
+    modifierValue: 0.5
+    levelDescription: 50% More Damage
+  playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
+  MaxPermanentLevel: 5
+  permanentBonusPerLevel: 5
+  permanentGoldBaseCost: 100
+  permanentSoulsBaseCost: 10

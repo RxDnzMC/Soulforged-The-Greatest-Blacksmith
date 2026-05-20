@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     private bool isBoss1Spawned = false;
     private bool isBoss2Spawned = false;
     private int currentWaveIndex = 0;
-    // Tambahkan di bawah: private bool isBoss2Spawned = false;
     private GameObject currentBoss1 = null;
     private GameObject currentBoss2 = null;
     private bool isWaitingForBossDeath = false;
@@ -45,10 +44,10 @@ public class GameManager : MonoBehaviour
     
     [Header("Level Progression Settings")]
     [SerializeField] private float baseExpRequirement = 100f;
-    [SerializeField] private float expGrowthRate = 1.15f; // 15% per level
+    [SerializeField] private float expGrowthRate = 1.15f; 
     [SerializeField] private float maxExpRequirement = 5000f;
-    [SerializeField] private int softCapLevel = 15; // Setelah level ini, growth berkurang
-    [SerializeField] private float softCapGrowthRate = 1.08f; // Growth setelah soft cap
+    [SerializeField] private int softCapLevel = 15; 
+    [SerializeField] private float softCapGrowthRate = 1.08f; 
     
     bool isPlayerDead = false;
     bool isUpgradeChoosing = false;
@@ -79,6 +78,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Batasi FPS game hanya di 60 agar GPU bisa "bernapas" dan adem
+        Application.targetFrameRate = 60;
+
         ItemList = listItemActive.activeItems;
         passiveItems = listItemPassive.passiveItems;
         
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviour
             if (item != null)
             {
                 item.playerData = playerData;
-                item.coroutineRunner = playerAttack;
+                // coroutineRunner dihapus dari sini
             }
         }
         foreach (var item in passiveItems)
@@ -98,7 +100,7 @@ public class GameManager : MonoBehaviour
         if (playerData.DefaultItem != null)
         {
             playerData.DefaultItem.playerData = playerData;
-            playerData.DefaultItem.coroutineRunner = playerAttack;
+            // coroutineRunner dihapus dari sini
         }
         defaultItem();
         
@@ -106,25 +108,21 @@ public class GameManager : MonoBehaviour
             Debug.Log($"[DEBUG] Default Item Level: {playerData.DefaultItem.CurrentLevel}");
     }
 
-    // ✅ FUNGSI UNTUK MENGHITUNG EXP REQUIREMENT
     float GetExpRequirement(int level)
     {
         float requirement;
         
         if (level <= softCapLevel)
         {
-            // Sebelum soft cap: growth normal
             requirement = baseExpRequirement * Mathf.Pow(expGrowthRate, level - 1);
         }
         else
         {
-            // Setelah soft cap: growth lebih lambat
             int levelOverCap = level - softCapLevel;
             float baseAtCap = baseExpRequirement * Mathf.Pow(expGrowthRate, softCapLevel - 1);
             requirement = baseAtCap * Mathf.Pow(softCapGrowthRate, levelOverCap);
         }
         
-        // Clamp ke batas maksimal
         return Mathf.Min(requirement, maxExpRequirement);
     }
 
@@ -138,9 +136,9 @@ public class GameManager : MonoBehaviour
             {
                 playerData.DefaultItem.playerData = playerData;
                 
-                int savedLevel = playerData.GetItemLevel(playerData.DefaultItem);
-                if (savedLevel <= 0)
-                    playerData.SetPermanentLevel(playerData.DefaultItem, 1);
+                int savedLevel = playerData.GetInGameLevel(playerData.DefaultItem);
+                if (savedLevel <= 1)
+                    playerData.SetInGameLevel(playerData.DefaultItem, 1); 
                 
                 CurrentItem[0] = playerData.DefaultItem;
             }
@@ -207,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     void CheckWaveProgression()
     {
-        if (isWaitingForBossDeath) return; // <-- TAMBAHKAN INI UNTUK CEK STATUS BOSS
+        if (isWaitingForBossDeath) return; 
         if (currentWaveIndex + 1 < waves.Count)
         {
             if (elapsedTime >= waves[currentWaveIndex + 1].startTime)
@@ -233,7 +231,6 @@ public class GameManager : MonoBehaviour
 
         if (config.isBossWave && !isBoss1Spawned)
         {
-            // ✅ MAINkan MUSIK BOSS SEBELUM SPAWN
             MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
             
             isWaitingForBossDeath = true;
@@ -243,15 +240,12 @@ public class GameManager : MonoBehaviour
 
             if (enemySpawner != null)
                 enemySpawner.enabled = false;
-            ApplyMultiplierToBoss(currentBoss1, config.damageMultiplier, config.healthMultiplier);
-            isBoss1Spawned = true;
             
             Debug.Log("Boss 1 Spawned - Boss Music Started!");
         }
 
         if (config.isBossWave2 && !isBoss2Spawned)
         {
-            // ✅ MAINkan MUSIK BOSS SEBELUM SPAWN
             MusicManager.Instance?.PlayTrack("Boss (30 Minute)");
             
             isWaitingForBossDeath = true;
@@ -261,12 +255,10 @@ public class GameManager : MonoBehaviour
 
             if (enemySpawner != null)
                 enemySpawner.enabled = false;
-            ApplyMultiplierToBoss(currentBoss2, config.damageMultiplier, config.healthMultiplier);
-            isBoss2Spawned = true;
             
             Debug.Log("Boss 2 Spawned - Boss Music Started!");
         }
-}
+    }
 
     void ApplyMultiplierToBoss(GameObject boss, float damageMultiplier, float healthMultiplier)
     {
@@ -277,18 +269,17 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Boss Spawned with Damage Multiplier: {damageMultiplier}x, Health Multiplier: {healthMultiplier}x");
         }
     }
+    
     void CheckBossStatus()
     {
         if (!isWaitingForBossDeath) return;
         
-        // Cek apakah boss masih hidup
         if ((currentBoss1 != null && currentBoss1.gameObject != null) ||
             (currentBoss2 != null && currentBoss2.gameObject != null))
         {
-            return; // Boss masih hidup
+            return; 
         }
         
-        // Boss sudah mati
         isWaitingForBossDeath = false;
         MusicManager.Instance?.PlayTrack("Stage 1");
         
@@ -333,15 +324,6 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("UpgradeSelectionUI belum di-assign!");
-            Debug.Log($"=== LEVEL {level} - PILIH UPGRADE ===");
-            for (int i = 0; i < choices.Count; i++)
-            {
-                if (choices[i] is ItemsSO activeItem)
-                    Debug.Log($"{i+1}. [AKTIF] {activeItem.itemName} (Lv.{playerData.GetItemLevel(activeItem)})");
-                else if (choices[i] is ItemsPassiveSO passiveItem)
-                    Debug.Log($"{i+1}. [PASIF] {passiveItem.itemName} (Lv.{playerData.GetPassiveItemLevel(passiveItem)})");
-            }
-            
             isUpgradeChoosing = false;
             Time.timeScale = 1f;
         }
@@ -381,15 +363,15 @@ public class GameManager : MonoBehaviour
         else if (selectedItem is ItemsPassiveSO passiveItem)
             ApplyPassiveItemUpgrade(passiveItem);
         
-        // ✅ PANGGIL INI SETELAH UPGRADE SELESAI
         if (upgradeUI != null)
             upgradeUI.OnUpgradeComplete();
     }
+    
     void ApplyActiveItemUpgrade(ItemsSO item)
     {
         if (item == null) return;
         item.playerData = playerData;
-        item.coroutineRunner = playerAttack;
+        // coroutineRunner dihapus dari sini
         
         int existingIndex = playerData.ActiveItems.IndexOf(item);
         
@@ -426,9 +408,9 @@ public class GameManager : MonoBehaviour
                     playerData.ActiveItems.Add(null);
                 
                 playerData.ActiveItems[emptySlot] = item;
-                playerData.SetInGameLevel(item, 0);
+                playerData.SetInGameLevel(item, 1); 
                 
-                Debug.Log($"ITEM BARU: {item.itemName} di slot {emptySlot}! Level: {playerData.GetItemLevel(item)}");
+                Debug.Log($"ITEM BARU: {item.itemName} di slot {emptySlot}! Level: 1");
             }
             else
             {
@@ -498,12 +480,7 @@ public class GameManager : MonoBehaviour
 
     void CheckLevelEvents(int level) 
     {
-        // if (level >= 5 && !isNewMusicAdded && isBoss1Spawned) 
-        // {
-        //     MusicManager.Instance?.PlayTrack("Boss (15 Minute)");
-        //     isNewMusicAdded = true;
-        // }
-        
+        // Reserved for future events
     }
 
     void OnDestroy()
@@ -526,11 +503,6 @@ public class GameManager : MonoBehaviour
         playerData.Globalsouls = savedGlobalSouls;
         
         playerData.ResetInGameLevels();
-        
-        foreach (var item in passiveItems)
-        {
-            if (item != null) item.ResetTracking();
-        }
         
         Time.timeScale = 1f;
         isUpgradeChoosing = false;
