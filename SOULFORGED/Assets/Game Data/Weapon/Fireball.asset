@@ -18,7 +18,7 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 10
+    damage: 15
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -27,7 +27,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Fireball Menembak Bola Api!!
   - level: 1
-    damage: 10
+    damage: 15
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 15
     levelDescription: Projectile
   - level: 2
-    damage: 15
+    damage: 20
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 30
     levelDescription: Projectile
   - level: 3
-    damage: 15
+    damage: 20
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 45
     levelDescription: Projectile
   - level: 4
-    damage: 20
+    damage: 25
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 60
     levelDescription: Projectile
   - level: 5
-    damage: 20
+    damage: 25
     cooldown: 1.5
     speed: 20
     lifetime: 5
