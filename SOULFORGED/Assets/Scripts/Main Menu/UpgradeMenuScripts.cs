@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class UpgradeMenuScripts : MonoBehaviour
 {
@@ -174,6 +175,7 @@ public class UpgradeMenuScripts : MonoBehaviour
             itemDescText.text = "★ MAX PERMANENT UPGRADE ★\n\nSenjata ini sudah mencapai potensi maksimal di luar game.";
             itemCostText.text = "MAXED";
             if (buyButton != null) buyButton.interactable = false;
+            if (buyButton != null) buyButton.gameObject.SetActive(false); // Disable the button if maxed
         }
         else
         {
@@ -192,6 +194,7 @@ public class UpgradeMenuScripts : MonoBehaviour
             itemCostText.text = costText;
             
             if (buyButton != null) buyButton.interactable = true;
+            if (buyButton != null) buyButton.gameObject.SetActive(true); // Enable the button if not maxed
         }
     }
 
@@ -211,6 +214,7 @@ public class UpgradeMenuScripts : MonoBehaviour
             itemDescText.text = "★ MAX PERMANENT UPGRADE ★\n\nStat pasif ini sudah mencapai batas maksimal.";
             itemCostText.text = "MAXED";
             if (buyButton != null) buyButton.interactable = false;
+            if (buyButton != null) buyButton.gameObject.SetActive(false); // Disable the button if maxed
         }
         else
         {
@@ -233,6 +237,7 @@ public class UpgradeMenuScripts : MonoBehaviour
             itemCostText.text = costText;
             
             if (buyButton != null) buyButton.interactable = true;
+            if (buyButton != null) buyButton.gameObject.SetActive(true); // Enable the button if not maxed
         }
     }
 
@@ -304,5 +309,6 @@ public class UpgradeMenuScripts : MonoBehaviour
         if (itemCostText != null) itemCostText.text = "";
         if (currentLevelText != null) currentLevelText.text = "";
         if (buyButton != null) buyButton.interactable = false;
+        if (buyButton != null) buyButton.gameObject.SetActive(false); // Disable the button when no item is selected
     }
 }

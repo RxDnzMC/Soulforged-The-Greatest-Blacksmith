@@ -20,13 +20,13 @@ MonoBehaviour:
   exp: 0
   expToNextLevel: 200
   expMultiplier: 1
-  projectileDamageMultiplier: 1
+  projectileDamageMultiplier: 2
   projectileSpeedMultiplier: 0
   projectileLifetimeMultiplier: 0
   cooldownReductionMultiplier: 0
   projectileCountMultiplier: 0
-  Globalgold: 999999
-  Globalsouls: 999999
+  Globalgold: 957401
+  Globalsouls: 995741
   baseMaxHealth: 100
   baseDefense: 0
   baseMoveSpeed: 5
@@ -55,5 +55,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  permanentItemLevels: []
+  permanentItemLevels:
+  - activeItem: {fileID: 11400000, guid: faab5b29620ab0c499cc57893217e429, type: 2}
+    passiveItem: {fileID: 0}
+    level: 3
+  - activeItem: {fileID: 0}
+    passiveItem: {fileID: 11400000, guid: 3ecb553d0bd09414e8d25b8cef6bc5b3, type: 2}
+    level: 20
+  - activeItem: {fileID: 11400000, guid: ccb03562c1dc54e44863837fe524076e, type: 2}
+    passiveItem: {fileID: 0}
+    level: 20
   inGameItemLevels: []
