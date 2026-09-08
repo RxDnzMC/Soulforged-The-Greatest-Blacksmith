@@ -280,6 +280,9 @@ public class GameManager : MonoBehaviour
     // ==========================================
     void HandleLevelUp() 
     {
+        // PENTING: Jangan proses level up jika panel upgrade masih terbuka!
+        if (isUpgradeChoosing) return; 
+
         if (playerData.exp >= playerData.expToNextLevel) 
         {
             playerData.level += 1;

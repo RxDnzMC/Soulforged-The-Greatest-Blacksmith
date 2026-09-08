@@ -1120,7 +1120,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 04f99f9a0d6077d44ae3fed351132e1a, type: 2}
 --- !u!4 &832575519
 Transform:
   m_ObjectHideFlags: 0
@@ -2841,6 +2841,75 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e66f0b350d86c9a47811f9b9df13f67e, type: 3}
+--- !u!1001 &8496977011735759657
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2080063104508682772, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_Name
+      value: DragonStealer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080063104508682772, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.12999982
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.72801244
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.685564
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 86.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483591996636521028, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084869185943766912, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: _health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084869185943766912, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: expReward
+      value: 20000
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2858,3 +2927,4 @@ SceneRoots:
   - {fileID: 1872756183}
   - {fileID: 1430895876}
   - {fileID: 44158093}
+  - {fileID: 8496977011735759657}

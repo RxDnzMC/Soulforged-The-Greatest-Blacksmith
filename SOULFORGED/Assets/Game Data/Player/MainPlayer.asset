@@ -25,8 +25,8 @@ MonoBehaviour:
   projectileLifetimeMultiplier: 0
   cooldownReductionMultiplier: 0
   projectileCountMultiplier: 0
-  Globalgold: 957401
-  Globalsouls: 995741
+  Globalgold: 957901
+  Globalsouls: 995991
   baseMaxHealth: 100
   baseDefense: 0
   baseMoveSpeed: 5

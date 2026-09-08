@@ -123,9 +123,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         Debug.Log("UpgradeSelectionUI: Events unregistered");
     }
     
-    /// <summary>
-    /// Filter item - Hanya item yang bisa di-upgrade (belum MAX LEVEL) yang muncul
-    /// </summary>
     private List<object> FilterUpgradeableItems(List<object> items)
     {
         List<object> upgradeable = new List<object>();
@@ -152,21 +149,15 @@ public class UpgradeSelectionUI : MonoBehaviour
         return upgradeable;
     }
     
-    /// <summary>
-    /// Buat pilihan EMPTY jika tidak ada item yang bisa di-upgrade
-    /// </summary>
     private List<object> GetChoicesWithEmptyFallback(List<object> originalChoices)
     {
-        // Filter dulu yang bisa di-upgrade
         List<object> upgradeable = FilterUpgradeableItems(originalChoices);
         
-        // Jika masih ada yang bisa di-upgrade, return yang upgradeable
         if (upgradeable.Count > 0)
         {
             return upgradeable;
         }
         
-        // Jika TIDAK ADA yang bisa di-upgrade, buat pilihan EMPTY
         List<object> emptyChoices = new List<object>();
         for (int i = 0; i < 3; i++)
         {
@@ -177,46 +168,38 @@ public class UpgradeSelectionUI : MonoBehaviour
         return emptyChoices;
     }
     
-    /// <summary>
-    /// Dipanggil dari GameManager saat level up
-    /// </summary>
     public void ShowUpgradeChoices(List<object> choices)
     {
         if (choices == null || choices.Count == 0)
         {
             Debug.LogWarning("Tidak ada pilihan upgrade!");
-            // Tampilkan empty choices
             choices = GetChoicesWithEmptyFallback(new List<object>());
             if (choices.Count == 0)
             {
-                // Force close jika benar-benar tidak ada
                 ForceClosePanel();
                 return;
             }
         }
         
-        // ✅ FILTER DAN TAMBAHKAN EMPTY FALLBACK
         List<object> finalChoices = GetChoicesWithEmptyFallback(choices);
         
-        // ✅ RESET STATE
+        // ✅ PERBAIKAN: RESET STATE DAN RESET TIMER COOLDOWN
         currentChoices = finalChoices;
         isWaitingForResponse = false;
+        lastSelectionTime = -999f; // Reset timer setiap kali panel baru muncul!
         
         upgradePanel.style.display = DisplayStyle.Flex;
         
-        // Sembunyikan dulu semua
         choice1.style.display = DisplayStyle.None;
         choice2.style.display = DisplayStyle.None;
         choice3.style.display = DisplayStyle.None;
         
-        // Tampilin sesuai jumlah pilihan (maks 3)
         int showCount = Mathf.Min(finalChoices.Count, 3);
         for (int i = 0; i < showCount; i++)
         {
             SetupChoice(i, finalChoices[i]);
         }
         
-        // ✅ ENABLE BUTTONS
         EnableButtons(true);
         
         Debug.Log($"Upgrade panel shown with {showCount} choices (filtered from {choices.Count})");
@@ -254,9 +237,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         if (choice == null) return;
         choice.style.display = DisplayStyle.Flex;
         
-        // ==========================================
-        // EMPTY CHOICE (Semua item sudah MAX LEVEL)
-        // ==========================================
         if (item is EmptyUpgradeChoice)
         {
             type.text = "[INFO]";
@@ -266,13 +246,9 @@ public class UpgradeSelectionUI : MonoBehaviour
             desc.text = "All items are already MAX LEVEL!\nContinue fighting without upgrade.";
             button.SetEnabled(true);
             
-            // Icon kosong
             icon.sprite = null;
             icon.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f, 0.5f));
         }
-        // ==========================================
-        // ITEM AKTIF (ItemsSO)
-        // ==========================================
         else if (item is ItemsSO activeItem)
         {
             type.text = "[AKTIF]";
@@ -280,7 +256,6 @@ public class UpgradeSelectionUI : MonoBehaviour
             name.text = activeItem.itemName;
             level.text = $"Lv.{activeItem.CurrentLevel}/{activeItem.MaxLevel}";
             
-            // PASTIKAN TIDAK MAX LEVEL (sudah difilter)
             button.SetEnabled(true);
             
             ActiveItemLevelData currentData = activeItem.GetCurrentLevelData();
@@ -317,9 +292,6 @@ public class UpgradeSelectionUI : MonoBehaviour
             if (activeItem.itemIcon != null)
                 icon.sprite = activeItem.itemIcon;
         }
-        // ==========================================
-        // ITEM PASIF (ItemsPassiveSO)
-        // ==========================================
         else if (item is ItemsPassiveSO passiveItem)
         {
             type.text = "[PASIF]";
@@ -372,8 +344,8 @@ public class UpgradeSelectionUI : MonoBehaviour
     
     void OnChoiceSelected(int index)
     {
-        // ✅ CEK COOLDOWN - MENCEGAH MULTIPLE CLICK
-        if (isWaitingForResponse || Time.time < lastSelectionTime + selectionCooldown)
+        // ✅ PERBAIKAN: Gunakan Time.unscaledTime agar tidak freeze saat game di-pause (Time.timeScale = 0)
+        if (isWaitingForResponse || Time.unscaledTime < lastSelectionTime + selectionCooldown)
         {
             Debug.Log("Selection ignored: cooldown or already waiting");
             return;
@@ -393,27 +365,22 @@ public class UpgradeSelectionUI : MonoBehaviour
             return;
         }
         
-        // ✅ TANDAI SEDANG MEMPROSES
         isWaitingForResponse = true;
-        lastSelectionTime = Time.time;
         
-        // ✅ DISABLE BUTTON SEMENTARA
+        // ✅ PERBAIKAN: Update timer menggunakan unscaledTime
+        lastSelectionTime = Time.unscaledTime;
+        
         EnableButtons(false);
-        
-        // ✅ SEMBUNYIKAN PANEL
         upgradePanel.style.display = DisplayStyle.None;
         
-        // ✅ JIKA EMPTY CHOICE, LANGSUNG CLOSE TANPA UPGRADE
         if (selectedItem is EmptyUpgradeChoice)
         {
             Debug.Log("Empty choice selected, closing panel without upgrade");
             isWaitingForResponse = false;
             EnableButtons(true);
             
-            // ✅ UNPAUSE GAME
             Time.timeScale = 1f;
             
-            // ✅ Beritahu GameManager bahwa upgrade selesai
             if (gameManager != null)
             {
                 gameManager.OnUpgradeSelected(null);
@@ -424,7 +391,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         
         Debug.Log($"Selected choice {index}: {selectedItem}");
         
-        // ✅ KIRIM KE GAMEMANAGER
         if (gameManager != null)
         {
             gameManager.OnUpgradeSelected(selectedItem);
@@ -437,9 +403,6 @@ public class UpgradeSelectionUI : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Force close panel jika benar-benar tidak ada pilihan
-    /// </summary>
     private void ForceClosePanel()
     {
         Debug.LogWarning("Force closing upgrade panel - no valid choices!");
@@ -447,18 +410,18 @@ public class UpgradeSelectionUI : MonoBehaviour
         isWaitingForResponse = false;
         EnableButtons(true);
         
-        // Resume game langsung
         Time.timeScale = 1f;
         if (gameManager != null)
         {
-            // Panggil method untuk resume game
             gameManager.OnUpgradeSelected(null);
         }
     }
     
     public void OnUpgradeComplete()
     {
+        // ✅ PERBAIKAN: Pastikan pengaman di-reset sepenuhnya saat selesai
         isWaitingForResponse = false;
+        lastSelectionTime = -999f; 
         currentChoices = null;
         EnableButtons(true);
         Debug.Log("Upgrade complete, UI ready for next selection");
@@ -472,9 +435,6 @@ public class UpgradeSelectionUI : MonoBehaviour
     }
 }
 
-/// <summary>
-/// Class dummy untuk pilihan kosong ketika semua item sudah MAX LEVEL
-/// </summary>
 public class EmptyUpgradeChoice
 {
     // Empty class sebagai marker
