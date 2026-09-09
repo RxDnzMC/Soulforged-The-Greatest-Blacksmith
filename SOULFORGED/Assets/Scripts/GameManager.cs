@@ -289,19 +289,44 @@ public class GameManager : MonoBehaviour
             playerData.exp -= playerData.expToNextLevel;
             playerData.expToNextLevel = GetExpRequirement(playerData.level);
 
-            ShowUpgradeChoices(playerData.level);
+            // Cek apakah masih ada upgrade yang tersedia
+            if (HasAvailableUpgrades())
+            {
+                ShowUpgradeChoices(playerData.level);
+            }
+            else
+            {
+                // Tidak ada upgrade tersedia, langsung lanjut game tanpa pause
+                Debug.Log("Tidak ada upgrade tersedia, melanjutkan game...");
+            }
         }
     }
 
     void ShowUpgradeChoices(int level)
     {
         if (isUpgradeChoosing) return;
+        
+        List<object> choices = GetRandomUpgradeChoices();
+        
+        // Cek jika tidak ada pilihan upgrade
+        if (choices.Count == 0)
+        {
+            Debug.Log("Tidak ada pilihan upgrade, melanjutkan game...");
+            return; // Tidak pause game
+        }
+        
         isUpgradeChoosing = true;
         Time.timeScale = 0f;
         
-        List<object> choices = GetRandomUpgradeChoices();
-        if (upgradeUI != null) upgradeUI.ShowUpgradeChoices(choices);
-        else { isUpgradeChoosing = false; Time.timeScale = 1f; }
+        if (upgradeUI != null) 
+        {
+            upgradeUI.ShowUpgradeChoices(choices);
+        }
+        else 
+        { 
+            isUpgradeChoosing = false; 
+            Time.timeScale = 1f; 
+        }
     }
     
     List<object> GetRandomUpgradeChoices()
@@ -313,23 +338,86 @@ public class GameManager : MonoBehaviour
         foreach (var item in ItemList)
         {
             if (item == null) continue;
-            if (playerData.ActiveItems.Contains(item)) { if (!item.IsMaxLevel) validItems.Add(item); }
-            else if (currentActiveCount < maxActiveSlots) validItems.Add(item);
+            if (playerData.ActiveItems.Contains(item)) 
+            { 
+                if (!item.IsMaxLevel) validItems.Add(item); 
+            }
+            else if (currentActiveCount < maxActiveSlots) 
+            {
+                validItems.Add(item);
+            }
         }
         
         foreach (var item in passiveItems)
         {
             if (item == null) continue;
-            if (playerData.PassivesItems.Contains(item)) { if (!item.IsMaxLevel) validItems.Add(item); }
-            else if (currentPassiveCount < maxPassiveSlots) validItems.Add(item);
+            if (playerData.PassivesItems.Contains(item)) 
+            { 
+                if (!item.IsMaxLevel) validItems.Add(item); 
+            }
+            else if (currentPassiveCount < maxPassiveSlots) 
+            {
+                validItems.Add(item);
+            }
+        }
+        
+        // Jika tidak ada item valid, return list kosong
+        if (validItems.Count == 0)
+        {
+            Debug.LogWarning("Tidak ada upgrade yang tersedia!");
+            return new List<object>();
         }
         
         List<object> shuffled = validItems.OrderBy(x => UnityEngine.Random.value).ToList();
         List<object> choices = new List<object>();
-        for (int i = 0; i < Mathf.Min(choicesPerLevel, shuffled.Count); i++) choices.Add(shuffled[i]);
+        for (int i = 0; i < Mathf.Min(choicesPerLevel, shuffled.Count); i++) 
+        {
+            choices.Add(shuffled[i]);
+        }
         return choices;
     }
-    
+
+    bool HasAvailableUpgrades()
+    {
+        int currentActiveCount = playerData.ActiveItems.Count(x => x != null);
+        int currentPassiveCount = playerData.PassivesItems.Count(x => x != null);
+        
+        // Cek item aktif
+        foreach (var item in ItemList)
+        {
+            if (item == null) continue;
+            
+            if (playerData.ActiveItems.Contains(item))
+            {
+                // Item sudah dimiliki, cek apakah masih bisa di-upgrade
+                if (!item.IsMaxLevel) return true;
+            }
+            else if (currentActiveCount < maxActiveSlots)
+            {
+                // Slot masih tersedia untuk item baru
+                return true;
+            }
+        }
+        
+        // Cek item pasif
+        foreach (var item in passiveItems)
+        {
+            if (item == null) continue;
+            
+            if (playerData.PassivesItems.Contains(item))
+            {
+                // Item sudah dimiliki, cek apakah masih bisa di-upgrade
+                if (!item.IsMaxLevel) return true;
+            }
+            else if (currentPassiveCount < maxPassiveSlots)
+            {
+                // Slot masih tersedia untuk item baru
+                return true;
+            }
+        }
+        
+        return false;
+    }
     public void OnUpgradeSelected(object selectedItem)
     {
         isUpgradeChoosing = false;
