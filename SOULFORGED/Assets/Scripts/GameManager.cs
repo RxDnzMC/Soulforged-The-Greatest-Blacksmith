@@ -65,6 +65,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int softCapLevel = 15; 
     [SerializeField] private float softCapGrowthRate = 1.08f; 
     
+
+    // MULTIPLIER (DIAMBIL DARI DIFFICULTY MANAGER)
+        private float goldMultiplier = 1f;
+        private float soulMultiplier = 1f;
+        private float monsterHealthMultiplier = 1f;
+        private float monsterDamageMultiplier = 1f;
     bool isPlayerDead = false;
     bool isUpgradeChoosing = false;
 
@@ -91,7 +97,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
-
+        
+        // ✅ TAMBAHKAN INI: Apply difficulty settings
+        ApplyDifficultySettings();
+        
         ItemList = listItemActive.activeItems;
         passiveItems = listItemPassive.passiveItems;
         
@@ -100,8 +109,30 @@ public class GameManager : MonoBehaviour
         if (playerData.DefaultItem != null) playerData.DefaultItem.playerData = playerData;
         
         defaultItem();
-        // ✅ TAMBAHAN BARU: Inisialisasi waktu spawn boss pertama
         nextBossSpawnTime = bossSpawnIntervalInSeconds;
+    }
+
+
+    // ✅ TAMBAHKAN METHOD INI
+    void ApplyDifficultySettings()
+    {
+        if (DifficultyManager.Instance == null) return;
+        
+        DifficultySettings difficulty = DifficultyManager.Instance.GetCurrentDifficulty();
+        
+        // Simpan multiplier
+        goldMultiplier = difficulty.goldMultiplier;
+        soulMultiplier = difficulty.soulMultiplier;
+        monsterHealthMultiplier = difficulty.monsterHealthMultiplier;
+        monsterDamageMultiplier = difficulty.monsterDamageMultiplier;
+        
+        // ✅ APPLY KE ENEMY SPAWNER
+        if (enemySpawner != null)
+        {
+            enemySpawner.SetDifficultyMultipliers(monsterHealthMultiplier, monsterDamageMultiplier);
+        }
+        
+        Debug.Log($"Difficulty Applied: {difficulty.difficultyName} | Gold: {goldMultiplier}x | Soul: {soulMultiplier}x | HP: {monsterHealthMultiplier}x | DMG: {monsterDamageMultiplier}x");
     }
 
     float GetExpRequirement(int level)
@@ -160,6 +191,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("PLAYER DIED! Game Over...");
         if (enemySpawner != null) enemySpawner.enabled = false;
         Time.timeScale = 0f;
+        // ✅ TAMBAHKAN INI: Reset music effect saat player mati
+        MusicManager.Instance?.SetPauseEffect(false);
         
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -238,10 +271,12 @@ public class GameManager : MonoBehaviour
         isWaitingForBossDeath = true;
 
         // Hitung Multiplier KHUSUS BOSS
-        // Bos pertama (bossSpawnCount = 0) akan bernilai 1x (Normal)
-        // Bos kedua (bossSpawnCount = 1) akan bernilai 1.5x, dst.
         float bossHealthMult = 1f + (bossSpawnCount * bossHealthIncreasePerSpawn);
         float bossDamageMult = 1f + (bossSpawnCount * bossDamageIncreasePerSpawn);
+        
+        // ✅ TAMBAHKAN: Gabungkan dengan difficulty multiplier
+        float finalHealthMult = bossHealthMult * monsterHealthMultiplier;
+        float finalDamageMult = bossDamageMult * monsterDamageMultiplier;
 
         // Menentukan bos mana yang muncul (Ganti-gantian 1 dan 2)
         GameObject bossPrefab = (bossSpawnCount % 2 != 0) ? Boss2 : Boss1;
@@ -250,13 +285,12 @@ public class GameManager : MonoBehaviour
         MusicManager.Instance?.PlayTrack(bossMusic);
         
         currentBoss = Instantiate(bossPrefab, new Vector3(0, 0, 10), Quaternion.identity);
-        ApplyMultiplierToBoss(currentBoss, bossDamageMult, bossHealthMult);
+        ApplyMultiplierToBoss(currentBoss, finalDamageMult, finalHealthMult);
 
         if (enemySpawner != null) enemySpawner.enabled = false;
         
-        Debug.Log($"Boss Muncul di Detik {elapsedTime}! Ini Bos Ke-{bossSpawnCount + 1}. HP: {bossHealthMult}x");
+        Debug.Log($"Boss Muncul di Detik {elapsedTime}! Ini Bos Ke-{bossSpawnCount + 1}. HP: {finalHealthMult}x, DMG: {finalDamageMult}x");
         
-        // Tambahkan hitungan bos untuk bos berikutnya
         bossSpawnCount++; 
     }
 
@@ -267,8 +301,8 @@ public class GameManager : MonoBehaviour
         {
             // Di sini kamu bisa menerapkan multiplier ke script boss (jika boss pakai EnemiesBase)
             // Contoh (uncomment jika EnemiesBase kamu mendukung public variabel ini):
-            // bossStats.maxHealth *= healthMultiplier;
-            // bossStats.damage *= damageMultiplier;
+            bossStats._health *= healthMultiplier;
+            bossStats._damage *= damageMultiplier;
         }
     }
     
@@ -329,6 +363,8 @@ public class GameManager : MonoBehaviour
         
         isUpgradeChoosing = true;
         Time.timeScale = 0f;
+        // ✅ TAMBAHKAN INI: Pause effect pada musik
+        MusicManager.Instance?.SetPauseEffect(true);
         
         if (upgradeUI != null) 
         {
@@ -434,6 +470,8 @@ public class GameManager : MonoBehaviour
     {
         isUpgradeChoosing = false;
         Time.timeScale = 1f;
+        // ✅ TAMBAHKAN INI: Resume effect musik setelah memilih upgrade
+        MusicManager.Instance?.SetPauseEffect(false);
         
         if (selectedItem is ItemsSO activeItem) ApplyActiveItemUpgrade(activeItem);
         else if (selectedItem is ItemsPassiveSO passiveItem) ApplyPassiveItemUpgrade(passiveItem);
@@ -521,7 +559,11 @@ public class GameManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        if (gameOverPanel != null) gameOverPanel.ShowGameOver();
+        if (gameOverPanel != null) 
+        {
+            MusicManager.Instance?.SetPauseEffect(false);
+            gameOverPanel.ShowGameOver();
+        }
         else
         {
             playerData.Globalgold += playerData.gold;

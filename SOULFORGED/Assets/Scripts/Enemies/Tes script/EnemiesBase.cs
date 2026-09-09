@@ -175,13 +175,32 @@ public class EnemiesBase : MonoBehaviour
     {
         int droppedCount = 0;
         
+        // ✅ AMBIL DIFFICULTY MULTIPLIER
+        float goldMult = 1f;
+        float soulMult = 1f;
+        
+        if (DifficultyManager.Instance != null)
+        {
+            DifficultySettings diff = DifficultyManager.Instance.GetCurrentDifficulty();
+            goldMult = diff.goldMultiplier;
+            soulMult = diff.soulMultiplier;
+        }
+        
         if (coinPrefab != null && coinDropChance > 0)
         {
             float roll = Random.Range(0f, 100f);
             if (roll <= coinDropChance)
             {
                 Vector3 spawnPos = GetRandomDropPosition(0, 0f);
-                Instantiate(coinPrefab, spawnPos, Quaternion.identity);
+                GameObject coinObj = Instantiate(coinPrefab, spawnPos, Quaternion.identity);
+                
+                // ✅ GUNAKAN CurrencyDrop
+                if (coinObj.TryGetComponent(out CurrencyDrop currencyDrop))
+                {
+                    int newAmount = Mathf.RoundToInt(currencyDrop.GetAmount() * goldMult);
+                    currencyDrop.SetAmount(newAmount);
+                }
+                
                 droppedCount++;
             }
         }
@@ -193,7 +212,15 @@ public class EnemiesBase : MonoBehaviour
             {
                 int side = (droppedCount == 1) ? 1 : 0;
                 Vector3 spawnPos = GetRandomDropPosition(side, 1.22f);
-                Instantiate(soulPrefab, spawnPos, Quaternion.identity);
+                GameObject soulObj = Instantiate(soulPrefab, spawnPos, Quaternion.identity);
+                
+                // ✅ GUNAKAN CurrencyDrop
+                if (soulObj.TryGetComponent(out CurrencyDrop currencyDrop))
+                {
+                    int newAmount = Mathf.RoundToInt(currencyDrop.GetAmount() * soulMult);
+                    currencyDrop.SetAmount(newAmount);
+                }
+                
                 droppedCount++;
             }
         }

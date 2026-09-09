@@ -9,6 +9,9 @@ public class MainMenu : MonoBehaviour
     public Slider MusicSlider;
     public Slider SoundSlider;
     
+    [Header("Difficulty Panel")]
+    [SerializeField] private GameObject difficultyPanel;
+    
     private const string MUSIC_VOL_KEY = "MusicVolume";
     private const string SFX_VOL_KEY = "SFXVolume";
     
@@ -27,25 +30,81 @@ public class MainMenu : MonoBehaviour
         if (SoundSlider != null)
             SoundSlider.onValueChanged.AddListener(delegate { OnSFXSliderChanged(); });
         
-        // ✅ SETUP DAMAGE NUMBER TOGGLE
         SetupDamageNumberToggle();
+        
+        if (difficultyPanel != null)
+            difficultyPanel.SetActive(false);
         
         MusicManager.Instance.PlayTrack("Main Menu");
     }
     
+    // ==========================================
+    // DIFFICULTY METHODS - Untuk OnClick() di Inspector
+    // ==========================================
+    
     public void PlayGame() 
     {
-        SaveVolume(); // Save sebelum pindah scene
+        SaveVolume();
+        
+        if (difficultyPanel != null)
+        {
+            difficultyPanel.SetActive(true);
+        }
+        else
+        {
+            SelectNormalDifficulty();
+        }
+    }
+    
+    public void SelectNormalDifficulty()
+    {
+        SelectDifficulty(0);
+    }
+    
+    public void SelectHardDifficulty()
+    {
+        SelectDifficulty(1);
+    }
+    
+    public void SelectExpertDifficulty()
+    {
+        SelectDifficulty(2);
+    }
+    
+    public void SelectHellDifficulty()
+    {
+        SelectDifficulty(3);
+    }
+    
+    void SelectDifficulty(int difficultyIndex)
+    {
+        if (DifficultyManager.Instance == null)
+        {
+            GameObject diffObj = new GameObject("DifficultyManager");
+            diffObj.AddComponent<DifficultyManager>();
+        }
+        
+        DifficultyManager.Instance.SelectDifficulty(difficultyIndex);
+        
+        if (difficultyPanel != null)
+            difficultyPanel.SetActive(false);
+        
+        StartGame();
+    }
+    
+    void StartGame()
+    {
+        SaveVolume();
         SceneManager.LoadSceneAsync(1);
         MusicManager.Instance.PlayTrack("Stage 1");
     }
 
     public void QuitGame() 
     {
-        SaveVolume(); // Save sebelum keluar
+        SaveVolume();
         Application.Quit();
     }
-
+    
     // ==========================================
     // VOLUME CONTROL
     // ==========================================
@@ -53,18 +112,17 @@ public class MainMenu : MonoBehaviour
     public void UpdateMusicVolume(float volume)
     {
         audioMixer.SetFloat(MUSIC_VOL_KEY, volume);
-        PlayerPrefs.SetFloat(MUSIC_VOL_KEY, volume); // Auto-save
+        PlayerPrefs.SetFloat(MUSIC_VOL_KEY, volume);
         PlayerPrefs.Save();
     }
  
     public void UpdateSoundVolume(float volume)
     {
         audioMixer.SetFloat(SFX_VOL_KEY, volume);
-        PlayerPrefs.SetFloat(SFX_VOL_KEY, volume); // Auto-save
+        PlayerPrefs.SetFloat(SFX_VOL_KEY, volume);
         PlayerPrefs.Save();
     }
     
-    // Auto-save pas slider digeser
     void OnMusicSliderChanged()
     {
         UpdateMusicVolume(MusicSlider.value);
@@ -83,21 +141,18 @@ public class MainMenu : MonoBehaviour
         audioMixer.GetFloat(SFX_VOL_KEY, out float sfxVolume);
         PlayerPrefs.SetFloat(SFX_VOL_KEY, sfxVolume);
         
-        PlayerPrefs.Save(); // ✅ WAJIB: Biar langsung ke-save ke disk
+        PlayerPrefs.Save();
         Debug.Log($"Volume Saved! Music: {musicVolume}, SFX: {sfxVolume}");
     }
  
     public void LoadVolume()
     {
-        // Default value = 0 (volume penuh)
         float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 0);
         float sfxVolume = PlayerPrefs.GetFloat(SFX_VOL_KEY, 0);
         
-        // Set ke AudioMixer
         audioMixer.SetFloat(MUSIC_VOL_KEY, musicVolume);
         audioMixer.SetFloat(SFX_VOL_KEY, sfxVolume);
         
-        // Set slider position (biar gak loncat)
         if (MusicSlider != null) MusicSlider.value = musicVolume;
         if (SoundSlider != null) SoundSlider.value = sfxVolume;
         
@@ -108,31 +163,22 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Toggle damageNumberToggle;
     private const string DAMAGE_NUMBER_KEY = "ShowDamageNumbers";
     
-    
-    
-    // ✅ TAMBAHKAN METHOD INI
     void SetupDamageNumberToggle()
     {
         if (damageNumberToggle == null) return;
         
-        // Load setting yang tersimpan (default: true/hidup)
         bool showDamage = PlayerPrefs.GetInt(DAMAGE_NUMBER_KEY, 1) == 1;
         damageNumberToggle.isOn = showDamage;
         
-        // Listen untuk perubahan
         damageNumberToggle.onValueChanged.AddListener(OnDamageNumberToggleChanged);
     }
     
-    // ✅ TAMBAHKAN METHOD INI
     void OnDamageNumberToggleChanged(bool isOn)
     {
         PlayerPrefs.SetInt(DAMAGE_NUMBER_KEY, isOn ? 1 : 0);
         PlayerPrefs.Save();
         Debug.Log($"Damage Numbers: {(isOn ? "ON" : "OFF")}");
     }
-    // ==========================================
-    // AUTO-SAVE SAAT KELUAR APLIKASI
-    // ==========================================
     
     void OnApplicationQuit()
     {
@@ -143,7 +189,7 @@ public class MainMenu : MonoBehaviour
     {
         if (pauseStatus)
         {
-            SaveVolume(); // Save pas aplikasi di-pause (misal buka menu HP)
+            SaveVolume();
         }
     }
 }

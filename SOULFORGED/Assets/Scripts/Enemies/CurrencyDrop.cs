@@ -51,4 +51,22 @@ public class CurrencyDrop : MonoBehaviour
             }
         }
     }
+    
+    // ✅ TAMBAHKAN METHOD INI
+    public void SetAmount(int newAmount)
+    {
+        amount = newAmount;
+    }
+    
+    // ✅ TAMBAHKAN METHOD INI (opsional, jika perlu set type)
+    public void SetType(CurrencyType newType)
+    {
+        type = newType;
+    }
+    
+    // ✅ TAMBAHKAN METHOD INI (opsional, untuk get amount)
+    public int GetAmount()
+    {
+        return amount;
+    }
 }

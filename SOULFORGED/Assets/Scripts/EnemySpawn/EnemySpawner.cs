@@ -23,6 +23,10 @@ public partial class EnemySpawner : MonoBehaviour
     private float currentDamageMultiplier = 1f;
     private float currentHealthMultiplier = 1f;
     private float currentSpeedMultiplier = 1f;
+    
+    // ✅ TAMBAHAN BARU: Variable untuk difficulty multiplier
+    private float difficultyHealthMultiplier = 1f;
+    private float difficultyDamageMultiplier = 1f;
 
     private float timer;
 
@@ -68,27 +72,22 @@ public partial class EnemySpawner : MonoBehaviour
         if (enemyObject.TryGetComponent(out EnemiesBase enemyScript))
         {
             // ✅ APPLY MULTIPLIER KE STATS ENEMY
-            float finalHealth = selectedEnemyData.health * currentHealthMultiplier;
+            // Gabungkan wave multiplier dengan difficulty multiplier
+            float finalHealth = selectedEnemyData.health * currentHealthMultiplier * difficultyHealthMultiplier;
             float finalSpeed = selectedEnemyData.speed * currentSpeedMultiplier;
-            float finalDamage = selectedEnemyData.baseDamage * currentDamageMultiplier;
+            float finalDamage = selectedEnemyData.baseDamage * currentDamageMultiplier * difficultyDamageMultiplier;
             
             enemyScript.Setup(
-                finalHealth,           // Health with multiplier
-                finalSpeed,           // Speed with multiplier
-                finalDamage,          // Damage with multiplier
+                finalHealth,           // Health dengan wave & difficulty multiplier
+                finalSpeed,           // Speed dengan wave multiplier
+                finalDamage,          // Damage dengan wave & difficulty multiplier
                 selectedEnemyData.attackInterval, 
                 selectedEnemyData.expReward
             );
             
-            // Optional: Log untuk debugging
-            // Debug.Log($"Spawn Enemy: Health {finalHealth} (x{currentHealthMultiplier}), Damage {finalDamage} (x{currentDamageMultiplier})");
-        }
-        
-        // Optional: Apply multiplier ke boss juga jika diperlukan
-        if (enemyObject.TryGetComponent(out EnemyMeleeAttack meleeAttack))
-        {
-            // Melee attack sudah otomatis pake damage dari enemyStats._damage
-            // Jadi tidak perlu diubah lagi
+            // Debug log untuk testing
+            Debug.Log($"Spawn Enemy: HP {finalHealth} (Wave: {currentHealthMultiplier}x, Difficulty: {difficultyHealthMultiplier}x), " +
+                     $"DMG {finalDamage} (Wave: {currentDamageMultiplier}x, Difficulty: {difficultyDamageMultiplier}x)");
         }
     }
 
@@ -121,6 +120,18 @@ public partial class EnemySpawner : MonoBehaviour
         Debug.Log($"Spawner Updated: Wave Multiplier - Damage: {damageMultiplier}x, Health: {healthMultiplier}x, Speed: {speedMultiplier}x");
     }
     
+    // ✅ TAMBAHAN BARU: Method untuk set difficulty multiplier
+    /// <summary>
+    /// Set difficulty multiplier dari DifficultyManager
+    /// </summary>
+    public void SetDifficultyMultipliers(float healthMultiplier, float damageMultiplier)
+    {
+        difficultyHealthMultiplier = healthMultiplier;
+        difficultyDamageMultiplier = damageMultiplier;
+        
+        Debug.Log($"Difficulty Multiplier Applied - Health: {healthMultiplier}x, Damage: {damageMultiplier}x");
+    }
+    
     /// <summary>
     /// Reset multiplier ke default (opsional)
     /// </summary>
@@ -129,5 +140,9 @@ public partial class EnemySpawner : MonoBehaviour
         currentDamageMultiplier = 1f;
         currentHealthMultiplier = 1f;
         currentSpeedMultiplier = 1f;
+        
+        // ✅ TAMBAHAN: Reset difficulty multiplier juga
+        difficultyHealthMultiplier = 1f;
+        difficultyDamageMultiplier = 1f;
     }
 }
