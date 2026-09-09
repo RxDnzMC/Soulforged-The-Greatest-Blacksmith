@@ -2737,6 +2737,7 @@ MonoBehaviour:
   speedIncreasePerMinute: 0
   Boss1: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
   Boss2: {fileID: 2080063104508682772, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+  bossSpawnIntervalInSeconds: 180
   bossHealthIncreasePerSpawn: 1
   bossDamageIncreasePerSpawn: 0.2
   timerString: 

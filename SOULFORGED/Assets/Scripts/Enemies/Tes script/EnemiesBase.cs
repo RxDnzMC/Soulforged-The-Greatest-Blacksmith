@@ -228,7 +228,14 @@ public class EnemiesBase : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
             
-        if (playerData != null) playerData.exp += expReward;
+        if (playerData != null) 
+        {
+            float finalExp = expReward * playerData.expMultiplier;
+            playerData.exp += finalExp;
+            
+            // Optional: Debug untuk testing
+            Debug.Log($"EXP: {expReward} x {playerData.expMultiplier} = {finalExp}");
+        }
 
         Animator anim = GetComponent<Animator>();
         if (anim == null) anim = GetComponentInChildren<Animator>();

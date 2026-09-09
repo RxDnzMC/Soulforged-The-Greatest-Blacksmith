@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     [Header("Boss Setup & Scaling")]
     public GameObject Boss1; 
     public GameObject Boss2; 
+    [Tooltip("Interval spawn boss dalam DETIK (30 = 30 detik, 180 = 3 menit, 300 = 5 menit)")]
+    [SerializeField] private float bossSpawnIntervalInSeconds = 5f; // ✅ TAMBAHAN BARU   
     [Tooltip("Tambahan darah bos setiap bos baru muncul (Misal: 0.5 berarti Bos kedua HP-nya 1.5x)")]
     [SerializeField] private float bossHealthIncreasePerSpawn = 0.5f;
     [Tooltip("Tambahan damage bos setiap bos baru muncul")]
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     private GameObject currentBoss = null;
     private bool isWaitingForBossDeath = false;
     private int bossSpawnCount = 0; // Menghitung sudah berapa kali bos muncul
+    private float nextBossSpawnTime = 0f; // ✅ TAMBAHAN BARU
 
     [Header("Timer Display")]
     public string timerString;
@@ -97,6 +100,8 @@ public class GameManager : MonoBehaviour
         if (playerData.DefaultItem != null) playerData.DefaultItem.playerData = playerData;
         
         defaultItem();
+        // ✅ TAMBAHAN BARU: Inisialisasi waktu spawn boss pertama
+        nextBossSpawnTime = bossSpawnIntervalInSeconds;
     }
 
     float GetExpRequirement(int level)
@@ -131,6 +136,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateTimer();
+        CheckBossSpawn();
         CheckMinuteProgression();
         CheckBossStatus();
         HandleLevelUp();
@@ -209,17 +215,23 @@ public class GameManager : MonoBehaviour
             finalSpeedMult
         );
 
-        // CEK SPAWN BOSS (Setiap KELIPATAN 3 MENIT)
-        if (minute > 0 && minute % 3 == 0)
+        // ✅ BAGIAN SPAWN BOSS DIHAPUS DARI SINI
+        // Sekarang spawn boss ditangani oleh CheckBossSpawn() di Update()
+    }
+
+    void CheckBossSpawn()
+    {
+        if (elapsedTime >= nextBossSpawnTime)
         {
-            SpawnBoss(minute);
+            SpawnBoss();
+            nextBossSpawnTime = elapsedTime + bossSpawnIntervalInSeconds;
         }
     }
 
     // ==========================================
     // SISTEM BOSS SCALING TERPISAH
     // ==========================================
-    void SpawnBoss(int minute)
+    void SpawnBoss()
     {
         if (isWaitingForBossDeath && currentBoss != null) return;
 
@@ -242,7 +254,7 @@ public class GameManager : MonoBehaviour
 
         if (enemySpawner != null) enemySpawner.enabled = false;
         
-        Debug.Log($"Boss Muncul di Menit {minute}! Ini Bos Ke-{bossSpawnCount + 1}. HP: {bossHealthMult}x");
+        Debug.Log($"Boss Muncul di Detik {elapsedTime}! Ini Bos Ke-{bossSpawnCount + 1}. HP: {bossHealthMult}x");
         
         // Tambahkan hitungan bos untuk bos berikutnya
         bossSpawnCount++; 
