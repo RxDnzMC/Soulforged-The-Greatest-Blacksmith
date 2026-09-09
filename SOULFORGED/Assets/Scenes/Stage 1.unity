@@ -2751,8 +2751,8 @@ MonoBehaviour:
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
   - waveName: menit5 -after boss
-    maxActiveEnemies: 50
-    spawnInterval: 1
+    maxActiveEnemies: 800
+    spawnInterval: 0.05
     enemyPool:
     - {fileID: 11400000, guid: 1dc01b9c71b562342b9dd34dc3cd72af, type: 2}
     - {fileID: 11400000, guid: 8fcaf1b86422ccf419cd41654335f8ea, type: 2}
