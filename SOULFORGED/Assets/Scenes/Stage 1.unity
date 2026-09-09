@@ -2655,7 +2655,7 @@ MonoBehaviour:
   UIGame: {fileID: 917538893}
   upgradeUI: {fileID: 917538894}
   waves:
-  - waveName: detik1
+  - waveName: wave 0
     maxActiveEnemies: 20
     spawnInterval: 1
     enemyPool:
@@ -2663,41 +2663,50 @@ MonoBehaviour:
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
-  - waveName: detik20
-    maxActiveEnemies: 30
-    spawnInterval: 0.7
-    enemyPool:
-    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-    baseDamageMultiplier: 1
-    baseHealthMultiplier: 1
-    baseSpeedMultiplier: 1
-  - waveName: detik40
-    maxActiveEnemies: 50
+  - waveName: wave 1
+    maxActiveEnemies: 35
     spawnInterval: 0.6
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
-  - waveName: menit1detik30
+  - waveName: wave 2
     maxActiveEnemies: 50
-    spawnInterval: 0.1
+    spawnInterval: 0.5
     enemyPool:
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
-  - waveName: menit2
-    maxActiveEnemies: 65
-    spawnInterval: 0.4
+  - waveName: wave 3
+    maxActiveEnemies: 75
+    spawnInterval: 0.2
     enemyPool:
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  - waveName: wave 4
+    maxActiveEnemies: 90
+    spawnInterval: 0.3
+    enemyPool:
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
-  - waveName: menit2detik30
-    maxActiveEnemies: 80
+  - waveName: wave 5
+    maxActiveEnemies: 150
+    spawnInterval: 0.2
+    enemyPool:
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  - waveName: wave 6
+    maxActiveEnemies: 150
     spawnInterval: 0.2
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
@@ -2705,28 +2714,58 @@ MonoBehaviour:
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
-  - waveName: menit3
-    maxActiveEnemies: 50
-    spawnInterval: 1
-    enemyPool:
-    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
-    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
-    baseDamageMultiplier: 1
-    baseHealthMultiplier: 1
-    baseSpeedMultiplier: 1
-  - waveName: menit3 -after boss
+  - waveName: chaos monster 1
     maxActiveEnemies: 300
     spawnInterval: 0.025
     enemyPool:
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  - waveName: chaos monster 2
+    maxActiveEnemies: 700
+    spawnInterval: 0.025
+    enemyPool:
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  - waveName: chaos boss 1
+    maxActiveEnemies: 50
+    spawnInterval: 1
+    enemyPool:
+    - {fileID: 11400000, guid: 1dc01b9c71b562342b9dd34dc3cd72af, type: 2}
+    baseDamageMultiplier: 1
+    baseHealthMultiplier: 1
+    baseSpeedMultiplier: 1
+  - waveName: chaos boss 2
+    maxActiveEnemies: 50
+    spawnInterval: 1
+    enemyPool:
+    - {fileID: 11400000, guid: 8fcaf1b86422ccf419cd41654335f8ea, type: 2}
     baseDamageMultiplier: 1
     baseHealthMultiplier: 1
     baseSpeedMultiplier: 1
   - waveName: menit5 -after boss
-    maxActiveEnemies: 500
-    spawnInterval: 0.025
+    maxActiveEnemies: 50
+    spawnInterval: 1
     enemyPool:
+    - {fileID: 11400000, guid: 1dc01b9c71b562342b9dd34dc3cd72af, type: 2}
+    - {fileID: 11400000, guid: 8fcaf1b86422ccf419cd41654335f8ea, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+    - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
+    - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
+    - {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
     - {fileID: 11400000, guid: d6ba0221eed7a294a91dac4a0268e666, type: 2}
     - {fileID: 11400000, guid: 411345f5f38c01046a465e6d2ad54604, type: 2}
     baseDamageMultiplier: 1
@@ -2737,7 +2776,7 @@ MonoBehaviour:
   speedIncreasePerMinute: 0
   Boss1: {fileID: 3344493473220656073, guid: 09a6c402b93912b449df4d78bdd2259b, type: 3}
   Boss2: {fileID: 2080063104508682772, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
-  bossSpawnIntervalInSeconds: 2
+  bossSpawnIntervalInSeconds: 180
   bossHealthIncreasePerSpawn: 1
   bossDamageIncreasePerSpawn: 0.2
   timerString: 

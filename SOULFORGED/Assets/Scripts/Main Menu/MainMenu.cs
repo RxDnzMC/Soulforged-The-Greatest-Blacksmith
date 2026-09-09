@@ -12,6 +12,9 @@ public class MainMenu : MonoBehaviour
     [Header("Difficulty Panel")]
     [SerializeField] private GameObject difficultyPanel;
     
+    [Header("Player Data")]
+    [SerializeField] private PlayerData playerData; // ✅ Tambahkan reference PlayerData
+    
     private const string MUSIC_VOL_KEY = "MusicVolume";
     private const string SFX_VOL_KEY = "SFXVolume";
     
@@ -103,6 +106,72 @@ public class MainMenu : MonoBehaviour
     {
         SaveVolume();
         Application.Quit();
+    }
+    
+    // ==========================================
+    // DEBUG/CHEAT BUTTONS - Untuk Testing
+    // ==========================================
+    
+    /// <summary>
+    /// Reset PlayerData ke nilai default
+    /// </summary>
+    public void ResetPlayerData()
+    {
+        if (playerData == null)
+        {
+            Debug.LogError("PlayerData is null! Assign di Inspector!");
+            return;
+        }
+        
+        // Reset semua data
+        playerData.ResetData();
+        
+        // Reset level permanent juga
+        playerData.ResetAllLevels();
+        
+        // Reset gold dan soul ke 0
+        playerData.Globalgold = 0;
+        playerData.Globalsouls = 0;
+        playerData.gold = 0;
+        playerData.souls = 0;
+
+        
+        // Reset multiplier
+        playerData.expMultiplier = 1f;
+        playerData.projectileDamageMultiplier = 1f;
+        playerData.projectileSpeedMultiplier = 1f;
+        playerData.projectileLifetimeMultiplier = 1f;
+        playerData.cooldownReductionMultiplier = 0f;
+        playerData.projectileCountMultiplier = 1f;
+        
+        // Reset health
+        playerData.health = playerData.baseMaxHealth;
+        playerData.maxHealth = playerData.baseMaxHealth;
+        playerData.defense = playerData.baseDefense;
+        
+        // Reset inventory
+        playerData.ResetInventory();
+        
+        Debug.Log("✅ PLAYERDATA BERHASIL DI-RESET!");
+    }
+    
+    /// <summary>
+    /// Set gold dan soul ke 999 juta untuk testing
+    /// </summary>
+    public void SetMaxCurrency()
+    {
+        if (playerData == null)
+        {
+            Debug.LogError("PlayerData is null! Assign di Inspector!");
+            return;
+        }
+        
+        int maxValue = 999000000; // 999 juta
+        
+        playerData.Globalgold = maxValue;
+        playerData.Globalsouls = maxValue;
+        
+        Debug.Log($"✅ CURRENCY DI-SET KE 999 JUTA! Gold: {playerData.Globalgold}, Souls: {playerData.Globalsouls}");
     }
     
     // ==========================================

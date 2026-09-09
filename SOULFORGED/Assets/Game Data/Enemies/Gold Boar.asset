@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gold Boar
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesData
   enemyName: Gold Boar
-  health: 1000
+  health: 100
   baseDamage: 10
   speed: 9
   attackInterval: 1.4

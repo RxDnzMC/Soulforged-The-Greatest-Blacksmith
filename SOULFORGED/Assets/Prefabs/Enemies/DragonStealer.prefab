@@ -677,11 +677,11 @@ MonoBehaviour:
   healItemPrefab: {fileID: 0}
   healDropChance: 0
   lootSpawnHeight: 1
-  _health: 10000
+  _health: 5000
   _speed: 5
-  _damage: 3
+  _damage: 75
   _attackInterval: 0.2
-  expReward: 2
+  expReward: 3500
 --- !u!114 &3847015655147449515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,6 +711,7 @@ MonoBehaviour:
   puddleIndicatorPrefab: {fileID: 6757298203201877189, guid: 243f9de4009ff0a4caee048f62044c03, type: 3}
   puddleWarningTime: 1.2
   acidPuddlePrefab: {fileID: 8971715511899163601, guid: 1c27872c8496e764e857ffdce3902bb9, type: 3}
+  puddleCount: 3
   passiveInterval: 4.5
   puddleDuration: 4
   puddleDamagePerTick: 2
@@ -724,7 +725,7 @@ MonoBehaviour:
   screamDamageDelay: 0.8
   screamAnimDuration: 2
   screamAnimStateName: Scream
-  goldBoarData: {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
+  goldBoarData: {fileID: 11400000, guid: b28d03b1f4a8cc44f80586c404498f06, type: 2}
   summonCount: 5
   summonRadius: 7.27
   screamCooldown: 22

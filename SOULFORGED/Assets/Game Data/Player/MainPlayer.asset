@@ -21,12 +21,12 @@ MonoBehaviour:
   expToNextLevel: 200
   expMultiplier: 1
   projectileDamageMultiplier: 1
-  projectileSpeedMultiplier: 0
-  projectileLifetimeMultiplier: 0
+  projectileSpeedMultiplier: 1
+  projectileLifetimeMultiplier: 1
   cooldownReductionMultiplier: 0
-  projectileCountMultiplier: 0
-  Globalgold: 916972
-  Globalsouls: 992313
+  projectileCountMultiplier: 1
+  Globalgold: 0
+  Globalsouls: 0
   baseMaxHealth: 100
   baseDefense: 0
   baseMoveSpeed: 5
@@ -34,7 +34,7 @@ MonoBehaviour:
   baseCooldownReduction: 0
   gold: 0
   souls: 0
-  DefaultItem: {fileID: 11400000, guid: 3cd0f79b0fe8c03418a4e4a68a5208c8, type: 2}
+  DefaultItem: {fileID: 11400000, guid: 8c41e0d858ea0db41b15fb46d6aac51e, type: 2}
   DefaultSlot:
   - {fileID: 0}
   - {fileID: 0}

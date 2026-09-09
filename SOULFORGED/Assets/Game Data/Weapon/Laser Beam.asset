@@ -27,32 +27,32 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: 
   - level: 1
-    damage: 7
+    damage: 8
     cooldown: 0
     speed: 0
     lifetime: 9999999
     sizeMultiplier: 1.2
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size
+    levelDescription: Size  20% & Damage +1
   - level: 2
-    damage: 7
+    damage: 9
     cooldown: 0
     speed: 0
     lifetime: 999999
     sizeMultiplier: 1.4
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size
+    levelDescription: Size  20% & Damage +1
   - level: 3
-    damage: 7
+    damage: 10
     cooldown: 0
     speed: 0
     lifetime: 999999
     sizeMultiplier: 1.5
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size
+    levelDescription: Size  10% & Damage +1
   - level: 7
     damage: 12
     cooldown: 0
@@ -61,16 +61,16 @@ MonoBehaviour:
     sizeMultiplier: 1.6
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size, damage
+    levelDescription: Size +10% & Damage +2
   - level: 5
-    damage: 12
+    damage: 14
     cooldown: 0
     speed: 0
     lifetime: 999999
-    sizeMultiplier: 1.7
+    sizeMultiplier: 1.8
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size
+    levelDescription: Size  20% & Damage +2
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10

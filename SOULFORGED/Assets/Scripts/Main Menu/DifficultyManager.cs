@@ -58,7 +58,7 @@ public class DifficultyManager : MonoBehaviour
             goldMultiplier = 10f, 
             soulMultiplier = 10f, 
             monsterHealthMultiplier = 10f, 
-            monsterDamageMultiplier = 2f,
+            monsterDamageMultiplier = 2.5f,
         }
     };
     
