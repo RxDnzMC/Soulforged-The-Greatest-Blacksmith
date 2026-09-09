@@ -40,7 +40,7 @@ MonoBehaviour:
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 1.6
+    sizeMultiplier: 1.45
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size
@@ -49,7 +49,7 @@ MonoBehaviour:
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 1.9
+    sizeMultiplier: 1.6
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size
@@ -58,7 +58,7 @@ MonoBehaviour:
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 2.5
+    sizeMultiplier: 1.8
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size, damage
@@ -67,7 +67,7 @@ MonoBehaviour:
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 3.2
+    sizeMultiplier: 2.5
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size

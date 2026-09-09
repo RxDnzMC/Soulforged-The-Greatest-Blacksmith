@@ -21,6 +21,7 @@ public class EnemyDragonAttackBehavior : MonoBehaviour
     public GameObject puddleIndicatorPrefab; 
     public float puddleWarningTime = 1.2f; 
     public GameObject acidPuddlePrefab; 
+    public int puddleCount = 3;
     public float passiveInterval = 3.0f; 
     public float puddleDuration = 4.0f; 
     public float puddleDamagePerTick = 5.0f; 
@@ -266,9 +267,13 @@ public class EnemyDragonAttackBehavior : MonoBehaviour
         if (acidPuddlePrefab == null || enemyStats.playerData == null) return;
         Vector3 playerPos = enemyStats.playerData.playerPosition;
         playerPos.y = 0.05f; 
-        StartCoroutine(SpawnPuddleWithWarning(playerPos));
-        StartCoroutine(SpawnPuddleWithWarning(GetRandomPuddlePosition(playerPos)));
-        StartCoroutine(SpawnPuddleWithWarning(GetRandomPuddlePosition(playerPos)));
+
+        for (int i = 0; i < puddleCount; i++)
+        {
+            // Puddle pertama pas di kaki player, selebihnya disebar acak di sekitar player
+            Vector3 spawnPos = (i == 0) ? playerPos : GetRandomPuddlePosition(playerPos);
+            StartCoroutine(SpawnPuddleWithWarning(spawnPos));
+        }
     }
 
     IEnumerator SpawnPuddleWithWarning(Vector3 spawnPos)

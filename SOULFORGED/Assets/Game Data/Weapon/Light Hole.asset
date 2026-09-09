@@ -63,14 +63,14 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: projectile
   - level: 5
-    damage: 10
+    damage: 30
     cooldown: 0
-    speed: 100
+    speed: 200
     lifetime: 0
     sizeMultiplier: 3.6
     projectileCount: 6
     spreadAngle: 0
-    levelDescription: size, projectile
+    levelDescription: size, projectile, damage, speed
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   MaxPermanentLevel: 5
   permanentDamageBonusPercent: 10

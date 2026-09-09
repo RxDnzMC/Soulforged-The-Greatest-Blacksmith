@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CurrencyDrop : MonoBehaviour
 {
@@ -12,45 +13,42 @@ public class CurrencyDrop : MonoBehaviour
     [Header("Feedback (Optional)")]
     [SerializeField] private GameObject collectEffectPrefab;
 
-    private void OnTriggerEnter(Collider other)
+    private static List<CurrencyDrop> activeGoldDrops = new List<CurrencyDrop>();
+    private static List<CurrencyDrop> activeSoulDrops = new List<CurrencyDrop>();
+    private const int MAX_DROPS = 40;
+
+    private void Start()
     {
-        // Pastikan objek yang menyentuh memiliki Tag "Player"
-        if (other.CompareTag("Player"))
+        List<CurrencyDrop> targetList = (type == CurrencyType.Gold) ? activeGoldDrops : activeSoulDrops;
+
+        while (targetList.Count >= MAX_DROPS)
         {
-            Collect();
+            if (targetList[0] != null) Destroy(targetList[0].gameObject);
+            targetList.RemoveAt(0);
         }
+
+        targetList.Add(this);
+        Destroy(gameObject, 30f);
     }
 
-    private void Collect()
+    private void OnDestroy()
     {
-        if (playerData != null)
-        {
-            // Logika penambahan berdasarkan tipe
-            if (type == CurrencyType.Gold)
-            {
-                // Sesuaikan nama variabel 'gold' dengan yang ada di PlayerData-mu
-                playerData.gold += amount;
-                Debug.Log($"Gold terkumpul! Total: {playerData.gold}");
-            }
-            else if (type == CurrencyType.Soul)
-            {
-                // Sesuaikan nama variabel 'souls' dengan yang ada di PlayerData-mu
-                playerData.souls += amount;
-                Debug.Log($"Soul terkumpul! Total: {playerData.souls}");
-            }
+        if (type == CurrencyType.Gold) activeGoldDrops.Remove(this);
+        else if (type == CurrencyType.Soul) activeSoulDrops.Remove(this);
+    }
 
-            // Spawn efek visual jika ada
-            if (collectEffectPrefab != null)
-            {
-                Instantiate(collectEffectPrefab);
-            }
-
-            // Hancurkan objek drop setelah diambil
-            Destroy(gameObject);
-        }
-        else
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            Debug.LogWarning("PlayerData belum dimasukkan ke dalam prefab Drop!");
+            if (playerData != null)
+            {
+                if (type == CurrencyType.Gold) playerData.gold += amount;
+                else if (type == CurrencyType.Soul) playerData.souls += amount;
+
+                if (collectEffectPrefab != null) Instantiate(collectEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
         }
     }
 }
