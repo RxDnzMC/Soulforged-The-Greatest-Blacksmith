@@ -18,7 +18,7 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 7
+    damage: 9
     cooldown: 0
     speed: 0
     lifetime: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: 
   - level: 1
-    damage: 7
+    damage: 12
     cooldown: 0
     speed: 0
     lifetime: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Size
   - level: 2
-    damage: 7
+    damage: 9
     cooldown: 0
     speed: 0
     lifetime: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Size
   - level: 3
-    damage: 7
+    damage: 12
     cooldown: 0
     speed: 0
     lifetime: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Size
   - level: 7
-    damage: 12
+    damage: 20
     cooldown: 0
     speed: 0
     lifetime: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Size, damage
   - level: 5
-    damage: 12
+    damage: 30
     cooldown: 0
     speed: 0
     lifetime: 0

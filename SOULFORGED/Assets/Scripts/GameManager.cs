@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
     // ==========================================
     void CheckMinuteProgression()
     {
-        int passedMinutes = Mathf.FloorToInt(elapsedTime / 30f);
+        int passedMinutes = Mathf.FloorToInt(elapsedTime / 60f);
 
         if (passedMinutes > currentMinute)
         {

@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Projectile +2
   - level: 2
-    damage: 10
+    damage: 15
     cooldown: 4
     speed: 0
     lifetime: 2
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Projectile +2
   - level: 3
-    damage: 15
+    damage: 20
     cooldown: 4
     speed: 0
     lifetime: 2
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Projectile +2, Damage +5
   - level: 4
-    damage: 15
+    damage: 30
     cooldown: 4
     speed: 0
     lifetime: 2
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Projectile +2
   - level: 5
-    damage: 15
+    damage: 45
     cooldown: 3
     speed: 0
     lifetime: 2

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a302c0fdc34811418e44411c5958959, type: 3}
-  m_Name: FIreball
+  m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::FireballSO
   itemName: Fireball
   itemIcon: {fileID: 21300000, guid: 3c7515d7243ca514291dbe21849b0772, type: 3}
@@ -18,7 +18,7 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 15
+    damage: 30
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -27,7 +27,7 @@ MonoBehaviour:
     spreadAngle: 0
     levelDescription: Fireball Menembak Bola Api!!
   - level: 1
-    damage: 15
+    damage: 30
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 15
     levelDescription: Projectile
   - level: 2
-    damage: 20
+    damage: 35
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 30
     levelDescription: Projectile
   - level: 3
-    damage: 20
+    damage: 35
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 45
     levelDescription: Projectile
   - level: 4
-    damage: 25
+    damage: 50
     cooldown: 1.5
     speed: 20
     lifetime: 5
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 60
     levelDescription: Projectile
   - level: 5
-    damage: 25
+    damage: 80
     cooldown: 1.5
     speed: 20
     lifetime: 5

@@ -18,16 +18,16 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 6
+    damage: 10
     cooldown: 0.9
     speed: 10
     lifetime: 3
     sizeMultiplier: 1
     projectileCount: 1
     spreadAngle: 360
-    levelDescription: Damage +10
+    levelDescription: 'Damage '
   - level: 1
-    damage: 6
+    damage: 10
     cooldown: 0.9
     speed: 15
     lifetime: 3
@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 360
     levelDescription: Speed, Projectile
   - level: 2
-    damage: 8
+    damage: 14
     cooldown: 0.9
     speed: 15
     lifetime: 3
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 360
     levelDescription: Damage, Projectile
   - level: 3
-    damage: 8
+    damage: 14
     cooldown: 0.8
     speed: 15
     lifetime: 3
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 360
     levelDescription: Cooldown, Projectile
   - level: 4
-    damage: 9
+    damage: 20
     cooldown: 0.7
     speed: 15
     lifetime: 3
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 360
     levelDescription: Cooldown, Projectile
   - level: 5
-    damage: 10
+    damage: 30
     cooldown: 1
     speed: 15
     lifetime: 3

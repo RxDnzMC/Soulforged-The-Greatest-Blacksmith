@@ -18,7 +18,7 @@ MonoBehaviour:
   shootSound: 
   levels:
   - level: 0
-    damage: 5
+    damage: 10
     cooldown: 2
     speed: 20
     lifetime: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     spreadAngle: 5
     levelDescription: 
   - level: 1
-    damage: 5
+    damage: 10
     cooldown: 2
     speed: 20
     lifetime: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     spreadAngle: 8
     levelDescription: Chain +3, projectile +1
   - level: 2
-    damage: 7
+    damage: 14
     cooldown: 2
     speed: 20
     lifetime: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
     spreadAngle: 11
     levelDescription: damage +2, Chain +3, Projectile +1
   - level: 3
-    damage: 9
+    damage: 16
     cooldown: 2
     speed: 20
     lifetime: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     spreadAngle: 14
     levelDescription: damage +2, Chain +3, Projectile +1
   - level: 4
-    damage: 11
+    damage: 28
     cooldown: 2
     speed: 20
     lifetime: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
     spreadAngle: 17
     levelDescription: damage +2, Chain +3, Projectile +1
   - level: 5
-    damage: 13
+    damage: 45
     cooldown: 1.2
     speed: 20
     lifetime: 0
