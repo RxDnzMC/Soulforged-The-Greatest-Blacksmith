@@ -18,59 +18,59 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 7
+    damage: 9
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 1
+    sizeMultiplier: 1.4
     projectileCount: 0
     spreadAngle: 0
     levelDescription: 
   - level: 1
-    damage: 7
-    cooldown: 0
-    speed: 0
-    lifetime: 0
-    sizeMultiplier: 1.3
-    projectileCount: 0
-    spreadAngle: 0
-    levelDescription: Size
-  - level: 2
-    damage: 7
-    cooldown: 0
-    speed: 0
-    lifetime: 0
-    sizeMultiplier: 1.45
-    projectileCount: 0
-    spreadAngle: 0
-    levelDescription: Size
-  - level: 3
-    damage: 7
-    cooldown: 0
-    speed: 0
-    lifetime: 0
-    sizeMultiplier: 1.6
-    projectileCount: 0
-    spreadAngle: 0
-    levelDescription: Size
-  - level: 7
-    damage: 12
+    damage: 10
     cooldown: 0
     speed: 0
     lifetime: 0
     sizeMultiplier: 1.8
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size, damage
-  - level: 5
+    levelDescription: Damage +1. Size 10%
+  - level: 2
+    damage: 11
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 2
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Damage +1, Size 10%
+  - level: 3
     damage: 12
     cooldown: 0
     speed: 0
     lifetime: 0
-    sizeMultiplier: 2.5
+    sizeMultiplier: 2
     projectileCount: 0
     spreadAngle: 0
-    levelDescription: Size
+    levelDescription: Damage +1
+  - level: 7
+    damage: 13
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 2.4
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Damage +1, size 20%
+  - level: 5
+    damage: 15
+    cooldown: 0
+    speed: 0
+    lifetime: 0
+    sizeMultiplier: 2.4
+    projectileCount: 0
+    spreadAngle: 0
+    levelDescription: Damage +2
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
   MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10

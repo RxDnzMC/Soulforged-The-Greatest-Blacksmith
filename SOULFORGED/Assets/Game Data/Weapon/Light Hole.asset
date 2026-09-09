@@ -18,61 +18,61 @@ MonoBehaviour:
   shootSound: Fireball Shoot
   levels:
   - level: 0
-    damage: 10
+    damage: 15
     cooldown: 0
-    speed: 50
-    lifetime: 0
-    sizeMultiplier: 2.5
-    projectileCount: 1
-    spreadAngle: 0
-    levelDescription: 
-  - level: 1
-    damage: 10
-    cooldown: 0
-    speed: 50
+    speed: 20
     lifetime: 0
     sizeMultiplier: 2.5
     projectileCount: 2
     spreadAngle: 0
-    levelDescription: projectile
-  - level: 2
-    damage: 10
+    levelDescription: 
+  - level: 1
+    damage: 15
     cooldown: 0
-    speed: 50
+    speed: 20
     lifetime: 0
-    sizeMultiplier: 3
-    projectileCount: 3
-    spreadAngle: 0
-    levelDescription: Projectile, size
-  - level: 3
-    damage: 10
-    cooldown: 0
-    speed: 100
-    lifetime: 0
-    sizeMultiplier: 3
+    sizeMultiplier: 2.5
     projectileCount: 4
     spreadAngle: 0
-    levelDescription: speed, projectile
-  - level: 4
-    damage: 10
+    levelDescription: projectile +2
+  - level: 2
+    damage: 20
     cooldown: 0
-    speed: 100
+    speed: 20
     lifetime: 0
-    sizeMultiplier: 1
-    projectileCount: 5
-    spreadAngle: 0
-    levelDescription: projectile
-  - level: 5
-    damage: 30
-    cooldown: 0
-    speed: 200
-    lifetime: 0
-    sizeMultiplier: 3.6
+    sizeMultiplier: 3
     projectileCount: 6
     spreadAngle: 0
-    levelDescription: size, projectile, damage, speed
+    levelDescription: projectile +2, damage +5, size +0.5
+  - level: 3
+    damage: 25
+    cooldown: 0
+    speed: 20
+    lifetime: 0
+    sizeMultiplier: 3
+    projectileCount: 8
+    spreadAngle: 0
+    levelDescription: projectile +2, damage +5
+  - level: 4
+    damage: 30
+    cooldown: 0
+    speed: 20
+    lifetime: 0
+    sizeMultiplier: 3.5
+    projectileCount: 10
+    spreadAngle: 0
+    levelDescription: projectile +2, damage +5, size +0.5
+  - level: 5
+    damage: 35
+    cooldown: 0
+    speed: 20
+    lifetime: 0
+    sizeMultiplier: 3.5
+    projectileCount: 12
+    spreadAngle: 0
+    levelDescription: projectile +2, damage +5
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  MaxPermanentLevel: 5
+  MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10
   permanentGoldBaseCost: 100
   permanentSoulsBaseCost: 10

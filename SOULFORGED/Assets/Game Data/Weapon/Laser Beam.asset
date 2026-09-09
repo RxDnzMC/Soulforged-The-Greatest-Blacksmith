@@ -67,7 +67,7 @@ MonoBehaviour:
     cooldown: 0
     speed: 0
     lifetime: 999999
-    sizeMultiplier: 1.8
+    sizeMultiplier: 1.7
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size  20% & Damage +2

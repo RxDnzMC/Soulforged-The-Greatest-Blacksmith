@@ -18,8 +18,8 @@ MonoBehaviour:
   shootSound: 
   levels:
   - level: 0
-    damage: 2
-    cooldown: 2.5
+    damage: 5
+    cooldown: 2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
@@ -27,52 +27,52 @@ MonoBehaviour:
     spreadAngle: 5
     levelDescription: 
   - level: 1
-    damage: 2
+    damage: 5
     cooldown: 2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 1
-    spreadAngle: 5
-    levelDescription: cooldown
+    projectileCount: 2
+    spreadAngle: 8
+    levelDescription: Chain +3, projectile +1
   - level: 2
-    damage: 4
+    damage: 7
     cooldown: 2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 1
-    spreadAngle: 5
-    levelDescription: damage
+    projectileCount: 3
+    spreadAngle: 11
+    levelDescription: damage +2, Chain +3, Projectile +1
   - level: 3
-    damage: 4
+    damage: 9
     cooldown: 2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 3
-    spreadAngle: 5
-    levelDescription: projectile
+    projectileCount: 4
+    spreadAngle: 14
+    levelDescription: damage +2, Chain +3, Projectile +1
   - level: 4
-    damage: 4
+    damage: 11
     cooldown: 2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 3
-    spreadAngle: 10
-    levelDescription: spread
+    projectileCount: 5
+    spreadAngle: 17
+    levelDescription: damage +2, Chain +3, Projectile +1
   - level: 5
-    damage: 4
-    cooldown: 0.8
+    damage: 13
+    cooldown: 1.2
     speed: 20
     lifetime: 0
     sizeMultiplier: 1
-    projectileCount: 7
-    spreadAngle: 25
-    levelDescription: spread, cooldown, projectile
+    projectileCount: 6
+    spreadAngle: 20
+    levelDescription: damage +2, Chain +3, Projectile +1, Cooldown -1
   playerData: {fileID: 11400000, guid: ca34b324d0584cf49adaf5835d723bc8, type: 2}
-  MaxPermanentLevel: 5
+  MaxPermanentLevel: 20
   permanentDamageBonusPercent: 10
   permanentGoldBaseCost: 100
   permanentSoulsBaseCost: 10

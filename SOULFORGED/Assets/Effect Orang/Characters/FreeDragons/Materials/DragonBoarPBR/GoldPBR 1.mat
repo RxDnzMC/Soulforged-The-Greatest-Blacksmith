@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GoldPBR
+  m_Name: GoldPBR 1
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 2100000, guid: 47ea938179c096840b80ea73fa8d50e7, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -45,15 +45,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: aa6db0aed01d2c344b816e3d1d07731c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 034398a226edc3c41aebbf4e5407ee76, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: d4e81290acb8a10469114431c988d9fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 034398a226edc3c41aebbf4e5407ee76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: aa6db0aed01d2c344b816e3d1d07731c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 034398a226edc3c41aebbf4e5407ee76, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -63,10 +67,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _Smoothness: 0.624
+    - _Smoothness: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.6606895, b: 0, a: 1}
-    - _Color: {r: 1, g: 0.6606895, b: 0, a: 1}
-    - _EmissionColor: {r: 2, g: 0, b: 0.03315544, a: 1}
+    - _BaseColor: {r: 0.0745098, g: 0.63529414, b: 0.59710836, a: 1}
+    - _Color: {r: 0.07450979, g: 0.63529414, b: 0.5971083, a: 1}
+    - _EmissionColor: {r: 0, g: 1.7835244, b: 3.5648696, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

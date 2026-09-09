@@ -33,7 +33,7 @@ public class EnemiesBase : MonoBehaviour
     private Material[] instanceMaterials; // PAKE MATERIAL INSTANCE BIAR GAK GANGGU PREFAB LAIN
     private Color[] originalColors; // Simpan warna asli
 
-    void Start()
+    void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
         instanceMaterials = new Material[renderers.Length];
@@ -41,7 +41,6 @@ public class EnemiesBase : MonoBehaviour
         
         for (int i = 0; i < renderers.Length; i++)
         {
-            // BIKIN INSTANCE MATERIAL BARU (biar gak ganggu shared material)
             instanceMaterials[i] = renderers[i].material;
             originalColors[i] = instanceMaterials[i].color;
         }
@@ -73,7 +72,10 @@ public class EnemiesBase : MonoBehaviour
 
     IEnumerator FlashRed()
     {
-        // Ubah semua material jadi merah
+        // 1. Cek jika musuh mati atau array belum diinisialisasi
+        if (this == null || renderers == null || instanceMaterials == null) yield break;
+
+        // 2. Ubah semua material jadi merah
         for (int i = 0; i < renderers.Length; i++)
         {
             if (instanceMaterials[i] != null)
@@ -84,10 +86,13 @@ public class EnemiesBase : MonoBehaviour
         
         yield return new WaitForSeconds(flashDuration);
         
-        // KEMBALIKAN KE WARNA ASLI
+        // 3. Cek ulang apakah musuh keburu hancur setelah jeda waktu
+        if (this == null || gameObject == null || isDead) yield break;
+
+        // 4. Kembalikan ke warna asli
         for (int i = 0; i < renderers.Length; i++)
         {
-            if (instanceMaterials[i] != null)
+            if (instanceMaterials != null && instanceMaterials[i] != null)
             {
                 instanceMaterials[i].color = originalColors[i];
             }
