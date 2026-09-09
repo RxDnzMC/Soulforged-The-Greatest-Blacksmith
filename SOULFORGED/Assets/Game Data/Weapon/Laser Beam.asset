@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f966a80a1ded9974fab16d44e4c81e50, type: 3}
-  m_Name: Wind Catalyst.cs
+  m_Name: Laser Beam
   m_EditorClassIdentifier: Assembly-CSharp::WindCatalystSO
-  itemName: Tornado
-  itemIcon: {fileID: 21300000, guid: 0e88cab5e6a6a394a92ae060527af9e7, type: 3}
-  projectilePrefab: {fileID: 5132104475289079106, guid: 2c03555f66fe7284181b1140eb3e0959, type: 3}
+  itemName: Laser Beam
+  itemIcon: {fileID: 21300000, guid: c2a6cbddb9807f64f8c2049945775c45, type: 3}
+  projectilePrefab: {fileID: 4698776733466645562, guid: c82f6162ccd76b5459986fc9360d61e2, type: 3}
   shootSound: Fireball Shoot
   levels:
   - level: 0
     damage: 7
     cooldown: 0
     speed: 0
-    lifetime: 0
+    lifetime: 999999
     sizeMultiplier: 1
     projectileCount: 0
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     damage: 7
     cooldown: 0
     speed: 0
-    lifetime: 0
+    lifetime: 9999999
     sizeMultiplier: 1.2
     projectileCount: 0
     spreadAngle: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
     damage: 7
     cooldown: 0
     speed: 0
-    lifetime: 0
+    lifetime: 999999
     sizeMultiplier: 1.4
     projectileCount: 0
     spreadAngle: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
     damage: 7
     cooldown: 0
     speed: 0
-    lifetime: 0
+    lifetime: 999999
     sizeMultiplier: 1.6
     projectileCount: 0
     spreadAngle: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
     damage: 12
     cooldown: 0
     speed: 0
-    lifetime: 0
+    lifetime: 999999
     sizeMultiplier: 1.8
     projectileCount: 0
     spreadAngle: 0
@@ -66,8 +66,8 @@ MonoBehaviour:
     damage: 12
     cooldown: 0
     speed: 0
-    lifetime: 0
-    sizeMultiplier: 3
+    lifetime: 999999
+    sizeMultiplier: 2
     projectileCount: 0
     spreadAngle: 0
     levelDescription: Size

@@ -2899,12 +2899,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7084869185943766912, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
       propertyPath: _health
-      value: 10
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 7084869185943766912, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
       propertyPath: expReward
-      value: 20000
+      value: 9000
       objectReference: {fileID: 0}
+    - target: {fileID: 7874809285977966043, guid: 6d30b96e3a4b2e64a9bbd978321d3c26, type: 3}
+      propertyPath: goldBoarData
+      value: 
+      objectReference: {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

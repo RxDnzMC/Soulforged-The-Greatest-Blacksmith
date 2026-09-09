@@ -39,7 +39,7 @@ public class EnemyDragonAttackBehavior : MonoBehaviour
     public float screamDamageDelay = 0.8f; 
     public float screamAnimDuration = 2.0f;
     public string screamAnimStateName = "Scream";
-    public GameObject goldBoarPrefab;
+    public EnemiesData goldBoarData;
     public int summonCount = 4;
     public float summonRadius = 3.5f;
     [Tooltip("Berapa detik sekali naga boleh memanggil babi?")]
@@ -192,7 +192,9 @@ public class EnemyDragonAttackBehavior : MonoBehaviour
 
     void SummonGoldBoars()
     {
-        if (goldBoarPrefab == null) return;
+        // Pastikan data babi hutan dan prefab di dalamnya tidak kosong
+        if (goldBoarData == null || goldBoarData.enemyPrefab == null) return;
+        
         float angleStep = 360f / summonCount;
         for (int i = 0; i < summonCount; i++)
         {
@@ -202,7 +204,19 @@ public class EnemyDragonAttackBehavior : MonoBehaviour
             Vector3 spawnOffset = new Vector3(dirX, 0f, dirZ) * summonRadius;
             Vector3 spawnPosition = transform.position + spawnOffset;
             spawnPosition.y = transform.position.y; 
-            Instantiate(goldBoarPrefab, spawnPosition, Quaternion.LookRotation(spawnOffset));
+            
+            // Spawn prefab yang ada di dalam EnemiesData
+            GameObject spawnedBoar = Instantiate(goldBoarData.enemyPrefab, spawnPosition, Quaternion.LookRotation(spawnOffset));
+            
+            // Inisialisasi stat musuh menggunakan EnemiesData
+            EnemiesBase boarStats = spawnedBoar.GetComponent<EnemiesBase>();
+            if (boarStats != null)
+            {
+                // Asumsi: Skrip EnemiesBase kamu memiliki fungsi Setup() atau Initialize() 
+                // yang menerima parameter EnemiesData untuk mengatur HP, Damage, dll.
+                // Jika tidak ada fungsi khusus, kamu mungkin perlu membuat setup dasar, misalnya:
+                // boarStats.Initialize(goldBoarData, enemyStats.playerData);
+            }
         }
     }
 

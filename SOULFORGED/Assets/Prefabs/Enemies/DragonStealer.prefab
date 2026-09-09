@@ -724,7 +724,7 @@ MonoBehaviour:
   screamDamageDelay: 0.8
   screamAnimDuration: 2
   screamAnimStateName: Scream
-  goldBoarPrefab: {fileID: 2591965115340815994, guid: 559f1aad910311043ac4cd195701ac8a, type: 3}
+  goldBoarData: {fileID: 11400000, guid: 43243de4e8f156e49ae443dc0c08be37, type: 2}
   summonCount: 5
   summonRadius: 7.27
   screamCooldown: 22

@@ -149,44 +149,24 @@ public class UpgradeSelectionUI : MonoBehaviour
         return upgradeable;
     }
     
-    private List<object> GetChoicesWithEmptyFallback(List<object> originalChoices)
-    {
-        List<object> upgradeable = FilterUpgradeableItems(originalChoices);
-        
-        if (upgradeable.Count > 0)
-        {
-            return upgradeable;
-        }
-        
-        List<object> emptyChoices = new List<object>();
-        for (int i = 0; i < 3; i++)
-        {
-            emptyChoices.Add(new EmptyUpgradeChoice());
-        }
-        
-        Debug.LogWarning("Semua item sudah MAX LEVEL! Menampilkan pilihan kosong.");
-        return emptyChoices;
-    }
     
     public void ShowUpgradeChoices(List<object> choices)
     {
-        if (choices == null || choices.Count == 0)
+        // 1. Filter item, pastikan list tidak null
+        List<object> validChoices = FilterUpgradeableItems(choices != null ? choices : new List<object>());
+        
+        // 2. Jika TIDAK ADA item yang bisa diupgrade (semua max), langsung tutup panel dan resume game
+        if (validChoices.Count == 0)
         {
-            Debug.LogWarning("Tidak ada pilihan upgrade!");
-            choices = GetChoicesWithEmptyFallback(new List<object>());
-            if (choices.Count == 0)
-            {
-                ForceClosePanel();
-                return;
-            }
+            Debug.Log("Semua item sudah MAX LEVEL! Melewati UI upgrade.");
+            ForceClosePanel();
+            return;
         }
         
-        List<object> finalChoices = GetChoicesWithEmptyFallback(choices);
-        
-        // ✅ PERBAIKAN: RESET STATE DAN RESET TIMER COOLDOWN
-        currentChoices = finalChoices;
+        // 3. Jika masih ada item untuk diupgrade, tampilkan UI seperti biasa
+        currentChoices = validChoices;
         isWaitingForResponse = false;
-        lastSelectionTime = -999f; // Reset timer setiap kali panel baru muncul!
+        lastSelectionTime = -999f; 
         
         upgradePanel.style.display = DisplayStyle.Flex;
         
@@ -194,15 +174,15 @@ public class UpgradeSelectionUI : MonoBehaviour
         choice2.style.display = DisplayStyle.None;
         choice3.style.display = DisplayStyle.None;
         
-        int showCount = Mathf.Min(finalChoices.Count, 3);
+        int showCount = Mathf.Min(validChoices.Count, 3);
         for (int i = 0; i < showCount; i++)
         {
-            SetupChoice(i, finalChoices[i]);
+            SetupChoice(i, validChoices[i]);
         }
         
         EnableButtons(true);
         
-        Debug.Log($"Upgrade panel shown with {showCount} choices (filtered from {choices.Count})");
+        Debug.Log($"Upgrade panel shown with {showCount} choices.");
     }
     
     void SetupChoice(int index, object item)

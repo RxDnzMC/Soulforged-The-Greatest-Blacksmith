@@ -49,7 +49,7 @@ public class WindCatalystMechanic : MonoBehaviour, IProjectile
     {
         // PAKSA rotasi dunianya selalu konstan (Tidur datar di tanah 90 derajat), 
         // tidak peduli seberapa cepat Player atau Pivot berputar menghadap mouse.
-        transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
         tickTimer += Time.deltaTime;
         if (tickTimer >= damageTickRate)
